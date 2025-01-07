@@ -18,6 +18,12 @@ class HomeViewController: UIViewController {
         setupViews()
         setupConstraints()
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupNavigationBar()
+        setupViews()
+        setupConstraints()
+    }
 
     // MARK: - Navigation Bar Setup
     private func setupNavigationBar() {
@@ -159,8 +165,8 @@ class HomeViewController: UIViewController {
     }
 
     @objc private func handleProjectButtonTap() {
-        //let projectVC = ProjectViewController()
-        //navigationController?.pushViewController(projectVC, animated: true)
+        let projectVC = ProjectViewController()
+        navigationController?.pushViewController(projectVC, animated: true)
     }
 
     @objc private func handleQuestButtonTap() {

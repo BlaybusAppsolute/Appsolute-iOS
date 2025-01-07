@@ -1,14 +1,14 @@
 //
-//  BoardViewController.swift
+//  ProjectViewController.swift
 //  Appsolute
 //
-//  Created by 권민재 on 1/7/25.
+//  Created by 권민재 on 1/8/25.
 //
 
 import UIKit
 import SnapKit
 
-class BoardViewController: UIViewController {
+class ProjectViewController: UIViewController {
 
     private let data: [BoardItem] = [
         BoardItem(title: "상반기 인사발령 안내", description: "2025년 상반기 정기 인사발령 안내", date: "2025.01.04", isNew: true),
@@ -26,7 +26,7 @@ class BoardViewController: UIViewController {
 
  
     private func setupNavigationBar() {
-        title = "게시판"
+        title = "전사 프로젝트 내역"
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = UIColor.clear
@@ -57,7 +57,7 @@ class BoardViewController: UIViewController {
         collectionView.backgroundColor = UIColor(red: 240/255, green: 248/255, blue: 1, alpha: 1)
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.register(BoardCollectionViewCell.self, forCellWithReuseIdentifier: BoardCollectionViewCell.identifier)
+        collectionView.register(ProjectCell.self, forCellWithReuseIdentifier: ProjectCell.identifier)
         view.addSubview(collectionView)
     }
 
@@ -82,13 +82,13 @@ class BoardViewController: UIViewController {
 }
 
 
-extension BoardViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension ProjectViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return data.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardCollectionViewCell.identifier, for: indexPath) as? BoardCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProjectCell.identifier, for: indexPath) as? ProjectCell else {
             return UICollectionViewCell()
         }
         let item = data[indexPath.item]
