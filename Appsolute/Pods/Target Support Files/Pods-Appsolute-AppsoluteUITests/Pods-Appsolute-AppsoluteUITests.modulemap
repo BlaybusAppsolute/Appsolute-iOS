@@ -1,0 +1,6 @@
+framework module Pods_Appsolute_AppsoluteUITests {
+  umbrella header "Pods-Appsolute-AppsoluteUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
