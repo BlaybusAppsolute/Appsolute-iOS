@@ -48,6 +48,8 @@ class HomeViewController: UIViewController {
         headerBackgroundView.addSubview(sparkleImageView)
         headerBackgroundView.addSubview(groundImageView)
         headerBackgroundView.addSubview(sessackImageView)
+        headerBackgroundView.addSubview(bubbleImageView)
+        headerBackgroundView.addSubview(bubbleMessageLabel)
         
         headerBackgroundView.addSubview(experienceContainerView)
         experienceContainerView.addSubview(experienceTextLabel)
@@ -85,6 +87,18 @@ class HomeViewController: UIViewController {
         sessackImageView.snp.makeConstraints {
             $0.top.equalTo(sparkleImageView.snp.top).offset(30)
             $0.centerX.equalToSuperview()
+        }
+        
+        bubbleImageView.snp.makeConstraints {
+            $0.bottom.equalTo(sessackImageView.snp.top)
+            $0.centerX.equalToSuperview()
+            
+        }
+        bubbleMessageLabel.snp.makeConstraints {
+            $0.leading.equalTo(bubbleImageView.snp.leading).inset(10)
+            $0.trailing.equalTo(bubbleImageView.snp.trailing).inset(10)
+            $0.centerY.equalTo(bubbleImageView.snp.center)
+            $0.centerX.equalTo(bubbleImageView)
         }
 
         experienceContainerView.snp.makeConstraints {
@@ -193,6 +207,18 @@ class HomeViewController: UIViewController {
     private lazy var sparkleImageView: UIImageView = {
         let view = UIImageView(image: UIImage(named: "샤랄라"))
         return view
+    }()
+    private lazy var bubbleImageView: UIImageView = {
+        let view = UIImageView(image: UIImage(named: "bubble"))
+        return view
+    }()
+    private lazy var bubbleMessageLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Lv.3까지 5000XP 남았어요"
+        label.textColor = .textColor
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        return label
     }()
     
     private lazy var sessackImageView: UIImageView = {
