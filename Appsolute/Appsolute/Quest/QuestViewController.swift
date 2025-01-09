@@ -15,9 +15,9 @@ class QuestViewController: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.sectionHeadersPinToVisibleBounds = false // 헤더 고정 해제
+        layout.sectionHeadersPinToVisibleBounds = false
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .systemGray6
+        collectionView.backgroundColor = .backgroundColor
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderView.identifier)
@@ -28,6 +28,7 @@ class QuestViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .blue
         setupViews()
         setupConstraints()
     }
@@ -47,11 +48,11 @@ class QuestViewController: UIViewController {
 extension QuestViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 3 // 첫 번째 메인 헤더 + 2개의 섹션
+        return 3
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return section == 0 ? 0 : 5 // 첫 번째 섹션은 헤더만, 나머지는 5개의 아이템
+        return section == 0 ? 0 : 5
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -82,16 +83,16 @@ extension QuestViewController: UICollectionViewDataSource, UICollectionViewDeleg
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         if section == 0 {
-            return CGSize(width: collectionView.frame.width, height: 120) // 첫 번째 헤더 크기
+            return CGSize(width: collectionView.frame.width, height: 120)
         } else {
-            return CGSize(width: collectionView.frame.width, height: 40) // 섹션별 헤더 크기
+            return CGSize(width: collectionView.frame.width, height: 40) //
         }
     }
 
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionView.elementKindSectionHeader {
             if indexPath.section == 0 {
-                // 메인 헤더
+                
                 let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderView.identifier, for: indexPath) as! HeaderView
                 header.configure(
                     date: "2025.01",
@@ -113,7 +114,7 @@ extension QuestViewController: UICollectionViewDataSource, UICollectionViewDeleg
             } else {
                 // 섹션별 헤더
                 let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SectionHeader", for: indexPath)
-                sectionHeader.backgroundColor = .systemGray5
+                sectionHeader.backgroundColor = .clear
                 
                 let titleLabel = UILabel()
                 titleLabel.text = indexPath.section == 1 ? "월 퀘스트" : "주차별 퀘스트"

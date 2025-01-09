@@ -26,7 +26,7 @@ class WeekSegmentedControl: UIView {
         }
     }
 
-    var onWeekSelected: ((Int) -> Void)? // 주차 선택 시 호출되는 클로저
+    var onWeekSelected: ((Int) -> Void)?
 
     // MARK: - Initializer
     override init(frame: CGRect) {
@@ -41,7 +41,7 @@ class WeekSegmentedControl: UIView {
 
     // MARK: - Setup Views
     private func setupViews() {
-        backgroundColor = UIColor.systemBlue
+        backgroundColor = .white
     }
 
     private func setupButtons() {
@@ -95,16 +95,13 @@ class WeekSegmentedControl: UIView {
     private func updateButtonStyles() {
         for (index, button) in buttons.enumerated() {
             if index == selectedIndex {
-                button.backgroundColor = UIColor.systemBlue
+                button.backgroundColor = .selectedWeekColor
                 button.setTitleColor(.white, for: .normal)
-                button.layer.cornerRadius = 10
-                button.layer.borderWidth = 0
             } else {
                 button.backgroundColor = UIColor.white
-                button.setTitleColor(.systemBlue, for: .normal)
-                button.layer.cornerRadius = 10
-                button.layer.borderWidth = 1
-                button.layer.borderColor = UIColor.systemBlue.cgColor
+                button.setTitleColor(.selectedWeekColor, for: .normal)
+                
+
             }
         }
     }
