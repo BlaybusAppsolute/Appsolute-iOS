@@ -10,14 +10,28 @@ import SnapKit
 
 class ProjectViewController: UIViewController {
 
+    @IBOutlet var backgroundView: UIImageView!
     private let data: [BoardItem] = [
         BoardItem(title: "상반기 인사발령 안내", description: "2025년 상반기 정기 인사발령 안내", date: "2025.01.04", isNew: true),
         BoardItem(title: "복리후생 공지", description: "동호회 운영 지침 및 지원금 신청 방법 안내", date: "2025.01.04", isNew: true),
+        BoardItem(title: "사내 시스템 임시 점검 안내", description: "1월 20일(토) 02:00-06:00 시스템 점검", date: "2024.12.18", isNew: true),
+        BoardItem(title: "사내 시스템 임시 점검 안내", description: "1월 20일(토) 02:00-06:00 시스템 점검", date: "2024.12.18", isNew: true),
+        BoardItem(title: "사내 시스템 임시 점검 안내", description: "1월 20일(토) 02:00-06:00 시스템 점검", date: "2024.12.18", isNew: false),
+        BoardItem(title: "사내 시스템 임시 점검 안내", description: "1월 20일(토) 02:00-06:00 시스템 점검", date: "2024.12.18", isNew: false),
+        BoardItem(title: "사내 시스템 임시 점검 안내", description: "1월 20일(토) 02:00-06:00 시스템 점검", date: "2024.12.18", isNew: false),
         BoardItem(title: "사내 시스템 임시 점검 안내", description: "1월 20일(토) 02:00-06:00 시스템 점검", date: "2024.12.18", isNew: false)
     ]
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        backgroundView.isUserInteractionEnabled = true
+        setupNavigationBar()
+        setupCustomBackButton()
+        setupCollectionView()
+        setupConstraints()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         setupNavigationBar()
         setupCustomBackButton()
         setupCollectionView()
@@ -26,7 +40,7 @@ class ProjectViewController: UIViewController {
 
  
     private func setupNavigationBar() {
-        title = "전사 프로젝트 내역"
+        navigationController?.hidesBarsOnSwipe = true
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = UIColor.clear
@@ -54,16 +68,16 @@ class ProjectViewController: UIViewController {
     }
 
     private func setupCollectionView() {
-        collectionView.backgroundColor = UIColor(red: 240/255, green: 248/255, blue: 1, alpha: 1)
+        collectionView.backgroundColor = .clear
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(ProjectCell.self, forCellWithReuseIdentifier: ProjectCell.identifier)
-        view.addSubview(collectionView)
+        backgroundView.addSubview(collectionView)
     }
 
     private func setupConstraints() {
         collectionView.snp.makeConstraints {
-            $0.edges.equalTo(view.safeAreaLayoutGuide)
+            $0.edges.equalToSuperview()
         }
     }
     

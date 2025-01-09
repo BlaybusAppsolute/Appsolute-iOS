@@ -28,7 +28,7 @@ class QuestViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .blue
+        view.backgroundColor = UIColor.headerColor
         setupViews()
         setupConstraints()
     }
@@ -37,9 +37,11 @@ class QuestViewController: UIViewController {
         view.addSubview(collectionView)
     }
 
+
     private func setupConstraints() {
         collectionView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.leading.trailing.bottom.equalToSuperview()
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
         }
     }
 }
@@ -52,40 +54,58 @@ extension QuestViewController: UICollectionViewDataSource, UICollectionViewDeleg
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return section == 0 ? 0 : 5
+        switch section {
+        case 0:
+            return 0
+        case 1:
+            return 1
+        default:
+            return 5
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: QuestCardCell.identifier, for: indexPath) as! QuestCardCell
+
+        let stateImage: UIImage?
         if indexPath.section == 1 {
+            stateImage = UIImage(named: "mid") // Mid 상태 이미지
             cell.configure(
                 badgeText: "월 퀘스트",
                 title: "월간 퀘스트 \(indexPath.row + 1)",
                 subtitle: "월 퀘스트 설명 \(indexPath.row + 1)",
+                stateImage: stateImage,
                 badgeColor: .systemBlue,
+                xpText: "50 XP",
                 buttonAction: { print("월 퀘스트 \(indexPath.row + 1) 클릭") }
             )
         } else {
+            let images = ["min", "mid", "max"]
+            stateImage = UIImage(named: images[indexPath.row % 3]) 
             cell.configure(
                 badgeText: "주차별 퀘스트",
                 title: "주차 퀘스트 \(indexPath.row + 1)",
                 subtitle: "주차 퀘스트 설명 \(indexPath.row + 1)",
+                stateImage: stateImage,
                 badgeColor: .systemGreen,
+                xpText: "100 XP",
                 buttonAction: { print("주차 퀘스트 \(indexPath.row + 1) 클릭") }
             )
         }
+
         return cell
     }
 
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width - 32, height: 150)
+        return CGSize(width: collectionView.frame.width - 32, height: 216)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         if section == 0 {
-            return CGSize(width: collectionView.frame.width, height: 120)
+            return CGSize(width: collectionView.frame.width, height: 160)
         } else {
-            return CGSize(width: collectionView.frame.width, height: 40) //
+            return CGSize(width: collectionView.frame.width, height: 40)
         }
     }
 
@@ -97,11 +117,11 @@ extension QuestViewController: UICollectionViewDataSource, UICollectionViewDeleg
                 header.configure(
                     date: "2025.01",
                     weeks: [
-                        ("1주차", ""),
-                        ("2주차", ""),
-                        ("3주차", "01.01 - 08"),
-                        ("4주차", ""),
-                        ("5주차", "")
+                        ("1 주차", ""),
+                        ("2 주차", ""),
+                        ("3 주차", "01.01 - 08"),
+                        ("4 주차", ""),
+                        ("5 주차", "")
                     ],
                     selectedWeek: 3,
                     onLeftButtonTap: { print("이전 달로 이동") },
@@ -118,8 +138,8 @@ extension QuestViewController: UICollectionViewDataSource, UICollectionViewDeleg
                 
                 let titleLabel = UILabel()
                 titleLabel.text = indexPath.section == 1 ? "월 퀘스트" : "주차별 퀘스트"
-                titleLabel.font = UIFont.boldSystemFont(ofSize: 16)
-                titleLabel.textColor = .darkGray
+                titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
+                titleLabel.textColor = .black
                 sectionHeader.addSubview(titleLabel)
                 
                 titleLabel.snp.makeConstraints { make in

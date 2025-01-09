@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Home View Controller-->
+        <!--Lv.2 자라나는 새싹-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="HomeViewController" customModule="Appsolute" customModuleProvider="target" sceneMemberID="viewController">
@@ -21,7 +21,7 @@
                     <toolbarItems>
                         <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="HsI-l1-G0P"/>
                     </toolbarItems>
-                    <navigationItem key="navigationItem" id="pAc-yg-Wz1">
+                    <navigationItem key="navigationItem" title="Lv.2 자라나는 새싹" id="pAc-yg-Wz1">
                         <barButtonItem key="rightBarButtonItem" image="list.bullet" catalog="system" style="plain" id="eEW-bE-lUO">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="ajS-J7-O9u">
                                 <rect key="frame" x="290" y="5" width="87" height="34.333333333333336"/>
@@ -38,7 +38,7 @@
             </objects>
             <point key="canvasLocation" x="2764.1221374045799" y="-27.464788732394368"/>
         </scene>
-        <!--Quest View Controller-->
+        <!--퀘스트-->
         <scene sceneID="NCQ-BT-cCD">
             <objects>
                 <viewController id="FfU-s9-m9d" customClass="QuestViewController" customModule="Appsolute" customModuleProvider="target" sceneMemberID="viewController">
@@ -48,23 +48,25 @@
                         <viewLayoutGuide key="safeArea" id="QFz-9m-OlU"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <tabBarItem key="tabBarItem" title="퀘스트" image="quest" id="yT2-Uy-DoA"/>
                     <navigationItem key="navigationItem" id="7iW-DM-GPn"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kGP-mV-8iK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2801" y="715"/>
         </scene>
-        <!--Board View Controller-->
+        <!--게시판-->
         <scene sceneID="yKV-xH-Ya7">
             <objects>
                 <viewController id="ktq-Mm-cOV" customClass="BoardViewController" customModule="Appsolute" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Lwk-lN-m1Z">
+                    <imageView key="view" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background 1" id="KeB-x2-S9G">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="P1A-dt-hNj"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="WA1-pE-ICc"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </imageView>
+                    <navigationItem key="navigationItem" title="게시판" id="WA1-pE-ICc"/>
+                    <connections>
+                        <outlet property="backgroundView" destination="KeB-x2-S9G" id="jbp-3O-A6o"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dro-Ua-Ycx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -82,10 +84,10 @@
                     </tabBar>
                     <connections>
                         <segue destination="Wo8-Fw-Y4Z" kind="relationship" relationship="viewControllers" id="k9c-xR-4e0"/>
-                        <segue destination="EXR-SJ-5Oh" kind="relationship" relationship="viewControllers" id="46t-AD-SVT"/>
-                        <segue destination="ZxF-26-72G" kind="relationship" relationship="viewControllers" id="ub8-jN-qxr"/>
-                        <segue destination="Ndg-o3-8Bc" kind="relationship" relationship="viewControllers" id="Ar0-eG-R7z"/>
-                        <segue destination="SY3-B5-2Sh" kind="relationship" relationship="viewControllers" id="zgG-fI-6qf"/>
+                        <segue destination="FfU-s9-m9d" kind="relationship" relationship="viewControllers" id="PX2-11-KSO"/>
+                        <segue destination="ZxF-26-72G" kind="relationship" relationship="viewControllers" id="Rzi-OL-tEN"/>
+                        <segue destination="Ndg-o3-8Bc" kind="relationship" relationship="viewControllers" id="r0a-xl-7Gs"/>
+                        <segue destination="SY3-B5-2Sh" kind="relationship" relationship="viewControllers" id="LSb-kQ-vy2"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E1L-NE-dnq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -111,27 +113,6 @@
             </objects>
             <point key="canvasLocation" x="1837.4045801526718" y="-27.464788732394368"/>
         </scene>
-        <!--퀘스트-->
-        <scene sceneID="60o-oq-mgS">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="EXR-SJ-5Oh" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="퀘스트" image="quest" id="yVD-bh-ZKH">
-                        <color key="badgeColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    </tabBarItem>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="aCQ-eF-JSl">
-                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="FfU-s9-m9d" kind="relationship" relationship="rootViewController" id="fsy-Dl-wvL"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="93C-4n-zil" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1869" y="715"/>
-        </scene>
         <!--View Controller-->
         <scene sceneID="gGp-vY-ZcC">
             <objects>
@@ -148,17 +129,18 @@
             </objects>
             <point key="canvasLocation" x="2801" y="1460"/>
         </scene>
-        <!--Project View Controller-->
+        <!--전사 프로젝트 내역-->
         <scene sceneID="PqC-dG-Ibg">
             <objects>
                 <viewController id="Osp-ou-mGm" customClass="ProjectViewController" customModule="Appsolute" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="elP-e8-iac">
+                    <imageView key="view" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background 1" id="X8a-7e-vAh">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="cjG-mL-Njw"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="kRG-7E-FuZ"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </imageView>
+                    <navigationItem key="navigationItem" title="전사 프로젝트 내역" largeTitleDisplayMode="never" id="kRG-7E-FuZ"/>
+                    <connections>
+                        <outlet property="backgroundView" destination="X8a-7e-vAh" id="Kd2-RH-K50"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9fz-x2-DkY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -192,6 +174,10 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="9lM-mg-SpF">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <textAttributes key="largeTitleTextAttributes">
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -211,6 +197,13 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="klY-q1-b7M">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="barTintColor" systemColor="systemBackgroundColor"/>
+                        <textAttributes key="titleTextAttributes">
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
+                            <color key="textColor" systemColor="systemBackgroundColor"/>
+                            <color key="textShadowColor" systemColor="systemBackgroundColor"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -224,6 +217,7 @@
     </scenes>
     <resources>
         <image name="Union" width="24" height="21.666666030883789"/>
+        <image name="background 1" width="393" height="852.33331298828125"/>
         <image name="board" width="23" height="21.666666030883789"/>
         <image name="list.bullet" catalog="system" width="128" height="87"/>
         <image name="list.star" catalog="system" width="128" height="95"/>

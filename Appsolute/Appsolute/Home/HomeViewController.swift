@@ -13,7 +13,7 @@ class HomeViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Lv.2 자라나는 새싹"
+        //title = "Lv.2 자라나는 새싹"
         setupNavigationBar()
         setupViews()
         setupConstraints()
