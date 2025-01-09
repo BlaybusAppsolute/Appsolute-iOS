@@ -22,8 +22,17 @@ class HeaderView: UICollectionReusableView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+
         setupViews()
         setupConstraints()
+        let path = UIBezierPath(
+            roundedRect: self.bounds,
+            byRoundingCorners: [.bottomLeft, .bottomRight],
+            cornerRadii: CGSize(width: 16, height: 16)
+        )
+        let mask = CAShapeLayer()
+        mask.path = path.cgPath
+        self.layer.mask = mask
     }
 
     required init?(coder: NSCoder) {
@@ -31,23 +40,25 @@ class HeaderView: UICollectionReusableView {
     }
 
     private func setupViews() {
-        backgroundColor = UIColor.systemBlue
+        backgroundColor = UIColor.headerColor
 
-        dateLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        dateLabel.font = UIFont.boldSystemFont(ofSize: 30)
         dateLabel.textColor = .white
         dateLabel.textAlignment = .center
 
-        leftButton.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+        leftButton.setImage(UIImage(named: "left"), for: .normal)
         leftButton.tintColor = .white
         leftButton.addTarget(self, action: #selector(handleLeftButtonTap), for: .touchUpInside)
 
-        rightButton.setImage(UIImage(systemName: "chevron.right"), for: .normal)
+        rightButton.setImage(UIImage(named: "right"), for: .normal)
         rightButton.tintColor = .white
         rightButton.addTarget(self, action: #selector(handleRightButtonTap), for: .touchUpInside)
 
         weekSegmentedControl.onWeekSelected = { [weak self] selectedWeek in
             self?.onWeekChanged?(selectedWeek)
         }
+        weekSegmentedControl.layer.cornerRadius = 16
+        weekSegmentedControl.clipsToBounds = true
 
         addSubview(dateLabel)
         addSubview(weekSegmentedControl)
@@ -64,19 +75,19 @@ class HeaderView: UICollectionReusableView {
         leftButton.snp.makeConstraints {
             $0.centerY.equalTo(dateLabel)
             $0.leading.equalToSuperview().offset(16)
-            $0.width.height.equalTo(24)
+            $0.width.height.equalTo(30)
         }
 
         rightButton.snp.makeConstraints {
             $0.centerY.equalTo(dateLabel)
             $0.trailing.equalToSuperview().inset(16)
-            $0.width.height.equalTo(24)
+            $0.width.height.equalTo(30)
         }
 
         weekSegmentedControl.snp.makeConstraints {
             $0.top.equalTo(dateLabel.snp.bottom).offset(16)
             $0.leading.trailing.equalToSuperview().inset(16)
-            $0.height.equalTo(60)
+            $0.height.equalTo(67)
         }
     }
 

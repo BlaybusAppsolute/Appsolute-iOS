@@ -10,29 +10,44 @@ import SnapKit
 
 class BoardViewController: UIViewController {
 
+    @IBOutlet var backgroundView: UIImageView!
     private let data: [BoardItem] = [
         BoardItem(title: "상반기 인사발령 안내", description: "2025년 상반기 정기 인사발령 안내", date: "2025.01.04", isNew: true),
         BoardItem(title: "복리후생 공지", description: "동호회 운영 지침 및 지원금 신청 방법 안내", date: "2025.01.04", isNew: true),
-        BoardItem(title: "사내 시스템 임시 점검 안내", description: "1월 20일(토) 02:00-06:00 시스템 점검", date: "2024.12.18", isNew: false)
+        BoardItem(title: "사내 시스템 임시 점검 안내", description: "1월 20일(토) 02:00-06:00 시스템 점검", date: "2024.12.18", isNew: false),
+        BoardItem(title: "복리후생 공지", description: "동호회 운영 지침 및 지원금 신청 방법 안내", date: "2025.01.04", isNew: true),
+        BoardItem(title: "복리후생 공지", description: "동호회 운영 지침 및 지원금 신청 방법 안내", date: "2025.01.04", isNew: true),
+        BoardItem(title: "복리후생 공지", description: "동호회 운영 지침 및 지원금 신청 방법 안내", date: "2025.01.04", isNew: true),
+        BoardItem(title: "복리후생 공지", description: "동호회 운영 지침 및 지원금 신청 방법 안내", date: "2025.01.04", isNew: true),
+        BoardItem(title: "복리후생 공지", description: "동호회 운영 지침 및 지원금 신청 방법 안내", date: "2025.01.04", isNew: true)
     ]
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        backgroundView.isUserInteractionEnabled = true
         setupNavigationBar()
         setupCustomBackButton()
         setupCollectionView()
         setupConstraints()
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupNavigationBar()
+        setupCustomBackButton()
+        setupCollectionView()
+        setupConstraints()
+        
+    }
 
  
     private func setupNavigationBar() {
-        title = "게시판"
+        navigationController?.hidesBarsOnSwipe = true
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = UIColor.clear
         appearance.titleTextAttributes = [
             .foregroundColor: UIColor.black,
-            .font: UIFont.systemFont(ofSize: 18, weight: .bold)
+            .font: UIFont.systemFont(ofSize: 22, weight: .bold)
         ]
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
@@ -54,7 +69,7 @@ class BoardViewController: UIViewController {
     }
 
     private func setupCollectionView() {
-        collectionView.backgroundColor = UIColor(red: 240/255, green: 248/255, blue: 1, alpha: 1)
+        collectionView.backgroundColor = .clear
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(BoardCollectionViewCell.self, forCellWithReuseIdentifier: BoardCollectionViewCell.identifier)

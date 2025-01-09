@@ -81,7 +81,8 @@ class WeekSegmentedControl: UIView {
     private func setupConstraints() {
         for (index, button) in buttons.enumerated() {
             button.snp.makeConstraints {
-                $0.top.bottom.equalToSuperview().inset(8)
+                $0.top.equalToSuperview().offset(-8)
+                $0.bottom.equalToSuperview().offset(8)
                 $0.width.equalToSuperview().dividedBy(buttons.count)
                 if index == 0 {
                     $0.leading.equalToSuperview()
@@ -97,6 +98,7 @@ class WeekSegmentedControl: UIView {
             if index == selectedIndex {
                 button.backgroundColor = .selectedWeekColor
                 button.setTitleColor(.white, for: .normal)
+                button.layer.cornerRadius = 16
             } else {
                 button.backgroundColor = UIColor.white
                 button.setTitleColor(.selectedWeekColor, for: .normal)
