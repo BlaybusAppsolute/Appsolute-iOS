@@ -61,7 +61,6 @@ class HomeViewController: UIViewController {
         view.addSubview(questCardView)
     }
 
-    // MARK: - Constraints
     private func setupConstraints() {
         headerBackgroundView.snp.makeConstraints {
             $0.top.equalTo(view)
@@ -92,13 +91,12 @@ class HomeViewController: UIViewController {
         bubbleImageView.snp.makeConstraints {
             $0.bottom.equalTo(sessackImageView.snp.top)
             $0.centerX.equalToSuperview()
-            
         }
+        
         bubbleMessageLabel.snp.makeConstraints {
             $0.leading.equalTo(bubbleImageView.snp.leading).inset(10)
             $0.trailing.equalTo(bubbleImageView.snp.trailing).inset(10)
-            $0.centerY.equalTo(bubbleImageView.snp.center)
-            $0.centerX.equalTo(bubbleImageView)
+            $0.centerY.equalTo(bubbleImageView.snp.centerY)
         }
 
         experienceContainerView.snp.makeConstraints {
@@ -143,8 +141,10 @@ class HomeViewController: UIViewController {
             $0.top.equalTo(evaluationCardView.snp.bottom).offset(16)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(136)
+            $0.bottom.lessThanOrEqualTo(view.safeAreaLayoutGuide).inset(16) // 탭바와의 간격 유지
         }
     }
+
     private func createCard(title: String, action: Selector) -> UIView {
         let cardView = UIView()
         cardView.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.1)
@@ -166,9 +166,9 @@ class HomeViewController: UIViewController {
         button.backgroundColor = .clear
         button.addTarget(self, action: action, for: .touchUpInside)
         cardView.addSubview(button)
-        button.snp.makeConstraints {
-            $0.edges.equalToSuperview() // 카드 전체를 덮도록 설정
-        }
+//        button.snp.makeConstraints {
+//            $0.edges.equalToSuperview() // 카드 전체를 덮도록 설정
+//        }
 
         return cardView
     }
