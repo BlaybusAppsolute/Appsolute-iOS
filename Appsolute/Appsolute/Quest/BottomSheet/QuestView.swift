@@ -22,10 +22,14 @@ class QuestView: UIView {
     let dividerView = UIImageView().then {
         $0.image = UIImage(named: "divider")
     }
+    let questStatusBar = UIImageView().then {
+        $0.image = UIImage(named: "mid_bar")
+    }
     
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.backgroundColor = .lightGray
         setupViews()
         setupConstraints()
     }
@@ -37,6 +41,7 @@ class QuestView: UIView {
     private func setupViews() {
         addSubview(titleLabel)
         addSubview(progressView)
+        progressView.addSubview(questStatusBar)
         addSubview(dividerView)
     }
     
@@ -49,6 +54,11 @@ class QuestView: UIView {
             $0.trailing.equalToSuperview().inset(16)
             $0.top.equalTo(titleLabel.snp.bottom).offset(20)
             $0.height.equalTo(100)
+        }
+        questStatusBar.snp.makeConstraints {
+            $0.leading.trailing.equalTo(progressView).inset(16)
+            $0.top.equalTo(progressView.snp.top).inset(20)
+            $0.height.equalTo(36)
         }
         dividerView.snp.makeConstraints {
             $0.top.equalTo(progressView.snp.bottom).offset(20)

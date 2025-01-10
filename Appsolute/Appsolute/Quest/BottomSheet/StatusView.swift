@@ -43,6 +43,7 @@ class StatusView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.backgroundColor = .red
         setupViews()
         setupConstraints()
     }
@@ -80,5 +81,18 @@ class StatusView: UIView {
             $0.top.equalTo(expLabel.snp.bottom).offset(20)
             $0.leading.trailing.equalToSuperview().inset(16)
         }
+        productTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(dividerView1.snp.bottom).offset(10)
+            $0.leading.equalTo(expTitleLabel.snp.leading)
+        }
+        productLabel.snp.makeConstraints {
+            $0.trailing.equalToSuperview().inset(16)
+            $0.top.equalTo(productTitleLabel)
+        }
+        dividerView2.snp.makeConstraints {
+            $0.top.equalTo(productLabel.snp.bottom).offset(20)
+            $0.leading.trailing.equalToSuperview().inset(16)
+        }
+        
     }
 }

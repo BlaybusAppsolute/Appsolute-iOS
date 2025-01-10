@@ -14,9 +14,9 @@ class SheetHeaderView: UIView {
     private let badgeLabel: UILabel = {
         let label = UILabel()
         label.text = "직무별"
-        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
-        label.backgroundColor = .systemGreen
-        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        label.backgroundColor = UIColor(hex: "cdfff2")
+        label.textColor = UIColor(hex: "008d6e")
         label.layer.cornerRadius = 8
         label.textAlignment = .center
         label.clipsToBounds = true
@@ -55,7 +55,7 @@ class SheetHeaderView: UIView {
         }
         
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(badgeLabel.snp.bottom).offset(8)
+            make.top.equalTo(badgeLabel.snp.bottom).offset(10)
             make.leading.equalTo(badgeLabel.snp.leading)
         }
     }

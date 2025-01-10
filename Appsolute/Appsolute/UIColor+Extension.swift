@@ -45,6 +45,8 @@ extension UIColor {
     static var textColor = UIColor(red: 0.03, green: 0.19, blue: 0.40, alpha: 1.00)
     static var selectedWeekColor = UIColor(red: 0.03, green: 0.19, blue: 0.40, alpha: 1.00)
     static var headerColor = UIColor(red: 0.06, green: 0.45, blue: 0.96, alpha: 1.00)
+    
+    static var mainBlue = UIColor(hex: "1073f4")
 }
 //gray
 extension UIColor {

@@ -89,7 +89,7 @@ class ProjectViewController: UIViewController {
         layout.minimumLineSpacing = 16
         layout.minimumInteritemSpacing = 0
         layout.sectionInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
-        layout.itemSize = CGSize(width: UIScreen.main.bounds.width - 32, height: 120)
+        layout.itemSize = CGSize(width: UIScreen.main.bounds.width - 32, height: 161)
         return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
     
