@@ -7,6 +7,7 @@ target 'Appsolute' do
   pod 'SnapKit' 
   pod 'Moya'
   pod 'SideMenu'
+  pod 'Then' 
   # Pods for Appsolute
 
   target 'AppsoluteTests' do

@@ -44,6 +44,17 @@ class QuestViewController: UIViewController {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
         }
     }
+    private func presentBottomSheet(title: String) {
+        let bottomSheetVC = BottomSheetViewController()
+        bottomSheetVC.sheetPresentationController?.prefersGrabberVisible = false
+        bottomSheetVC.modalPresentationStyle = .automatic
+        bottomSheetVC.sheetPresentationController?.detents = [.large(), .medium()] // Bottom Sheet 높이 설정
+        bottomSheetVC.sheetPresentationController?.prefersGrabberVisible = true // Grabber 표시
+        bottomSheetVC.sheetPresentationController?.preferredCornerRadius = 16
+        //bottomSheetVC.configure(with: title) // 타이틀 설정
+        present(bottomSheetVC, animated: true)
+    }
+
 }
 
 // MARK: - UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
@@ -69,7 +80,7 @@ extension QuestViewController: UICollectionViewDataSource, UICollectionViewDeleg
 
         let stateImage: UIImage?
         if indexPath.section == 1 {
-            stateImage = UIImage(named: "mid") // Mid 상태 이미지
+            stateImage = UIImage(named: "mid")
             cell.configure(
                 badgeText: "월 퀘스트",
                 title: "월간 퀘스트 \(indexPath.row + 1)",
@@ -77,11 +88,13 @@ extension QuestViewController: UICollectionViewDataSource, UICollectionViewDeleg
                 stateImage: stateImage,
                 badgeColor: .systemBlue,
                 xpText: "50 XP",
-                buttonAction: { print("월 퀘스트 \(indexPath.row + 1) 클릭") }
+                buttonAction: { [weak self] in
+                    self?.presentBottomSheet(title: "월간 퀘스트 \(indexPath.row + 1)")
+                }
             )
         } else {
             let images = ["min", "mid", "max"]
-            stateImage = UIImage(named: images[indexPath.row % 3]) 
+            stateImage = UIImage(named: images[indexPath.row % 3])
             cell.configure(
                 badgeText: "주차별 퀘스트",
                 title: "주차 퀘스트 \(indexPath.row + 1)",
@@ -89,7 +102,9 @@ extension QuestViewController: UICollectionViewDataSource, UICollectionViewDeleg
                 stateImage: stateImage,
                 badgeColor: .systemGreen,
                 xpText: "100 XP",
-                buttonAction: { print("주차 퀘스트 \(indexPath.row + 1) 클릭") }
+                buttonAction: { [weak self] in
+                    self?.presentBottomSheet(title: "주차별 퀘스트 \(indexPath.row + 1)")
+                }
             )
         }
 
