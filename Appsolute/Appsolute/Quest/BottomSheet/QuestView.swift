@@ -29,7 +29,7 @@ class QuestView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = .lightGray
+        //self.backgroundColor = .lightGray
         setupViews()
         setupConstraints()
     }
@@ -47,7 +47,7 @@ class QuestView: UIView {
     
     private func setupConstraints() {
         titleLabel.snp.makeConstraints {
-            $0.top.leading.equalToSuperview().inset(16)
+            $0.leading.equalToSuperview().inset(16)
         }
         progressView.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(16)

@@ -98,7 +98,7 @@ class WeekSegmentedControl: UIView {
             if index == selectedIndex {
                 button.backgroundColor = .selectedWeekColor
                 button.setTitleColor(.white, for: .normal)
-                button.layer.cornerRadius = 16
+                button.layer.cornerRadius = 20
             } else {
                 button.backgroundColor = UIColor.white
                 button.setTitleColor(.selectedWeekColor, for: .normal)

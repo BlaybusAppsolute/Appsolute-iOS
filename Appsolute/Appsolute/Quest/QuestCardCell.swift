@@ -11,11 +11,12 @@ class QuestCardCell: UICollectionViewCell {
     static let identifier = "QuestCardCell"
 
     // MARK: - UI Components
-    private let badgeLabel = UILabel()
+    private let badgeLabel = UIImageView()
     private let titleLabel = UILabel()
-    private let subtitleLabel = UILabel()
-    private let stateImageView = UIImageView() // 상태 이미지로 변경
-    private let xpLabel = UILabel()
+    private let divider = UIImageView(image: UIImage(named: "divider"))
+    private let expImageView = UIImageView()
+    
+    
     private let moreButton = UIButton()
 
     override init(frame: CGRect) {
@@ -37,22 +38,12 @@ class QuestCardCell: UICollectionViewCell {
         contentView.layer.shadowOffset = CGSize(width: 0, height: 4)
         contentView.layer.shadowRadius = 6
 
-        badgeLabel.font = UIFont.systemFont(ofSize: 12, weight: .bold)
-        badgeLabel.textAlignment = .center
-        badgeLabel.layer.cornerRadius = 14
-        badgeLabel.clipsToBounds = true
-        badgeLabel.textColor = .white
+        badgeLabel.image = UIImage(named: "leader")
+        expImageView.image = UIImage(named: "mid-card")
 
         titleLabel.font = UIFont.boldSystemFont(ofSize: 22)
         titleLabel.textColor = .black
         titleLabel.numberOfLines = 1
-
-        subtitleLabel.font = UIFont.systemFont(ofSize: 16)
-        subtitleLabel.textColor = .systemGreen
-        subtitleLabel.numberOfLines = 1
-
-        stateImageView.contentMode = .scaleAspectFit 
-        stateImageView.clipsToBounds = true
 
 
         moreButton.setTitle("더보기", for: .normal)
@@ -65,9 +56,8 @@ class QuestCardCell: UICollectionViewCell {
 
         contentView.addSubview(badgeLabel)
         contentView.addSubview(titleLabel)
-        contentView.addSubview(stateImageView)
-        contentView.addSubview(subtitleLabel)
-        contentView.addSubview(xpLabel)
+        contentView.addSubview(divider)
+        contentView.addSubview(expImageView)
         contentView.addSubview(moreButton)
     }
 
@@ -82,22 +72,16 @@ class QuestCardCell: UICollectionViewCell {
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(badgeLabel.snp.bottom).offset(10)
             $0.leading.equalTo(badgeLabel.snp.leading)
-            $0.trailing.lessThanOrEqualTo(stateImageView.snp.leading).offset(-8)
+        }
+        divider.snp.makeConstraints {
+            $0.bottom.equalTo(titleLabel.snp.bottom).offset(10)
+            $0.leading.trailing.equalToSuperview().inset(20)
+        }
+        expImageView.snp.makeConstraints {
+            $0.top.equalTo(divider.snp.bottom).offset(20)
+            $0.leading.trailing.equalToSuperview().inset(20)
         }
 
-
-
-        subtitleLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(8)
-            $0.leading.equalToSuperview().offset(20)
-            $0.trailing.equalToSuperview().inset(20)
-        }
-        stateImageView.snp.makeConstraints {
-            $0.trailing.equalToSuperview().inset(20)
-            $0.centerY.equalTo(subtitleLabel)
-            $0.width.equalTo(41)
-            $0.height.equalTo(26)
-        }
 
 
         moreButton.snp.makeConstraints {
@@ -109,20 +93,13 @@ class QuestCardCell: UICollectionViewCell {
 
     // MARK: - Configure Cell
     func configure(
-        badgeText: String,
+        //badgeText: String,
         title: String,
-        subtitle: String,
-        stateImage: UIImage?, // 이미지로 변경
-        badgeColor: UIColor,
-        xpText: String,
+        expImage: String,
         buttonAction: @escaping () -> Void
     ) {
-        badgeLabel.text = badgeText
-        badgeLabel.backgroundColor = badgeColor
         titleLabel.text = title
-        subtitleLabel.text = subtitle
-        stateImageView.image = stateImage // 상태 이미지를 설정
-        xpLabel.text = xpText
+        expImageView.image = UIImage(named: expImage)
         moreButton.addAction(UIAction { _ in buttonAction() }, for: .touchUpInside)
     }
 }

@@ -18,21 +18,11 @@ class DailyFinanceView: UIView {
         $0.textColor = .black
     }
 
-    // 날짜와 수익/지출을 감싸는 컨테이너 뷰
-    private let financeContainerView = UIView().then {
-        $0.backgroundColor = UIColor(hex: "e7f1fe")
-        $0.layer.cornerRadius = 8
-        $0.layer.borderWidth = 1
-        $0.layer.borderColor = UIColor(hex: "E6E6E6").cgColor
-        $0.clipsToBounds = true
-    }
+    let dateSelectorView = DateSelectorView()
 
-    // 날짜 버튼을 담는 스택뷰
-    private let dateStackView = UIStackView().then {
-        $0.axis = .horizontal
-        $0.spacing = 8
-        $0.distribution = .fillEqually // 버튼 크기 균등 분배
-        $0.alignment = .fill
+    let outcomeView = UIView().then {
+        $0.backgroundColor = UIColor(hex: "e7f1fe")
+        $0.layer.cornerRadius = 12
     }
 
     private let incomeLabel = UILabel().then {
@@ -48,39 +38,57 @@ class DailyFinanceView: UIView {
     }
 
     private let incomeProgressBar = UIView().then {
-        $0.backgroundColor = .red
+        $0.layer.cornerRadius = 4
+        $0.clipsToBounds = true // 코너 라운딩 적용
     }
 
     private let expenseProgressBar = UIView().then {
-        $0.backgroundColor = .blue
-    }
-
-    private let incomeValueLabel = UILabel().then {
-        $0.text = "10"
-        $0.font = UIFont.boldSystemFont(ofSize: 16)
-        $0.textColor = .red
-    }
-
-    private let expenseValueLabel = UILabel().then {
-        $0.text = "8"
-        $0.font = UIFont.boldSystemFont(ofSize: 16)
-        $0.textColor = .blue
-    }
-
-    private let detailsContainerView = UIView().then {
-        $0.backgroundColor = .white
-        $0.layer.cornerRadius = 8
-        $0.layer.borderWidth = 1
-        $0.layer.borderColor = UIColor(hex: "E6E6E6").cgColor
-        $0.clipsToBounds = true
+        $0.layer.cornerRadius = 4
+        $0.clipsToBounds = true // 코너 라운딩 적용
     }
 
     private let detailsTitleLabel = UILabel().then {
         $0.text = "< 지출 상세내역 >"
         $0.font = UIFont.boldSystemFont(ofSize: 16)
-        $0.textColor = .mainBlue
+        $0.textColor = UIColor(hex: "1a73e8")
         $0.textAlignment = .center
     }
+
+    private let detailsContainerView = UIView().then {
+        $0.layer.cornerRadius = 8
+        $0.backgroundColor = UIColor(hex: "ffffff")
+        $0.layer.borderWidth = 1.5
+        $0.layer.borderColor = UIColor(hex: "408FF6").cgColor
+    }
+
+    private let detailsHeaderView = UIView().then {
+        $0.backgroundColor = UIColor(hex: "1a73e8")
+        $0.layer.cornerRadius = 8
+        $0.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+    }
+
+    private let headerLabels: [UILabel] = [
+        UILabel().then {
+            $0.text = "지출 항목"
+            $0.font = UIFont.boldSystemFont(ofSize: 14)
+            $0.textColor = .white
+            $0.textAlignment = .center
+        },
+        UILabel().then {
+            $0.text = "금액"
+            $0.font = UIFont.boldSystemFont(ofSize: 14)
+            $0.textColor = .white
+            $0.textAlignment = .center
+        }
+    ]
+
+    private let detailsRows: [[String]] = [
+        ["인건비", "4"],
+        ["직원급여", "1"],
+        ["퇴직급여", "1"],
+        ["4대 보험료", "1"],
+        ["설계용역비", "1"]
+    ]
 
     // MARK: - Initialization
 
@@ -94,48 +102,51 @@ class DailyFinanceView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - Setup Views
-
     private func setupViews() {
-        // 전체 뷰 설정
-        layer.cornerRadius = 16
-        layer.masksToBounds = true
-
-        // Add subviews
         addSubview(titleLabel)
-        addSubview(financeContainerView)
-        financeContainerView.addSubview(dateStackView)
-        financeContainerView.addSubview(incomeLabel)
-        financeContainerView.addSubview(incomeProgressBar)
-        financeContainerView.addSubview(incomeValueLabel)
-        financeContainerView.addSubview(expenseLabel)
-        financeContainerView.addSubview(expenseProgressBar)
-        financeContainerView.addSubview(expenseValueLabel)
-        addSubview(detailsContainerView)
-        detailsContainerView.addSubview(detailsTitleLabel)
-    }
+        addSubview(dateSelectorView)
+        addSubview(outcomeView)
 
-    // MARK: - Setup Constraints
+        outcomeView.addSubview(incomeLabel)
+        outcomeView.addSubview(incomeProgressBar)
+        outcomeView.addSubview(expenseLabel)
+        outcomeView.addSubview(expenseProgressBar)
+        outcomeView.addSubview(detailsTitleLabel)
+        outcomeView.addSubview(detailsContainerView)
+
+        detailsContainerView.addSubview(detailsHeaderView)
+        headerLabels.forEach { detailsHeaderView.addSubview($0) }
+
+        // Progress Bar에 그라데이션 추가
+        applyGradient(to: incomeProgressBar, colors: [UIColor(hex: "FFC5C5").cgColor, UIColor(hex: "FF3131").cgColor])
+        applyGradient(to: expenseProgressBar, colors: [UIColor(hex: "B9D9FF").cgColor, UIColor(hex: "1073F4").cgColor])
+
+        // Create rows dynamically
+        detailsRows.enumerated().forEach { index, row in
+            let rowView = createDetailRow(item: row[0], amount: row[1], isEven: index % 2 == 1)
+            detailsContainerView.addSubview(rowView)
+        }
+    }
 
     private func setupConstraints() {
         titleLabel.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview().inset(16)
         }
 
-        financeContainerView.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(16)
+        dateSelectorView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(16)
-        }
-
-        // 날짜 스택뷰
-        dateStackView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview().inset(16)
+            $0.top.equalTo(titleLabel.snp.bottom).offset(10)
             $0.height.equalTo(60)
         }
 
+        outcomeView.snp.makeConstraints {
+            $0.top.equalTo(dateSelectorView.snp.bottom).offset(10)
+            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.height.equalTo(450)
+        }
+
         incomeLabel.snp.makeConstraints {
-            $0.top.equalTo(dateStackView.snp.bottom).offset(16)
-            $0.leading.equalToSuperview().offset(16)
+            $0.top.leading.equalToSuperview().inset(16)
         }
 
         incomeProgressBar.snp.makeConstraints {
@@ -144,14 +155,9 @@ class DailyFinanceView: UIView {
             $0.height.equalTo(8)
         }
 
-        incomeValueLabel.snp.makeConstraints {
-            $0.centerY.equalTo(incomeProgressBar)
-            $0.trailing.equalTo(incomeProgressBar.snp.trailing)
-        }
-
         expenseLabel.snp.makeConstraints {
             $0.top.equalTo(incomeProgressBar.snp.bottom).offset(16)
-            $0.leading.equalToSuperview().offset(16)
+            $0.leading.equalToSuperview().inset(16)
         }
 
         expenseProgressBar.snp.makeConstraints {
@@ -160,90 +166,107 @@ class DailyFinanceView: UIView {
             $0.height.equalTo(8)
         }
 
-        expenseValueLabel.snp.makeConstraints {
-            $0.centerY.equalTo(expenseProgressBar)
-            $0.trailing.equalTo(expenseProgressBar.snp.trailing)
-        }
-
-        // financeContainerView 동적 높이 설정
-        financeContainerView.snp.makeConstraints {
-            $0.bottom.equalTo(expenseProgressBar.snp.bottom).offset(16)
+        detailsTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(expenseProgressBar.snp.bottom).offset(16)
+            $0.leading.trailing.equalToSuperview().inset(16)
         }
 
         detailsContainerView.snp.makeConstraints {
-            $0.top.equalTo(financeContainerView.snp.bottom).offset(16)
-            $0.leading.trailing.equalToSuperview().inset(16)
-            $0.bottom.equalToSuperview().offset(-16)
+            $0.top.equalTo(detailsTitleLabel.snp.bottom).offset(16)
+            $0.leading.trailing.bottom.equalToSuperview().inset(16)
         }
 
-        detailsTitleLabel.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview().inset(16)
+        detailsHeaderView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalTo(40)
         }
-    }
 
-    // MARK: - Dynamic Content
-
-    func configureDates(with dates: [String], selectedDate: String) {
-        dateStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
-
-        for date in dates.prefix(7) {
-            let button = UIButton().then {
-                $0.setTitle(date, for: .normal)
-                $0.setTitleColor(date == selectedDate ? .white : .systemBlue, for: .normal)
-                $0.backgroundColor = date == selectedDate ? .systemBlue : .clear
-                $0.layer.cornerRadius = 8
-                $0.layer.borderColor = UIColor.systemBlue.cgColor
-                $0.layer.borderWidth = 1
-            }
-            dateStackView.addArrangedSubview(button)
+        headerLabels[0].snp.makeConstraints {
+            $0.leading.equalToSuperview()
+            $0.centerY.equalToSuperview()
+            $0.width.equalToSuperview().multipliedBy(0.5)
         }
-    }
 
-    func configureDetails(with data: [[String: String]]) {
-        detailsContainerView.subviews.filter { $0 != detailsTitleLabel }.forEach { $0.removeFromSuperview() }
+        headerLabels[1].snp.makeConstraints {
+            $0.trailing.equalToSuperview()
+            $0.centerY.equalToSuperview()
+            $0.width.equalToSuperview().multipliedBy(0.5)
+        }
 
-        var previousView: UIView = detailsTitleLabel
-        for entry in data {
-            let row = createRow(item: entry["항목"] ?? "", amount: entry["금액"] ?? "")
-            detailsContainerView.addSubview(row)
-
-            row.snp.makeConstraints {
-                $0.top.equalTo(previousView.snp.bottom).offset(8)
-                $0.leading.trailing.equalToSuperview().inset(16)
+        // Create row constraints
+        var previousRow: UIView = detailsHeaderView
+        for rowView in detailsContainerView.subviews.filter({ $0 !== detailsHeaderView }) {
+            rowView.snp.makeConstraints {
+                $0.top.equalTo(previousRow.snp.bottom)
+                $0.leading.trailing.equalToSuperview()
                 $0.height.equalTo(40)
             }
-
-            previousView = row
+            previousRow = rowView
         }
     }
 
-    private func createRow(item: String, amount: String) -> UIView {
-        let row = UIView()
+    private func createDetailRow(item: String, amount: String, isEven: Bool) -> UIView {
+        let rowView = UIView()
+        rowView.backgroundColor = isEven ? UIColor(hex: "e7f1fe") : UIColor(hex: "f6f6f6")
+        rowView.layer.borderWidth = 1
+        rowView.layer.borderColor = UIColor(hex: "d6e4fd").cgColor
 
         let itemLabel = UILabel().then {
             $0.text = item
             $0.font = UIFont.systemFont(ofSize: 14)
-            $0.textColor = .black
+            $0.textColor = UIColor(hex: "408FF6")
+            $0.textAlignment = .center
+            $0.layer.borderWidth = 1
+            $0.layer.borderColor = UIColor(hex: "B5D4FC").cgColor
         }
 
         let amountLabel = UILabel().then {
             $0.text = amount
             $0.font = UIFont.systemFont(ofSize: 14)
-            $0.textColor = .black
-            $0.textAlignment = .right
+            $0.textColor = UIColor(hex: "408FF6")
+            $0.textAlignment = .center
+            $0.layer.borderWidth = 1
+            $0.layer.borderColor = UIColor(hex: "B5D4FC").cgColor
         }
 
-        row.addSubview(itemLabel)
-        row.addSubview(amountLabel)
+        rowView.addSubview(itemLabel)
+        rowView.addSubview(amountLabel)
 
         itemLabel.snp.makeConstraints {
-            $0.top.bottom.leading.equalToSuperview()
+            $0.leading.equalToSuperview()
+            $0.centerY.equalToSuperview()
+            $0.width.equalToSuperview().multipliedBy(0.5)
+            $0.top.equalToSuperview()
+            $0.bottom.equalToSuperview()
         }
 
         amountLabel.snp.makeConstraints {
-            $0.top.bottom.trailing.equalToSuperview()
+            $0.trailing.equalToSuperview()
+            $0.centerY.equalToSuperview()
+            $0.width.equalToSuperview().multipliedBy(0.5)
+            $0.top.equalToSuperview()
+            $0.bottom.equalToSuperview()
         }
 
-        return row
+        return rowView
     }
+    override func layoutSubviews() {
+            super.layoutSubviews()
+            // Gradient 설정
+            applyGradient(to: incomeProgressBar, colors: [UIColor(hex: "FFC5C5").cgColor, UIColor(hex: "FF3131").cgColor])
+            applyGradient(to: expenseProgressBar, colors: [UIColor(hex: "B9D9FF").cgColor, UIColor(hex: "1073F4").cgColor])
+        }
+
+    private func applyGradient(to view: UIView, colors: [CGColor]) {
+          // 기존 GradientLayer 제거
+          view.layer.sublayers?.filter { $0 is CAGradientLayer }.forEach { $0.removeFromSuperlayer() }
+
+          let gradientLayer = CAGradientLayer()
+          gradientLayer.colors = colors
+          gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
+          gradientLayer.endPoint = CGPoint(x: 1, y: 0.5)
+          gradientLayer.frame = view.bounds
+          gradientLayer.cornerRadius = view.layer.cornerRadius
+          view.layer.insertSublayer(gradientLayer, at: 0)
+      }
 }

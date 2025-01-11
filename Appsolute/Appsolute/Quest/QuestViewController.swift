@@ -82,26 +82,18 @@ extension QuestViewController: UICollectionViewDataSource, UICollectionViewDeleg
         if indexPath.section == 1 {
             stateImage = UIImage(named: "mid")
             cell.configure(
-                badgeText: "월 퀘스트",
                 title: "월간 퀘스트 \(indexPath.row + 1)",
-                subtitle: "월 퀘스트 설명 \(indexPath.row + 1)",
-                stateImage: stateImage,
-                badgeColor: .systemBlue,
-                xpText: "50 XP",
+                expImage: "mid-card",
                 buttonAction: { [weak self] in
                     self?.presentBottomSheet(title: "월간 퀘스트 \(indexPath.row + 1)")
                 }
             )
         } else {
-            let images = ["min", "mid", "max"]
+            let images = ["min-card", "mid-card", "max-card"]
             stateImage = UIImage(named: images[indexPath.row % 3])
             cell.configure(
-                badgeText: "주차별 퀘스트",
                 title: "주차 퀘스트 \(indexPath.row + 1)",
-                subtitle: "주차 퀘스트 설명 \(indexPath.row + 1)",
-                stateImage: stateImage,
-                badgeColor: .systemGreen,
-                xpText: "100 XP",
+                expImage: "max-card",
                 buttonAction: { [weak self] in
                     self?.presentBottomSheet(title: "주차별 퀘스트 \(indexPath.row + 1)")
                 }

@@ -79,7 +79,7 @@ class BottomSheetViewController: UIViewController {
         stackView.addArrangedSubview(questView)
         
         questView.snp.makeConstraints {
-            $0.height.equalTo(200)
+            $0.height.equalTo(150)
         }
         
         let statusView = StatusView()
@@ -87,28 +87,17 @@ class BottomSheetViewController: UIViewController {
         stackView.addArrangedSubview(statusView)
         
         statusView.snp.makeConstraints {
-            $0.height.equalTo(140)
+            $0.height.equalTo(100)
         }
         
         let financeView = DailyFinanceView()
         stackView.addArrangedSubview(financeView)
         
-        financeView.configureDates(
-            with: ["1월 15일", "16일", "17일", "18일", "19일", "20일", "21일"],
-            selectedDate: "1월 15일"
-        )
-
-        financeView.configureDetails(with: [
-            ["항목": "인건비", "금액": "4"],
-            ["항목": "직원급여", "금액": "1"],
-            ["항목": "퇴직급여", "금액": "1"],
-            ["항목": "4대 보험료", "금액": "1"],
-            ["항목": "설계용역비", "금액": "1"]
-        ])
-        
         financeView.snp.makeConstraints {
-            $0.height.equalTo(500)
+            $0.height.equalTo(600)
         }
+        
+      
 
     
     }
