@@ -34,25 +34,18 @@ class HomeViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavigationBarTransparency() // 네비게이션 바 투명화 설정
+        
         setupScrollView()
         setupStackView()
         configureViews()
+        stackView.backgroundColor = .backgroundColor
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(false, animated: animated) // 네비게이션 바 표시
-    }
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        navigationController?.setNavigationBarHidden(true, animated: animated) // 네비게이션 바 숨기기
+//    }
     
-    // MARK: - 네비게이션 바 투명화 설정
-    private func setupNavigationBarTransparency() {
-        guard let navigationController = navigationController else { return }
-        navigationController.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController.navigationBar.shadowImage = UIImage()
-        navigationController.navigationBar.isTranslucent = true
-        navigationController.view.backgroundColor = .clear
-    }
     
     // MARK: - Setup Methods
     private func setupScrollView() {
@@ -69,32 +62,39 @@ class HomeViewController: UIViewController {
         stackView.alignment = .fill
         stackView.distribution = .equalSpacing
         scrollView.addSubview(stackView)
-        stackView.backgroundColor  = .backgroundColor
         stackView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
-            make.width.equalToSuperview()
+            //make.width.equalToSuperview()
         }
+    }
+    
+    @objc func moveToProfile() {
+        let profileVC = ProfileViewController()
+        profileVC.hidesBottomBarWhenPushed = true 
+        self.navigationController?.pushViewController(profileVC, animated: true)
     }
     
     // MARK: - Configure Views
     private func configureViews() {
-        // 1. 헤더뷰
-        let headerView = CustomHeaderView(
-            title: "Lv.3 쑥쑥 잎사귀",
-            subtitle: "경험치를 모아 레벨을 키우세요!"
-        )
+        // 1. 헤더뷰 (스크롤 뷰 안에 포함)
+        let headerView = CustomHeaderView()
+        headerView.backgroundColor = UIColor(hex: "1073F4") // 헤더 배경색 설정
         stackView.addArrangedSubview(headerView)
         headerView.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
             make.height.equalTo(300)
         }
+        headerView.profileButton.addTarget(self, action: #selector(moveToProfile), for: .touchUpInside)
         
         // 2. 총 누적 경험치 섹션
         let totalXPView = TotalXPView(xp: totalXP, subtitle: "Lv.3까지 7500XP 남았어요!")
         stackView.addArrangedSubview(totalXPView)
         totalXPView.snp.makeConstraints { make in
-            make.height.equalTo(140)
+            make.height.equalTo(190)
         }
         
+        // 3. 연도별 획득 경험치 섹션
         let details = [
             ("상반기 인사평가:", 150),
             ("직무별 퀘스트:", 150),
@@ -105,10 +105,9 @@ class HomeViewController: UIViewController {
         let xpView = CurrentYearXPView(
             xp: 500,
             percentage: 80,
-            subtitle: "↑ ‘올해 획득한 경험치 / 올해 획득 가능한 경험치’ 값이에요",
+            subtitle: " ↑ ‘올해 획득한 경험치 / 올해 획득 가능한 경험치’ 값이에요",
             details: details
         )
-        
         stackView.addArrangedSubview(xpView)
         xpView.snp.makeConstraints {
             $0.height.equalTo(500)

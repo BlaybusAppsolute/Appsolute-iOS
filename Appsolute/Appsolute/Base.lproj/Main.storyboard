@@ -12,21 +12,12 @@
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="HomeViewController" customModule="Appsolute" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                    <imageView key="view" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="headerbackground" id="8Zj-ky-YOS">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </imageView>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="pAc-yg-Wz1">
-                        <barButtonItem key="leftBarButtonItem" title="Item" image="내정보" id="WdW-1k-TxB">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <connections>
-                                <segue destination="Gxa-JF-czo" kind="show" id="68Z-02-gbt"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="pAc-yg-Wz1"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -70,7 +61,7 @@
         <scene sceneID="yKV-xH-Ya7">
             <objects>
                 <viewController id="ktq-Mm-cOV" customClass="BoardViewController" customModule="Appsolute" customModuleProvider="target" sceneMemberID="viewController">
-                    <imageView key="view" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background 1" id="KeB-x2-S9G">
+                    <imageView key="view" clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background 1" id="KeB-x2-S9G">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
@@ -111,7 +102,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Wo8-Fw-Y4Z" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="메인 홈" image="Union" id="ZC9-cr-LTP"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Xud-i3-HQK">
+                    <navigationBar key="navigationBar" hidden="YES" contentMode="scaleToFill" id="Xud-i3-HQK">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" systemColor="tintColor"/>
@@ -146,7 +137,7 @@
         <scene sceneID="PqC-dG-Ibg">
             <objects>
                 <viewController id="Osp-ou-mGm" customClass="ProjectViewController" customModule="Appsolute" customModuleProvider="target" sceneMemberID="viewController">
-                    <imageView key="view" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background 1" id="X8a-7e-vAh">
+                    <imageView key="view" clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background 1" id="X8a-7e-vAh">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
@@ -234,9 +225,9 @@
         <image name="Union" width="24" height="21.666666030883789"/>
         <image name="background 1" width="393" height="852.33331298828125"/>
         <image name="board" width="23" height="21.666666030883789"/>
+        <image name="headerbackground" width="393" height="395"/>
         <image name="project" width="23" height="23"/>
         <image name="quest" width="21.333333969116211" height="23"/>
-        <image name="내정보" width="54.666667938232422" height="44"/>
         <image name="사진" width="72" height="43"/>
         <image name="􀉴" width="27.333333969116211" height="23"/>
         <systemColor name="systemBackgroundColor">

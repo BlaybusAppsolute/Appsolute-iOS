@@ -15,10 +15,13 @@ class TotalXPView: UIView {
         $0.text = "총 누적 경험치:"
         $0.font = UIFont.systemFont(ofSize: 20, weight: .bold)
     }
+    private let expView = UIImageView().then {
+        $0.image = UIImage(named: "exp")
+    }
     
     private let expLabel = UILabel().then {
         $0.font = UIFont.systemFont(ofSize: 20, weight: .bold)
-        $0.textColor = UIColor(hex: "FFA500") // 주황색
+        $0.textColor = .black
         $0.textAlignment = .right
     }
     
@@ -40,17 +43,22 @@ class TotalXPView: UIView {
     private let progressLabel = UILabel().then {
         $0.text = "1500XP"
         $0.font = UIFont.boldSystemFont(ofSize: 16)
-        $0.textColor = UIColor(hex: "4F6D9C") // 파란색
+        $0.textColor = .white
     }
     
     private let subtitleLabel = UILabel().then {
-        $0.font = UIFont.systemFont(ofSize: 14)
+        $0.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
         $0.textColor = .gray
+        $0.backgroundColor = UIColor(hex: "DCEBFF")
+        $0.textColor = UIColor(hex: "1073f4")
+        $0.textAlignment = .left
+        $0.clipsToBounds = true
+        $0.layer.cornerRadius = 6
     }
     
     private let progressBar = UIView().then {
-        $0.backgroundColor = UIColor(hex: "4F6D9C") // 파란색
-        $0.layer.cornerRadius = 4
+        $0.backgroundColor = UIColor(hex: "E9ECEF")
+        $0.layer.cornerRadius = 16
     }
     
     // MARK: - Initializer
@@ -74,13 +82,14 @@ class TotalXPView: UIView {
     // MARK: - Setup Views
     private func setupViews() {
         addSubview(titleLabel)
+        addSubview(expView)
         addSubview(expLabel)
         addSubview(graphContainerView)
         graphContainerView.addSubview(progressImageView)
         graphContainerView.addSubview(endImageView)
         graphContainerView.addSubview(progressBar)
-        graphContainerView.addSubview(progressLabel)
-        addSubview(subtitleLabel)
+        progressBar.addSubview(progressLabel)
+        graphContainerView.addSubview(subtitleLabel)
         
         // Title Label
         titleLabel.snp.makeConstraints { make in
@@ -92,12 +101,17 @@ class TotalXPView: UIView {
             make.centerY.equalTo(titleLabel)
             make.trailing.equalToSuperview().inset(16)
         }
+        expView.snp.makeConstraints {
+            $0.size.equalTo(22)
+            $0.trailing.equalTo(expLabel.snp.leading).offset(-8)
+            $0.centerY.equalTo(expLabel)
+        }
         
         // 그래프 컨테이너
         graphContainerView.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(16)
             make.leading.trailing.equalToSuperview().inset(16)
-            make.height.equalTo(60)
+            make.height.equalTo(134)
         }
         
         // Progress 아이콘 (왼쪽)
@@ -116,22 +130,22 @@ class TotalXPView: UIView {
         
         // Progress Bar
         progressBar.snp.makeConstraints { make in
-            make.leading.equalTo(progressImageView.snp.trailing).offset(8)
-            make.trailing.equalTo(endImageView.snp.leading).offset(-8)
-            make.centerY.equalTo(graphContainerView)
-            make.height.equalTo(8)
+            make.top.equalToSuperview().inset(16)
+            make.leading.trailing.equalToSuperview().inset(16)
+            make.height.equalTo(36)
         }
         
         // Progress Label
         progressLabel.snp.makeConstraints { make in
             make.centerX.equalTo(progressBar)
-            make.bottom.equalTo(progressBar.snp.top).offset(-4)
+            make.centerY.equalTo(progressBar)
         }
         
         // Subtitle Label
         subtitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(graphContainerView.snp.bottom).offset(8)
+            make.bottom.equalTo(graphContainerView.snp.bottom).inset(16)
             make.leading.trailing.equalToSuperview().inset(16)
+            make.height.equalTo(28)
         }
     }
 }

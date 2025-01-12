@@ -18,13 +18,23 @@ class CurrentYearXPView: UIView {
     }
     
     private let xpLabel = UILabel().then {
-        $0.font = UIFont.boldSystemFont(ofSize: 18)
-        $0.textColor = UIColor(hex: "F6AA00") // 주황색 계열
+        $0.font = UIFont.boldSystemFont(ofSize: 20)
+        $0.textColor = .black
+    }
+    private let expView = UIImageView().then {
+        $0.image = UIImage(named: "exp")
+    }
+    private let progressContainer = UIView().then {
+        $0.backgroundColor = .white
+        $0.layer.cornerRadius = 21
+        $0.layer.masksToBounds = true
     }
     
     private let progressBar = UIProgressView().then {
-        $0.tintColor = UIColor(hex: "F6AA00")
+        $0.tintColor = UIColor(hex: "ffa800")
         $0.trackTintColor = UIColor(hex: "E0E0E0")
+        $0.layer.cornerRadius = 16
+        $0.layer.masksToBounds = true
     }
     
     private let percentageLabel = UILabel().then {
@@ -33,8 +43,11 @@ class CurrentYearXPView: UIView {
     }
     
     private let subtitleLabel = UILabel().then {
-        $0.font = UIFont.systemFont(ofSize: 12)
-        $0.textColor = UIColor(hex: "4F6D9C")
+        $0.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
+        $0.textColor = UIColor(hex: "1073F4")
+        $0.backgroundColor = UIColor(hex: "DCEBFF")
+        $0.layer.cornerRadius = 6
+        $0.layer.masksToBounds = true
         $0.numberOfLines = 0
     }
     
@@ -83,12 +96,14 @@ class CurrentYearXPView: UIView {
         // 서브뷰 추가
         addSubview(titleLabel)
         addSubview(xpLabel)
-        addSubview(progressBar)
-        addSubview(percentageLabel)
-        addSubview(subtitleLabel)
+        addSubview(expView)
+        addSubview(progressContainer)
+        progressContainer.addSubview(progressBar)
+        progressContainer.addSubview(percentageLabel)
+        progressContainer.addSubview(subtitleLabel)
         addSubview(detailsContainer)
-        addSubview(totalLabel)
-        addSubview(totalXPLabel)
+        detailsContainer.addSubview(totalLabel)
+        detailsContainer.addSubview(totalXPLabel)
         
         // 레이아웃 설정
         titleLabel.snp.makeConstraints { make in
@@ -98,10 +113,23 @@ class CurrentYearXPView: UIView {
             make.centerY.equalTo(titleLabel)
             make.trailing.equalToSuperview().inset(16)
         }
+        expView.snp.makeConstraints { make in
+            make.size.equalTo(22)
+            make.trailing.equalTo(xpLabel.snp.leading).offset(-8)
+            make.centerY.equalTo(xpLabel)
+        }
+        
+        progressContainer.snp.makeConstraints {
+            $0.top.equalTo(self.titleLabel.snp.bottom).offset(16)
+            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.height.equalTo(137)
+        }
+        
+        
         progressBar.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(12)
+            make.top.equalTo(progressContainer.snp.top).inset(16)
             make.leading.trailing.equalToSuperview().inset(16)
-            make.height.equalTo(6)
+            make.height.equalTo(36)
         }
         percentageLabel.snp.makeConstraints { make in
             make.top.equalTo(progressBar.snp.bottom).offset(8)
@@ -110,9 +138,10 @@ class CurrentYearXPView: UIView {
         subtitleLabel.snp.makeConstraints { make in
             make.top.equalTo(percentageLabel.snp.bottom).offset(4)
             make.leading.trailing.equalToSuperview().inset(16)
+            make.height.equalTo(28)
         }
         detailsContainer.snp.makeConstraints { make in
-            make.top.equalTo(subtitleLabel.snp.bottom).offset(16)
+            make.top.equalTo(progressContainer.snp.bottom).offset(16)
             make.leading.trailing.equalToSuperview().inset(16)
         }
         totalLabel.snp.makeConstraints { make in
