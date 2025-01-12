@@ -14,6 +14,7 @@ class TotalXPView: UIView {
     private let titleLabel = UILabel().then {
         $0.text = "총 누적 경험치:"
         $0.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        $0.textColor = .black 
     }
     private let expView = UIImageView().then {
         $0.image = UIImage(named: "exp")
