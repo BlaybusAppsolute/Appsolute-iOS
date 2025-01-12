@@ -49,7 +49,7 @@ class QuestCardCell: UICollectionViewCell {
         moreButton.setTitle("더보기", for: .normal)
         moreButton.setTitleColor(.darkGray, for: .normal)
         moreButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        moreButton.backgroundColor = UIColor.systemGray6
+        moreButton.backgroundColor = UIColor(hex: "F8F9FA")
         moreButton.layer.cornerRadius = 8
         moreButton.layer.borderWidth = 1
         moreButton.layer.borderColor = UIColor.systemGray3.cgColor
