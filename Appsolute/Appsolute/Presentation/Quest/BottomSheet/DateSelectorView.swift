@@ -89,14 +89,33 @@ class DateSelectorView: UIView {
     
     private func selectDate(_ date: String) {
         selectedDate = date
+
         dateButtons.forEach { button in
-            if button.title(for: .normal) == date {
-                button.backgroundColor = UIColor(hex: "123B75")
-                button.setTitleColor(.white, for: .normal)
-            } else {
-                button.backgroundColor = .clear
-                button.setTitleColor(UIColor(hex: "4F6D9C"), for: .normal)
+            let isSelected = (button.title(for: .normal) == date)
+
+            // 버튼 스타일 업데이트
+            updateButtonStyle(button, isSelected: isSelected)
+
+            // 버튼 크기 업데이트 (애니메이션 적용)
+            button.snp.remakeConstraints { make in
+                make.height.equalTo(isSelected ? 60 : 48) // 선택된 버튼 크기 증가
+                make.width.equalTo(isSelected ? 60 : 48) // 선택된 버튼 크기 증가
             }
         }
+
+        // 레이아웃 애니메이션
+        UIView.animate(withDuration: 0.3) {
+            self.layoutIfNeeded()
+        }
     }
+    private func updateButtonStyle(_ button: UIButton, isSelected: Bool) {
+        if isSelected {
+            button.backgroundColor = UIColor(hex: "123B75") // 선택된 배경색
+            button.setTitleColor(.white, for: .normal)     // 선택된 텍스트 색상
+        } else {
+            button.backgroundColor = .clear               // 기본 배경색
+            button.setTitleColor(UIColor(hex: "4F6D9C"), for: .normal) // 기본 텍스트 색상
+        }
+    }
+
 }
