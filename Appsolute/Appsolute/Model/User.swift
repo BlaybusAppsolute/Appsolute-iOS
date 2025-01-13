@@ -13,7 +13,7 @@ struct LoginResponse: Decodable {
 struct User: Decodable {
     let employeeNumber: String
     let userName: String
-    let joiningDate: String 
+    let joiningDate: String
     let userId: String
     let departmentName: String
     let departmentGroupName: String
