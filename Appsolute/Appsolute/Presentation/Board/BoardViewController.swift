@@ -10,7 +10,6 @@ import SnapKit
 
 class BoardViewController: UIViewController {
 
-    @IBOutlet var backgroundView: UIImageView!
     private let data: [BoardItem] = [
         BoardItem(title: "상반기 인사발령 안내", description: "2025년 상반기 정기 인사발령 안내", date: "2025.01.04", isNew: true),
         BoardItem(title: "복리후생 공지", description: "동호회 운영 지침 및 지원금 신청 방법 안내", date: "2025.01.04", isNew: true),
@@ -24,34 +23,38 @@ class BoardViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        backgroundView.isUserInteractionEnabled = true
-        setupNavigationBar()
+        setupBackgroundGradient()
         setupCustomBackButton()
         setupCollectionView()
         setupConstraints()
+    
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setupNavigationBar()
+        setupBackgroundGradient()
+        
         setupCustomBackButton()
         setupCollectionView()
         setupConstraints()
         
+        
     }
+    private func setupBackgroundGradient() {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.colors = [
+            UIColor(hex: "#B5D4FC").cgColor,
+            UIColor(hex: "#E7F1FE").cgColor
+        ]
+        gradientLayer.locations = [0.0, 1.0]
+        gradientLayer.startPoint = CGPoint(x: 0.5, y: 0.0)
+        gradientLayer.endPoint = CGPoint(x: 0.5, y: 1.0)
+        gradientLayer.frame = view.bounds
+        view.layer.insertSublayer(gradientLayer, at: 0)
+    }
+   
 
  
-    private func setupNavigationBar() {
-        navigationController?.hidesBarsOnSwipe = true
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor.clear
-        appearance.titleTextAttributes = [
-            .foregroundColor: UIColor.black,
-            .font: UIFont.systemFont(ofSize: 22, weight: .bold)
-        ]
-        navigationController?.navigationBar.standardAppearance = appearance
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
-    }
+    
     private func setupCustomBackButton() {
     
         let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)

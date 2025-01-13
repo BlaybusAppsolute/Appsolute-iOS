@@ -6,9 +6,9 @@
 //
 import Foundation
 
-struct BoardItem {
+struct BoardItem: Decodable {
+    let boardId: Int
     let title: String
-    let description: String
-    let date: String
-    let isNew: Bool
+    let content: String
+    let createdAt: String
 }
