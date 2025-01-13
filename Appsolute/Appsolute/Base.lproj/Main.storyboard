@@ -12,7 +12,7 @@
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="HomeViewController" customModule="Appsolute" customModuleProvider="target" sceneMemberID="viewController">
-                    <imageView key="view" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="headerbackground" id="8Zj-ky-YOS">
+                    <imageView key="view" clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="headerbackground" id="1lW-sd-mBp">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
@@ -24,15 +24,15 @@
             </objects>
             <point key="canvasLocation" x="2764.1221374045799" y="-27.464788732394368"/>
         </scene>
-        <!--Profile View Controller-->
+        <!--View Controller-->
         <scene sceneID="X3k-bb-Oya">
             <objects>
-                <viewController id="Gxa-JF-czo" customClass="ProfileViewController" customModule="Appsolute" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Gxa-JF-czo" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="j3A-xx-nYB">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="XKT-JM-kqA"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="systemGray6Color"/>
                     </view>
                     <navigationItem key="navigationItem" id="8Nh-eD-8HA"/>
                 </viewController>
@@ -50,7 +50,7 @@
                         <viewLayoutGuide key="safeArea" id="QFz-9m-OlU"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="퀘스트" image="quest" id="yT2-Uy-DoA"/>
+                    <tabBarItem key="tabBarItem" title="퀘스트" image="퀘스트 디셀렉트" id="yT2-Uy-DoA"/>
                     <navigationItem key="navigationItem" id="7iW-DM-GPn"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kGP-mV-8iK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -173,7 +173,7 @@
         <scene sceneID="0Vi-o3-FyG">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ndg-o3-8Bc" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="프로젝트" image="project" id="1Yu-MR-DhT">
+                    <tabBarItem key="tabBarItem" title="프로젝트" image="프로젝트 디셀렉트" id="1Yu-MR-DhT">
                         <color key="badgeColor" systemColor="systemGreenColor"/>
                     </tabBarItem>
                     <toolbarItems/>
@@ -226,12 +226,15 @@
         <image name="background 1" width="393" height="852.33331298828125"/>
         <image name="board" width="23" height="21.666666030883789"/>
         <image name="headerbackground" width="393" height="395"/>
-        <image name="project" width="23" height="23"/>
-        <image name="quest" width="21.333333969116211" height="23"/>
         <image name="사진" width="72" height="43"/>
+        <image name="퀘스트 디셀렉트" width="72.333335876464844" height="43"/>
+        <image name="프로젝트 디셀렉트" width="72.333335876464844" height="43"/>
         <image name="􀉴" width="27.333333969116211" height="23"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray6Color">
+            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGreenColor">
             <color red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

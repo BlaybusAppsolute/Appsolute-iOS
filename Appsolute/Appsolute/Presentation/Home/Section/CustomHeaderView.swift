@@ -11,13 +11,25 @@ import Then
 class CustomHeaderView: UIView {
     
     private let backgroundImageView = UIImageView().then {
-        $0.image = UIImage(named: "headerbackground")
+        $0.image = UIImage(named: "레벨06")
         $0.contentMode = .scaleAspectFill
         $0.clipsToBounds = true
     }
-    private let groundImageView = UIImageView().then {
-        $0.image = UIImage(named: "ground")
-    }
+    
+    override func layoutSubviews() {
+            super.layoutSubviews()
+            
+            let cornerRadius: CGFloat = 16
+            
+            // 아래쪽 두 모서리에만 둥근 코너를 적용
+            let path = UIBezierPath(roundedRect: backgroundImageView.bounds,
+                                    byRoundingCorners: [.bottomLeft, .bottomRight],
+                                    cornerRadii: CGSize(width: cornerRadius, height: cornerRadius))
+            
+            let maskLayer = CAShapeLayer()
+            maskLayer.path = path.cgPath
+            backgroundImageView.layer.mask = maskLayer
+        }
     let levelContainerView = UIView().then {
         $0.backgroundColor = UIColor(hex: "1073F4")
         $0.layer.cornerRadius = 18
@@ -45,6 +57,7 @@ class CustomHeaderView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.backgroundColor = .backgroundColor
         setupViews()
     }
     
@@ -52,18 +65,15 @@ class CustomHeaderView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-
-
+    
+    
     private func setupViews() {
         addSubview(backgroundImageView)
         backgroundImageView.snp.makeConstraints {
-            $0.edges.equalToSuperview() // 배경 이미지가 전체를 덮도록 설정
+            $0.edges.equalToSuperview()
+            $0.top.equalTo(self.safeAreaLayoutGuide.snp.top)
+            
         }
-        
-
-     
-    
-        addSubview(groundImageView)
         addSubview(levelContainerView)
         addSubview(profileButton)
         addSubview(alertButton)
@@ -82,19 +92,15 @@ class CustomHeaderView: UIView {
             $0.trailing.equalToSuperview().inset(20)
             $0.top.equalToSuperview().inset(20)
         }
-
-    
-        groundImageView.snp.makeConstraints {
-            $0.bottom.equalToSuperview()
-            $0.leading.trailing.equalToSuperview()
-        }
+        
+        
         levelContainerView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(20)
-            $0.bottom.equalTo(groundImageView.snp.bottom).inset(20)
+            $0.bottom.equalTo(self.snp.bottom).inset(20)
             $0.height.equalTo(64)
         }
         levelTitleLabel.snp.makeConstraints {
-            $0.leading.equalTo(levelContainerView.snp.leading).inset(16)
+            $0.leading.equalTo(levelContainerView.snp.leading).inset(20)
             $0.centerY.equalTo(levelContainerView.snp.centerY)
             $0.trailing.equalTo(guideButton.snp.leading).offset(5)
         }
@@ -102,7 +108,7 @@ class CustomHeaderView: UIView {
         guideButton.snp.makeConstraints {
             $0.width.equalTo(83)
             $0.height.equalTo(32)
-            $0.trailing.equalTo(levelContainerView.snp.trailing).inset(16)
+            $0.trailing.equalTo(levelContainerView.snp.trailing).inset(20)
             $0.centerY.equalTo(levelContainerView.snp.centerY)
         }
     }

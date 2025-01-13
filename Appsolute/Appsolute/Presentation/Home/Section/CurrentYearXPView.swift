@@ -30,26 +30,23 @@ class CurrentYearXPView: UIView {
         $0.layer.masksToBounds = true
     }
     
-    private let progressBar = UIProgressView().then {
-        $0.tintColor = UIColor(hex: "ffa800")
-        $0.trackTintColor = UIColor(hex: "E0E0E0")
-        $0.layer.cornerRadius = 16
-        $0.layer.masksToBounds = true
-    }
+//    private let progressBar = UIProgressView().then {
+//        $0.tintColor = UIColor(hex: "ffa800")
+//        $0.trackTintColor = UIColor(hex: "E0E0E0")
+//        $0.layer.cornerRadius = 16
+//        $0.layer.masksToBounds = true
+//    }
+    private let progressBar = CustomProgressView()
     
-    private let percentageLabel = UILabel().then {
-        $0.font = UIFont.boldSystemFont(ofSize: 14)
-        $0.textColor = UIColor.black
-    }
-    
-    private let subtitleLabel = UILabel().then {
-        $0.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
-        $0.textColor = UIColor(hex: "1073F4")
-        $0.backgroundColor = UIColor(hex: "DCEBFF")
-        $0.layer.cornerRadius = 6
-        $0.layer.masksToBounds = true
-        $0.numberOfLines = 0
-    }
+//    private let subtitleLabel = UILabel().then {
+//        $0.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
+//        $0.textColor = UIColor(hex: "1073F4")
+//        $0.backgroundColor = UIColor(hex: "DCEBFF")
+//        $0.layer.cornerRadius = 6
+//        $0.layer.masksToBounds = true
+//        $0.numberOfLines = 0
+//    }
+    private let subtitleLabel = SubtitleLabel()
     
     private let detailsContainer = UIView().then {
         $0.backgroundColor = UIColor.white
@@ -58,6 +55,11 @@ class CurrentYearXPView: UIView {
         $0.layer.shadowOffset = CGSize(width: 0, height: 2)
         $0.layer.shadowOpacity = 0.2
         $0.layer.shadowRadius = 4
+    }
+    private let detailTitleLabel = UILabel().then {
+        $0.text = "| 획득 상세내역"
+        $0.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        $0.textAlignment = .left
     }
     
     private let totalLabel = UILabel().then {
@@ -85,8 +87,6 @@ class CurrentYearXPView: UIView {
     private func setupViews(xp: Int, percentage: Int, subtitle: String, details: [(String, Int)]) {
         // 데이터 설정
         xpLabel.text = "\(xp)XP"
-        progressBar.progress = Float(percentage) / 100
-        percentageLabel.text = "\(percentage)%"
         subtitleLabel.text = subtitle
         totalXPLabel.text = "\(xp)XP"
         
@@ -99,19 +99,22 @@ class CurrentYearXPView: UIView {
         addSubview(expView)
         addSubview(progressContainer)
         progressContainer.addSubview(progressBar)
-        progressContainer.addSubview(percentageLabel)
         progressContainer.addSubview(subtitleLabel)
         addSubview(detailsContainer)
+        detailsContainer.addSubview(detailTitleLabel)
         detailsContainer.addSubview(totalLabel)
         detailsContainer.addSubview(totalXPLabel)
         
+        progressBar.updateProgress(to: 100)
+        //progressBar.backgroundColor = .red
+        
         // 레이아웃 설정
         titleLabel.snp.makeConstraints { make in
-            make.top.leading.equalToSuperview().offset(16)
+            make.top.leading.equalToSuperview().offset(20)
         }
         xpLabel.snp.makeConstraints { make in
             make.centerY.equalTo(titleLabel)
-            make.trailing.equalToSuperview().inset(16)
+            make.trailing.equalToSuperview().inset(20)
         }
         expView.snp.makeConstraints { make in
             make.size.equalTo(22)
@@ -120,37 +123,40 @@ class CurrentYearXPView: UIView {
         }
         
         progressContainer.snp.makeConstraints {
-            $0.top.equalTo(self.titleLabel.snp.bottom).offset(16)
-            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.top.equalTo(self.titleLabel.snp.bottom).offset(20)
+            $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(137)
         }
         
         
         progressBar.snp.makeConstraints { make in
-            make.top.equalTo(progressContainer.snp.top).inset(16)
-            make.leading.trailing.equalToSuperview().inset(16)
-            make.height.equalTo(36)
-        }
-        percentageLabel.snp.makeConstraints { make in
-            make.top.equalTo(progressBar.snp.bottom).offset(8)
-            make.trailing.equalToSuperview().inset(16)
+            make.top.equalTo(progressContainer.snp.top).inset(20)
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.height.equalTo(56)
+            
         }
         subtitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(percentageLabel.snp.bottom).offset(4)
-            make.leading.trailing.equalToSuperview().inset(16)
+            make.top.equalTo(progressBar.snp.bottom).offset(13)
+            make.leading.trailing.equalToSuperview().inset(20)
             make.height.equalTo(28)
         }
         detailsContainer.snp.makeConstraints { make in
-            make.top.equalTo(progressContainer.snp.bottom).offset(16)
-            make.leading.trailing.equalToSuperview().inset(16)
+            make.top.equalTo(progressContainer.snp.bottom).offset(20)
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.height.equalTo(226)
+        }
+        detailTitleLabel.snp.makeConstraints {
+            $0.leading.equalToSuperview().inset(20)
+            $0.top.equalToSuperview().inset(20)
+            $0.trailing.equalToSuperview().inset(20)
         }
         totalLabel.snp.makeConstraints { make in
-            make.top.equalTo(detailsContainer.snp.bottom).offset(16)
-            make.leading.equalToSuperview().offset(16)
+            make.bottom.equalTo(detailsContainer.snp.bottom).inset(20)
+            make.leading.equalToSuperview().offset(20)
         }
         totalXPLabel.snp.makeConstraints { make in
             make.centerY.equalTo(totalLabel)
-            make.trailing.equalToSuperview().inset(16)
+            make.trailing.equalToSuperview().inset(20)
         }
     }
     
@@ -177,20 +183,20 @@ class CurrentYearXPView: UIView {
                 if let lastView = lastView {
                     make.top.equalTo(lastView.snp.bottom).offset(8)
                 } else {
-                    make.top.equalToSuperview().offset(16)
+                    make.top.equalToSuperview().offset(20)
                 }
-                make.leading.equalToSuperview().offset(16)
+                make.leading.equalToSuperview().offset(20)
             }
             valueLabel.snp.makeConstraints { make in
                 make.centerY.equalTo(titleLabel)
-                make.trailing.equalToSuperview().inset(16)
+                make.trailing.equalToSuperview().inset(20)
             }
             
             lastView = titleLabel
         }
         
         lastView?.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().inset(16) // 마지막 요소 하단 제약
+            make.bottom.equalToSuperview().inset(20) // 마지막 요소 하단 제약
         }
     }
 }

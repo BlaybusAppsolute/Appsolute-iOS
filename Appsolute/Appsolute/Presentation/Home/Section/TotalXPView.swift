@@ -41,26 +41,20 @@ class TotalXPView: UIView {
         $0.contentMode = .scaleAspectFit
     }
     
-    private let progressLabel = UILabel().then {
-        $0.text = "1500XP"
-        $0.font = UIFont.boldSystemFont(ofSize: 16)
-        $0.textColor = .white
-    }
     
-    private let subtitleLabel = UILabel().then {
-        $0.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
-        $0.textColor = .gray
-        $0.backgroundColor = UIColor(hex: "DCEBFF")
-        $0.textColor = UIColor(hex: "1073f4")
-        $0.textAlignment = .left
-        $0.clipsToBounds = true
-        $0.layer.cornerRadius = 6
-    }
     
-    private let progressBar = UIView().then {
-        $0.backgroundColor = UIColor(hex: "E9ECEF")
-        $0.layer.cornerRadius = 16
-    }
+//    private let subtitleLabel = UILabel().then {
+//        $0.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
+//        $0.textColor = .gray
+//        $0.backgroundColor = UIColor(hex: "DCEBFF")
+//        $0.textColor = UIColor(hex: "1073f4")
+//        $0.textAlignment = .left
+//        $0.clipsToBounds = true
+//        $0.layer.cornerRadius = 6
+//    }
+    private let subtitleLabel = SubtitleLabel()
+    
+    private let progressBar = XPProgressView()
     
     // MARK: - Initializer
     init(xp: Int, subtitle: String) {
@@ -76,7 +70,7 @@ class TotalXPView: UIView {
     // MARK: - Configuration
     private func configure(xp: Int, subtitle: String) {
         expLabel.text = "\(xp)XP"
-        progressLabel.text = "\(xp)XP"
+        
         subtitleLabel.text = subtitle
     }
     
@@ -89,8 +83,9 @@ class TotalXPView: UIView {
         graphContainerView.addSubview(progressImageView)
         graphContainerView.addSubview(endImageView)
         graphContainerView.addSubview(progressBar)
-        progressBar.addSubview(progressLabel)
         graphContainerView.addSubview(subtitleLabel)
+        
+        progressBar.updateProgress(currentXP: 150, minXP: 0, midXP: 150, maxXP: 300)
         
         // Title Label
         titleLabel.snp.makeConstraints { make in
@@ -131,16 +126,10 @@ class TotalXPView: UIView {
         
         // Progress Bar
         progressBar.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(16)
-            make.leading.trailing.equalToSuperview().inset(16)
-            make.height.equalTo(36)
+            make.top.equalToSuperview().inset(20)
+            make.leading.trailing.equalToSuperview().inset(20)
         }
         
-        // Progress Label
-        progressLabel.snp.makeConstraints { make in
-            make.centerX.equalTo(progressBar)
-            make.centerY.equalTo(progressBar)
-        }
         
         // Subtitle Label
         subtitleLabel.snp.makeConstraints { make in

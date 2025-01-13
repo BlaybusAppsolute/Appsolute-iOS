@@ -15,7 +15,6 @@ class HeaderView: UICollectionReusableView {
     private let rightButton = UIButton()
     private let weekSegmentedControl = WeekSegmentedControl()
 
-    // 콜백 클로저
     var onLeftButtonTap: (() -> Void)?
     var onRightButtonTap: (() -> Void)?
     var onWeekChanged: ((Int) -> Void)?
@@ -68,25 +67,25 @@ class HeaderView: UICollectionReusableView {
 
     private func setupConstraints() {
         dateLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(16)
+            $0.top.equalToSuperview().offset(20)
             $0.centerX.equalToSuperview()
         }
 
         leftButton.snp.makeConstraints {
             $0.centerY.equalTo(dateLabel)
-            $0.leading.equalToSuperview().offset(16)
+            $0.leading.equalToSuperview().offset(20)
             $0.width.height.equalTo(30)
         }
 
         rightButton.snp.makeConstraints {
             $0.centerY.equalTo(dateLabel)
-            $0.trailing.equalToSuperview().inset(16)
+            $0.trailing.equalToSuperview().inset(20)
             $0.width.height.equalTo(30)
         }
 
         weekSegmentedControl.snp.makeConstraints {
-            $0.top.equalTo(dateLabel.snp.bottom).offset(16)
-            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.top.equalTo(dateLabel.snp.bottom).offset(20)
+            $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(67)
         }
     }

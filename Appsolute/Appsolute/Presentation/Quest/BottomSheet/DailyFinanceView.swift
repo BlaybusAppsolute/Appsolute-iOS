@@ -24,28 +24,7 @@ class DailyFinanceView: UIView {
         $0.backgroundColor = UIColor(hex: "e7f1fe")
         $0.layer.cornerRadius = 12
     }
-
-    private let incomeLabel = UILabel().then {
-        $0.text = "수익"
-        $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
-        $0.textColor = .red
-    }
-
-    private let expenseLabel = UILabel().then {
-        $0.text = "지출"
-        $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
-        $0.textColor = .blue
-    }
-
-    private let incomeProgressBar = UIView().then {
-        $0.layer.cornerRadius = 4
-        $0.clipsToBounds = true // 코너 라운딩 적용
-    }
-
-    private let expenseProgressBar = UIView().then {
-        $0.layer.cornerRadius = 4
-        $0.clipsToBounds = true // 코너 라운딩 적용
-    }
+    
 
     private let detailsTitleLabel = UILabel().then {
         $0.text = "< 지출 상세내역 >"
@@ -107,19 +86,12 @@ class DailyFinanceView: UIView {
         addSubview(dateSelectorView)
         addSubview(outcomeView)
 
-        outcomeView.addSubview(incomeLabel)
-        outcomeView.addSubview(incomeProgressBar)
-        outcomeView.addSubview(expenseLabel)
-        outcomeView.addSubview(expenseProgressBar)
         outcomeView.addSubview(detailsTitleLabel)
         outcomeView.addSubview(detailsContainerView)
 
         detailsContainerView.addSubview(detailsHeaderView)
         headerLabels.forEach { detailsHeaderView.addSubview($0) }
 
-        // Progress Bar에 그라데이션 추가
-        applyGradient(to: incomeProgressBar, colors: [UIColor(hex: "FFC5C5").cgColor, UIColor(hex: "FF3131").cgColor])
-        applyGradient(to: expenseProgressBar, colors: [UIColor(hex: "B9D9FF").cgColor, UIColor(hex: "1073F4").cgColor])
 
         // Create rows dynamically
         detailsRows.enumerated().forEach { index, row in
@@ -145,29 +117,9 @@ class DailyFinanceView: UIView {
             $0.height.equalTo(450)
         }
 
-        incomeLabel.snp.makeConstraints {
-            $0.top.leading.equalToSuperview().inset(16)
-        }
-
-        incomeProgressBar.snp.makeConstraints {
-            $0.top.equalTo(incomeLabel.snp.bottom).offset(8)
-            $0.leading.trailing.equalToSuperview().inset(16)
-            $0.height.equalTo(8)
-        }
-
-        expenseLabel.snp.makeConstraints {
-            $0.top.equalTo(incomeProgressBar.snp.bottom).offset(16)
-            $0.leading.equalToSuperview().inset(16)
-        }
-
-        expenseProgressBar.snp.makeConstraints {
-            $0.top.equalTo(expenseLabel.snp.bottom).offset(8)
-            $0.leading.trailing.equalToSuperview().inset(16)
-            $0.height.equalTo(8)
-        }
 
         detailsTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(expenseProgressBar.snp.bottom).offset(16)
+            $0.top.equalTo(outcomeView.snp.bottom).offset(16)
             $0.leading.trailing.equalToSuperview().inset(16)
         }
 
@@ -250,12 +202,7 @@ class DailyFinanceView: UIView {
 
         return rowView
     }
-    override func layoutSubviews() {
-            super.layoutSubviews()
-            // Gradient 설정
-            applyGradient(to: incomeProgressBar, colors: [UIColor(hex: "FFC5C5").cgColor, UIColor(hex: "FF3131").cgColor])
-            applyGradient(to: expenseProgressBar, colors: [UIColor(hex: "B9D9FF").cgColor, UIColor(hex: "1073F4").cgColor])
-        }
+  
 
     private func applyGradient(to view: UIView, colors: [CGColor]) {
           // 기존 GradientLayer 제거

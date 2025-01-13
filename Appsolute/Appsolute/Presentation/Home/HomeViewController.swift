@@ -50,9 +50,11 @@ class HomeViewController: UIViewController {
     // MARK: - Setup Methods
     private func setupScrollView() {
         scrollView.showsVerticalScrollIndicator = false
+        
         view.addSubview(scrollView)
         scrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
+            make.width.equalToSuperview()
         }
     }
     
@@ -61,10 +63,11 @@ class HomeViewController: UIViewController {
         stackView.spacing = 16
         stackView.alignment = .fill
         stackView.distribution = .equalSpacing
+       
         scrollView.addSubview(stackView)
         stackView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
-            //make.width.equalToSuperview()
+            make.width.equalToSuperview()
         }
     }
     
@@ -83,8 +86,9 @@ class HomeViewController: UIViewController {
         headerView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.leading.trailing.equalToSuperview()
-            make.height.equalTo(300)
+            make.height.equalTo(380)
         }
+        headerView.backgroundColor = .backgroundColor
         headerView.profileButton.addTarget(self, action: #selector(moveToProfile), for: .touchUpInside)
         
         // 2. 총 누적 경험치 섹션
@@ -110,39 +114,27 @@ class HomeViewController: UIViewController {
         )
         stackView.addArrangedSubview(xpView)
         xpView.snp.makeConstraints {
-            $0.height.equalTo(500)
+            $0.height.equalTo(440)
         }
         
-        // 4. 연도별 획득 내역 (접기 가능)
-        let yearlyXPSection = ExpandableSectionView(
-            title: "연도별 획득 내역",
-            isExpanded: isSectionExpanded[0],
-            contentViews: yearlyXP.map { YearlyXPItemView(year: $0.0, xp: $0.1) },
-            onToggle: { [weak self] in
-                self?.toggleSection(index: 0)
-            }
-        )
-        stackView.addArrangedSubview(yearlyXPSection)
+        let yearlyXPData = [("2025년", 500), ("2024년", 400), ("2023년", 350), ("2022년", 250)]
+        let detailXPData = (80, "‘작년 누적 경험치 / 다음 레벨에 필요한 경험치’ 값이에요")
         
-        // 5. 전년도 상세 내역 (접기 가능)
-        let detailedXPSection = ExpandableSectionView(
-            title: "전년도 상세 내역",
-            isExpanded: isSectionExpanded[1],
-            contentViews: detailedXP.map { DetailXPItemView(title: $0.0, value: $0.1) },
-            onToggle: { [weak self] in
-                self?.toggleSection(index: 1)
-            }
-        )
-        stackView.addArrangedSubview(detailedXPSection)
+        let yearlyXPView = ExpandableYearlyXPView(yearlyXPData: yearlyXPData)
+        let detailXPView = ExpandableDetailXPView(detailXPData: detailXPData)
+        stackView.addArrangedSubview(yearlyXPView)
+        stackView.addArrangedSubview(detailXPView)
+        
+        let emptyView = UIView().then {
+            $0.backgroundColor = UIColor(hex: "DCEBFF")
+        }
+        stackView.addArrangedSubview(emptyView)
+        emptyView.snp.makeConstraints {
+            $0.height.equalTo(100)
+        }
+        
+        
     }
     
-    // MARK: - Actions
-    private func toggleSection(index: Int) {
-        isSectionExpanded[index].toggle()
-        UIView.animate(withDuration: 0.3) { [weak self] in
-            self?.stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
-            self?.configureViews()
-            self?.view.layoutIfNeeded()
-        }
-    }
+    
 }
