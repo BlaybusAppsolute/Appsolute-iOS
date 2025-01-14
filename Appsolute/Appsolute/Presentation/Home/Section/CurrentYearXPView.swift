@@ -29,25 +29,8 @@ class CurrentYearXPView: UIView {
         $0.layer.cornerRadius = 21
         $0.layer.masksToBounds = true
     }
-    
-//    private let progressBar = UIProgressView().then {
-//        $0.tintColor = UIColor(hex: "ffa800")
-//        $0.trackTintColor = UIColor(hex: "E0E0E0")
-//        $0.layer.cornerRadius = 16
-//        $0.layer.masksToBounds = true
-//    }
     private let progressBar = CustomProgressView()
-    
-//    private let subtitleLabel = UILabel().then {
-//        $0.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
-//        $0.textColor = UIColor(hex: "1073F4")
-//        $0.backgroundColor = UIColor(hex: "DCEBFF")
-//        $0.layer.cornerRadius = 6
-//        $0.layer.masksToBounds = true
-//        $0.numberOfLines = 0
-//    }
     private let subtitleLabel = SubtitleLabel()
-    
     private let detailsContainer = UIView().then {
         $0.backgroundColor = UIColor.white
         $0.layer.cornerRadius = 8
@@ -61,17 +44,17 @@ class CurrentYearXPView: UIView {
         $0.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         $0.textAlignment = .left
     }
-    
     private let totalLabel = UILabel().then {
         $0.font = UIFont.boldSystemFont(ofSize: 14)
         $0.text = "총계:"
         $0.textColor = UIColor.black
     }
-    
     private let totalXPLabel = UILabel().then {
         $0.font = UIFont.boldSystemFont(ofSize: 18)
         $0.textColor = UIColor(hex: "F6AA00")
     }
+    
+    private var detailLabels: [UIView] = [] // 추가된 상세 항목을 저장
     
     // 초기화
     init(xp: Int, percentage: Int, subtitle: String, details: [(String, Int)]) {
@@ -81,6 +64,22 @@ class CurrentYearXPView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Configure 메서드
+    func configure(xp: Int, percentage: Int, subtitle: String, details: [(String, Int)]) {
+        // 데이터를 업데이트
+        xpLabel.text = "\(xp)XP"
+        subtitleLabel.text = subtitle
+        totalXPLabel.text = "\(xp)XP"
+        progressBar.updateProgress(to: CGFloat(percentage))
+        
+        // 기존 상세 항목 제거
+        detailLabels.forEach { $0.removeFromSuperview() }
+        detailLabels.removeAll()
+        
+        // 새로운 상세 항목 추가
+        addDetails(details)
     }
     
     // UI 구성 메서드
@@ -105,8 +104,7 @@ class CurrentYearXPView: UIView {
         detailsContainer.addSubview(totalLabel)
         detailsContainer.addSubview(totalXPLabel)
         
-        progressBar.updateProgress(to: 100)
-        //progressBar.backgroundColor = .red
+        progressBar.updateProgress(to: CGFloat(percentage))
         
         // 레이아웃 설정
         titleLabel.snp.makeConstraints { make in
@@ -128,12 +126,10 @@ class CurrentYearXPView: UIView {
             $0.height.equalTo(137)
         }
         
-        
         progressBar.snp.makeConstraints { make in
             make.top.equalTo(progressContainer.snp.top).inset(20)
             make.leading.trailing.equalToSuperview().inset(20)
             make.height.equalTo(56)
-            
         }
         subtitleLabel.snp.makeConstraints { make in
             make.top.equalTo(progressBar.snp.bottom).offset(13)
@@ -164,7 +160,7 @@ class CurrentYearXPView: UIView {
     private func addDetails(_ details: [(String, Int)]) {
         var lastView: UIView? = nil
         
-        for (index, detail) in details.enumerated() {
+        for detail in details {
             let titleLabel = UILabel().then {
                 $0.text = detail.0
                 $0.font = UIFont.systemFont(ofSize: 14)
@@ -178,6 +174,8 @@ class CurrentYearXPView: UIView {
             
             detailsContainer.addSubview(titleLabel)
             detailsContainer.addSubview(valueLabel)
+            detailLabels.append(titleLabel)
+            detailLabels.append(valueLabel)
             
             titleLabel.snp.makeConstraints { make in
                 if let lastView = lastView {

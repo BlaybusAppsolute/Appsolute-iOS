@@ -9,7 +9,6 @@
 import UIKit
 import SnapKit
 
-
 class ExpandableYearlyXPView: UIView {
     private let headerView = UIView()
     private let titleLabel = UILabel()
@@ -18,22 +17,22 @@ class ExpandableYearlyXPView: UIView {
     private var contentHeightConstraint: Constraint?
     private var isExpanded = false
 
-    init(yearlyXPData: [(String, Int)]) {
+    init(title: String, yearlyXPData: [(String, Int)]) {
         super.init(frame: .zero)
-        setupUI(yearlyXPData: yearlyXPData)
+        setupUI(title: title, yearlyXPData: yearlyXPData)
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func setupUI(yearlyXPData: [(String, Int)]) {
+    private func setupUI(title: String, yearlyXPData: [(String, Int)]) {
         // Header 설정
         addSubview(headerView)
         headerView.addSubview(titleLabel)
         headerView.addSubview(arrowButton)
 
-        titleLabel.text = "연도별 획득 내역"
+        titleLabel.text = title
         titleLabel.font = UIFont.systemFont(ofSize: 20, weight: .medium)
         titleLabel.textColor = UIColor(hex: "0B52AD")
 
@@ -62,7 +61,7 @@ class ExpandableYearlyXPView: UIView {
         contentView.snp.makeConstraints { make in
             make.top.equalTo(headerView.snp.bottom)
             make.leading.trailing.equalToSuperview()
-            contentHeightConstraint = make.height.equalTo(44).constraint // 초기 최소 높이 설정
+            contentHeightConstraint = make.height.equalTo(0).constraint // 초기 높이 0
         }
     }
 
@@ -108,7 +107,7 @@ class ExpandableYearlyXPView: UIView {
 
         let targetHeight = isExpanded
             ? contentView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
-            : 44
+            : 0
 
         contentHeightConstraint?.update(offset: targetHeight)
 
