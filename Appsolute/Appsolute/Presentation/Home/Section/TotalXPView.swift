@@ -68,7 +68,7 @@ class TotalXPView: UIView {
     }
     
     // MARK: - Configuration
-    private func configure(xp: Int, subtitle: String) {
+    func configure(xp: Int, subtitle: String) {
         expLabel.text = "\(xp)XP"
         
         subtitleLabel.text = subtitle

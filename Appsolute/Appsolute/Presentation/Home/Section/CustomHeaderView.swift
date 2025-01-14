@@ -12,7 +12,7 @@ protocol CustomHeaderViewDelegate: AnyObject {
     func didTapGuideButton()
 }
 
-class CustomHeaderView: UIView {
+class CustomHeaderView: UICollectionReusableView {
     
     weak var delegate: CustomHeaderViewDelegate?
     
@@ -96,13 +96,13 @@ class CustomHeaderView: UIView {
             $0.height.equalTo(44)
             $0.width.equalTo(54)
             $0.leading.equalToSuperview().inset(20)
-            $0.top.equalToSuperview()
+            $0.top.equalToSuperview().inset(54)
         }
         alertButton.snp.makeConstraints {
             $0.width.equalTo(44)
             $0.height.equalTo(44)
             $0.trailing.equalToSuperview().inset(20)
-            $0.top.equalToSuperview()
+            $0.top.equalToSuperview().inset(54)
         }
         
         
