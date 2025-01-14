@@ -17,6 +17,8 @@ class ProfileViewController: UIViewController {
         setupView()
         setupNavigation()
         setupLayout()
+        editButton.addTarget(self, action: #selector(moveToEdit), for: .touchUpInside)
+        passwordEditButton.addTarget(self, action: #selector(moveToPwd), for: .touchUpInside)
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -38,6 +40,15 @@ class ProfileViewController: UIViewController {
     @objc
     private func moveToHome() {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc
+    private func moveToEdit() {
+        self.navigationController?.pushViewController(EditProfileViewController(), animated: true)
+    }
+    @objc
+    private func moveToPwd() {
+        self.navigationController?.pushViewController(ChangePasswordViewController(), animated: true)
     }
     
     private func setupView() {
@@ -87,19 +98,19 @@ class ProfileViewController: UIViewController {
         }
         
         editButton.snp.makeConstraints {
-            $0.size.equalTo(30)
-            $0.trailing.equalTo(profileImageView.snp.trailing).offset(15)
-            $0.bottom.equalTo(profileImageView.snp.bottom).offset(15)
+            $0.size.equalTo(35)
+            $0.leading.equalTo(profileImageView.snp.leading).offset(87.5)
+            $0.top.equalTo(profileImageView.snp.top).offset(87)
         }
         
         groupBaseView.snp.makeConstraints {
             $0.top.equalTo(numberLabel.snp.bottom).offset(26)
-            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(188)
         }
         
         departmentLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(20)
+            $0.top.equalToSuperview().offset(32)
             $0.leading.equalToSuperview().offset(20)
         }
         
@@ -109,7 +120,7 @@ class ProfileViewController: UIViewController {
         }
         
         teamLabel.snp.makeConstraints {
-            $0.top.equalTo(departmentLabel.snp.bottom).offset(20)
+            $0.top.equalTo(departmentLabel.snp.bottom).offset(32)
             $0.leading.equalToSuperview().offset(20)
         }
         
@@ -119,7 +130,7 @@ class ProfileViewController: UIViewController {
         }
         
         levelLabel.snp.makeConstraints {
-            $0.top.equalTo(teamLabel.snp.bottom).offset(20)
+            $0.top.equalTo(teamLabel.snp.bottom).offset(32)
             $0.leading.equalToSuperview().offset(20)
         }
         
@@ -130,12 +141,12 @@ class ProfileViewController: UIViewController {
         
         idBaseView.snp.makeConstraints {
             $0.top.equalTo(groupBaseView.snp.bottom).offset(20)
-            $0.leading.trailing.equalToSuperview().inset(20)
-            $0.bottom.equalToSuperview().inset(100)
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview()
         }
         
         idLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(20)
+            $0.top.equalToSuperview().offset(32)
             $0.leading.equalToSuperview().offset(20)
         }
         
@@ -145,7 +156,7 @@ class ProfileViewController: UIViewController {
         }
         
         passwordLabel.snp.makeConstraints {
-            $0.top.equalTo(idLabel.snp.bottom).offset(20)
+            $0.top.equalTo(idLabel.snp.bottom).offset(32)
             $0.leading.equalToSuperview().offset(20)
         }
         
@@ -157,13 +168,14 @@ class ProfileViewController: UIViewController {
         passwordEditButton.snp.makeConstraints {
             $0.centerY.equalTo(passwordValueLabel)
             $0.trailing.equalToSuperview().inset(20)
-            $0.size.equalTo(CGSize(width: 40, height: 20))
+            $0.width.equalTo(57)
+            $0.height.equalTo(32)
         }
         
         logoutButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(20)
-            $0.width.equalToSuperview().multipliedBy(0.9)
+            $0.bottom.equalToSuperview().inset(79)
+            $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(51)
         }
     }
@@ -263,7 +275,10 @@ class ProfileViewController: UIViewController {
 
     let passwordEditButton = UIButton().then {
         $0.setTitle("수정", for: .normal)
-        $0.setTitleColor(.blue, for: .normal)
+        $0.setTitleColor(UIColor(hex: "093f86"), for: .normal)
         $0.titleLabel?.font = .systemFont(ofSize: 14)
+        $0.backgroundColor = UIColor(hex: "b5d4fc",alpha: 0.57)
+        $0.layer.cornerRadius = 6
+        $0.layer.masksToBounds = true
     }
 }

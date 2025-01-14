@@ -32,6 +32,9 @@ class CustomTextField: UIView {
     // MARK: - Initialization
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.layer.cornerRadius = 12
+        self.layer.masksToBounds = true
+        self.backgroundColor = .white
         setupViews()
         setupConstraints()
         setupActions()

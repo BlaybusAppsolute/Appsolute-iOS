@@ -161,6 +161,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
                     fatalError("CustomHeaderView를 dequeue하지 못했습니다.")
                 }
                 header.profileButton.addTarget(self, action: #selector(profileButtonTapped), for: .touchUpInside)
+                header.alertButton.addTarget(self, action: #selector(alertButtonTapped), for: .touchUpInside)
                 header.delegate = self
                 return header
             }
@@ -180,6 +181,9 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     @objc func profileButtonTapped() {
         let vc = ProfileViewController()
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+    @objc func alertButtonTapped() {
+        self.navigationController?.pushViewController(AlertViewController(), animated: true)
     }
 
 }
