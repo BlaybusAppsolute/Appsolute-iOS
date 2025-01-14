@@ -9,6 +9,8 @@ import SnapKit
 
 class HomeViewController: UIViewController {
     
+    private let viewModel = HomeViewModel()
+    
     // MARK: - UI Components
     private let scrollView = UIScrollView()
     private let stackView = UIStackView()
@@ -29,8 +31,6 @@ class HomeViewController: UIViewController {
         ("친구 초대하기", "100XP")
     ]
     
-    private var isSectionExpanded = [true, true] // [연도별 획득 내역, 전년도 상세 내역]
-    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,12 +40,12 @@ class HomeViewController: UIViewController {
         configureViews()
         stackView.backgroundColor = .backgroundColor
     }
-    
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        navigationController?.setNavigationBarHidden(true, animated: animated) // 네비게이션 바 숨기기
-//    }
-    
+    private func fetchUserData() {
+        guard let token = AppKey.token else { print("토큰 없음"); return }
+        
+        
+        
+    }
     
     // MARK: - Setup Methods
     private func setupScrollView() {
@@ -67,29 +67,29 @@ class HomeViewController: UIViewController {
         scrollView.addSubview(stackView)
         stackView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
-            make.width.equalToSuperview()
+            make.width.equalTo(scrollView)
         }
     }
     
     @objc func moveToProfile() {
         let profileVC = ProfileViewController()
-        profileVC.hidesBottomBarWhenPushed = true 
+        profileVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(profileVC, animated: true)
     }
     
     // MARK: - Configure Views
     private func configureViews() {
-        // 1. 헤더뷰 (스크롤 뷰 안에 포함)
+        // 1. 헤더뷰
         let headerView = CustomHeaderView()
-        headerView.backgroundColor = UIColor(hex: "1073F4") // 헤더 배경색 설정
+        headerView.backgroundColor = UIColor(hex: "1073F4")
         stackView.addArrangedSubview(headerView)
         headerView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(380)
         }
-        headerView.backgroundColor = .backgroundColor
         headerView.profileButton.addTarget(self, action: #selector(moveToProfile), for: .touchUpInside)
+        headerView.delegate = self
         
         // 2. 총 누적 경험치 섹션
         let totalXPView = TotalXPView(xp: totalXP, subtitle: "Lv.3까지 7500XP 남았어요!")
@@ -98,43 +98,48 @@ class HomeViewController: UIViewController {
             make.height.equalTo(190)
         }
         
-        // 3. 연도별 획득 경험치 섹션
-        let details = [
-            ("상반기 인사평가:", 150),
-            ("직무별 퀘스트:", 150),
-            ("리더보어 퀘스트:", 100),
-            ("전사 프로젝트:", 100)
-        ]
-        
+        // 3. 금년도 획득 경험치 섹션
         let xpView = CurrentYearXPView(
-            xp: 500,
+            xp: currentYearXP,
             percentage: 80,
             subtitle: " ↑ ‘올해 획득한 경험치 / 올해 획득 가능한 경험치’ 값이에요",
-            details: details
+            details: [
+                ("상반기 인사평가:", 150),
+                ("직무별 퀘스트:", 150),
+                ("리더보어 퀘스트:", 100),
+                ("전사 프로젝트:", 100)
+            ]
         )
         stackView.addArrangedSubview(xpView)
         xpView.snp.makeConstraints {
             $0.height.equalTo(440)
         }
         
-        let yearlyXPData = [("2025년", 500), ("2024년", 400), ("2023년", 350), ("2022년", 250)]
-        let detailXPData = (80, "‘작년 누적 경험치 / 다음 레벨에 필요한 경험치’ 값이에요")
-        
-        let yearlyXPView = ExpandableYearlyXPView(yearlyXPData: yearlyXPData)
-        let detailXPView = ExpandableDetailXPView(detailXPData: detailXPData)
+        // 4. 연도별 획득 경험치 섹션
+        let yearlyXPView = ExpandableYearlyXPView(yearlyXPData: yearlyXP)
         stackView.addArrangedSubview(yearlyXPView)
-        stackView.addArrangedSubview(detailXPView)
-        
-        let emptyView = UIView().then {
-            $0.backgroundColor = UIColor(hex: "DCEBFF")
-        }
-        stackView.addArrangedSubview(emptyView)
-        emptyView.snp.makeConstraints {
+        yearlyXPView.snp.makeConstraints {
             $0.height.equalTo(100)
         }
         
+//        // 5. 전년도 상세 경험치 섹션
+//        let detailXPView = ExpandableDetailXPView(detailXPData: (80, "‘작년 누적 경험치 / 다음 레벨에 필요한 경험치’ 값이에요"))
+//        stackView.addArrangedSubview(detailXPView)
         
+        // 6. 빈 공간 추가
+//        let emptyView = UIView().then {
+//            $0.backgroundColor = UIColor(hex: "DCEBFF")
+//        }
+//        stackView.addArrangedSubview(emptyView)
+//        emptyView.snp.makeConstraints {
+//            $0.height.equalTo(100)
+//        }
     }
-    
-    
+}
+extension HomeViewController: CustomHeaderViewDelegate {
+    func didTapGuideButton() {
+        let guideModalVC = RankGuideModalViewController() // 위에서 만든 모달 뷰 컨트롤러
+        guideModalVC.modalPresentationStyle = .overFullScreen
+        present(guideModalVC, animated: true)
+    }
 }

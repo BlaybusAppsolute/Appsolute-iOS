@@ -8,12 +8,20 @@ import UIKit
 import SnapKit
 import Then
 
+protocol CustomHeaderViewDelegate: AnyObject {
+    func didTapGuideButton()
+}
+
 class CustomHeaderView: UIView {
     
+    weak var delegate: CustomHeaderViewDelegate?
+    
     private let backgroundImageView = UIImageView().then {
-        $0.image = UIImage(named: "레벨06")
+        $0.image = UIImage(named: "레벨01")
         $0.contentMode = .scaleAspectFill
         $0.clipsToBounds = true
+        $0.isUserInteractionEnabled = true
+        
     }
     
     override func layoutSubviews() {
@@ -47,6 +55,7 @@ class CustomHeaderView: UIView {
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
         $0.layer.cornerRadius = 16
         $0.clipsToBounds = true
+        
     }
     let profileButton = UIButton().then {
         $0.setImage(UIImage(named: "내정보"), for: .normal)
@@ -59,6 +68,9 @@ class CustomHeaderView: UIView {
         super.init(frame: frame)
         self.backgroundColor = .backgroundColor
         setupViews()
+        guideButton.addTarget(self, action: #selector(guideButtonTapped), for: .touchUpInside)
+        
+        //levelContainerView.isHidden = true
     }
     
     required init?(coder: NSCoder) {
@@ -70,9 +82,9 @@ class CustomHeaderView: UIView {
     private func setupViews() {
         addSubview(backgroundImageView)
         backgroundImageView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-            $0.top.equalTo(self.safeAreaLayoutGuide.snp.top)
-            
+            $0.leading.trailing.equalToSuperview()
+            $0.top.equalToSuperview()
+            $0.bottom.equalToSuperview()
         }
         addSubview(levelContainerView)
         addSubview(profileButton)
@@ -84,19 +96,19 @@ class CustomHeaderView: UIView {
             $0.height.equalTo(44)
             $0.width.equalTo(54)
             $0.leading.equalToSuperview().inset(20)
-            $0.top.equalToSuperview().inset(20)
+            $0.top.equalToSuperview()
         }
         alertButton.snp.makeConstraints {
             $0.width.equalTo(44)
             $0.height.equalTo(44)
             $0.trailing.equalToSuperview().inset(20)
-            $0.top.equalToSuperview().inset(20)
+            $0.top.equalToSuperview()
         }
         
         
         levelContainerView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(20)
-            $0.bottom.equalTo(self.snp.bottom).inset(20)
+            $0.bottom.equalToSuperview().inset(20)
             $0.height.equalTo(64)
         }
         levelTitleLabel.snp.makeConstraints {
@@ -111,5 +123,9 @@ class CustomHeaderView: UIView {
             $0.trailing.equalTo(levelContainerView.snp.trailing).inset(20)
             $0.centerY.equalTo(levelContainerView.snp.centerY)
         }
+    }
+    
+    @objc private func guideButtonTapped() {
+            delegate?.didTapGuideButton() // Delegate 호출
     }
 }

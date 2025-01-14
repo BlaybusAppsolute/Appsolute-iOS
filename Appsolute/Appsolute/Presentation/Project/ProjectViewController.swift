@@ -11,14 +11,9 @@ import SnapKit
 class ProjectViewController: UIViewController {
 
     private let data: [BoardItem] = [
-        BoardItem(title: "상반기 인사발령 안내", description: "2025년 상반기 정기 인사발령 안내", date: "2025.01.04", isNew: true),
-        BoardItem(title: "복리후생 공지", description: "동호회 운영 지침 및 지원금 신청 방법 안내", date: "2025.01.04", isNew: true),
-        BoardItem(title: "사내 시스템 임시 점검 안내", description: "1월 20일(토) 02:00-06:00 시스템 점검", date: "2024.12.18", isNew: true),
-        BoardItem(title: "사내 시스템 임시 점검 안내", description: "1월 20일(토) 02:00-06:00 시스템 점검", date: "2024.12.18", isNew: true),
-        BoardItem(title: "사내 시스템 임시 점검 안내", description: "1월 20일(토) 02:00-06:00 시스템 점검", date: "2024.12.18", isNew: false),
-        BoardItem(title: "사내 시스템 임시 점검 안내", description: "1월 20일(토) 02:00-06:00 시스템 점검", date: "2024.12.18", isNew: false),
-        BoardItem(title: "사내 시스템 임시 점검 안내", description: "1월 20일(토) 02:00-06:00 시스템 점검", date: "2024.12.18", isNew: false),
-        BoardItem(title: "사내 시스템 임시 점검 안내", description: "1월 20일(토) 02:00-06:00 시스템 점검", date: "2024.12.18", isNew: false)
+        BoardItem(boardId: 1, title: "상반기 인사발령 안내", content: "2025년 상반기 정기 인사발령 안내", createdAt: "2025.01.04"),
+            BoardItem(boardId: 2, title: "복리후생 공지", content: "동호회 운영 지침 및 지원금 신청 방법 안내", createdAt: "2025.01.04"),
+            BoardItem(boardId: 3, title: "사내 시스템 임시 점검 안내", content: "1월 20일(토) 02:00-06:00 시스템 점검", createdAt: "2024.12.18")
     ]
 
     override func viewDidLoad() {

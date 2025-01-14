@@ -12,7 +12,7 @@ class ExpandableDetailXPView: UIView {
     private let titleLabel = UILabel()
     private let arrowButton = UIButton(type: .system)
     private let contentView = UIView()
-    private var contentHeightConstraint: Constraint? // 높이 제약 조건 변수
+    private var contentHeightConstraint: Constraint?
     private var isExpanded = false
 
     init(detailXPData: (Int, String)) {
@@ -53,10 +53,10 @@ class ExpandableDetailXPView: UIView {
 
         // Content 설정
         addSubview(contentView)
-        contentView.clipsToBounds = true // 컨텐츠 잘리지 않도록 설정
+        contentView.clipsToBounds = true
         contentView.backgroundColor = UIColor(hex: "F0F8FF")
 
-        // 컨텐츠 구성
+        // Content 구성
         let progressLabel = UILabel()
         progressLabel.text = "\(detailXPData.0)%"
         progressLabel.font = UIFont.boldSystemFont(ofSize: 14)
@@ -84,23 +84,23 @@ class ExpandableDetailXPView: UIView {
         contentView.snp.makeConstraints { make in
             make.top.equalTo(headerView.snp.bottom)
             make.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview()
-
-            // 높이 제약 조건 설정
-            contentHeightConstraint = make.height.equalTo(0).constraint
+            contentHeightConstraint = make.height.equalTo(0).constraint // 초기 높이 0
         }
     }
 
     @objc private func toggleContent() {
         isExpanded.toggle()
-
-        // 높이 업데이트
-        let targetHeight = isExpanded ? contentView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height : 0
+        
+        // 컨텐츠 높이 업데이트
+        let targetHeight = isExpanded
+            ? contentView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
+            : 0
         contentHeightConstraint?.update(offset: targetHeight)
 
-        UIView.animate(withDuration: 0.3) {
+        // 애니메이션
+        UIView.animate(withDuration: 0.3, animations: {
             self.arrowButton.transform = self.isExpanded ? CGAffineTransform(rotationAngle: .pi) : .identity
             self.superview?.layoutIfNeeded()
-        }
+        })
     }
 }

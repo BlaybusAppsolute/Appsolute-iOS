@@ -24,22 +24,6 @@
             </objects>
             <point key="canvasLocation" x="3690.8396946564885" y="-27.464788732394368"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="X3k-bb-Oya">
-            <objects>
-                <viewController id="Gxa-JF-czo" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="j3A-xx-nYB">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="XKT-JM-kqA"/>
-                        <color key="backgroundColor" systemColor="systemGray6Color"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="8Nh-eD-8HA"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="r7O-8g-bej" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4640.4580152671751" y="-19.014084507042256"/>
-        </scene>
         <!--퀘스트-->
         <scene sceneID="NCQ-BT-cCD">
             <objects>
@@ -86,10 +70,10 @@
             </objects>
             <point key="canvasLocation" x="-1730.534351145038" y="395.77464788732397"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Tabbar View Controller-->
         <scene sceneID="7z0-EL-bw3">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="RuH-4K-iYE" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="TabbarViewController" automaticallyAdjustsScrollViewInsets="NO" id="RuH-4K-iYE" customClass="TabbarViewController" customModule="Appsolute" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" backgroundImage="사진" id="CVN-49-0MZ">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
@@ -264,9 +248,6 @@
         <image name="􀉴" width="27.333333969116211" height="23"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemGray6Color">
-            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="tintColor">
             <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

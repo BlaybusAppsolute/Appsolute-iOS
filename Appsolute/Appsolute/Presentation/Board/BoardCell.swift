@@ -100,8 +100,8 @@ class BoardCollectionViewCell: UICollectionViewCell {
 
     func configure(with item: BoardItem) {
         titleLabel.text = item.title
-        descriptionLabel.text = item.description
-        dateLabel.text = item.date
-        newBadge.isHidden = !item.isNew
+        descriptionLabel.text = item.content
+        dateLabel.text = item.createdAt
+        //newBadge.isHidden = !item.isNew
     }
 }

@@ -9,6 +9,11 @@ struct LoginResponse: Decodable {
     let jwtToken: String
     let firstLogin: Bool
 }
+struct LoginErrorResponse: Decodable {
+    let message: String
+    let status: Int
+    let timestamp: String
+}
 
 struct User: Decodable {
     let employeeNumber: String

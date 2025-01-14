@@ -8,89 +8,10 @@ import UIKit
 import SnapKit
 import Then
 
-class CustomTextField: UIView {
-    
-    // MARK: - UI Components
-    private let textField = UITextField().then {
-        $0.font = UIFont.systemFont(ofSize: 20)
-        $0.textColor = .black
-        $0.borderStyle = .none
-        $0.clearButtonMode = .never // 기본 Clear 버튼 비활성화
-        $0.autocorrectionType = .no
-        $0.spellCheckingType = .no
-    }
-    
-    private let clearButton = UIButton().then {
-        $0.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
-        $0.tintColor = UIColor.lightGray
-        $0.isHidden = true // 기본적으로 숨김
-    }
-    
-    
-    // MARK: - Initialization
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupViews()
-        setupConstraints()
-        setupActions()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    // MARK: - Setup
-    private func setupViews() {
-        addSubview(textField)
-        addSubview(clearButton)
-    }
-    
-    private func setupConstraints() {
-        
-        
-        textField.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(10)
-            make.trailing.equalTo(clearButton.snp.leading).offset(-10)
-            make.top.bottom.equalToSuperview().inset(10)
-        }
-        
-        clearButton.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().offset(-10)
-            make.centerY.equalToSuperview()
-            make.width.height.equalTo(24)
-        }
-    }
-    
-    private func setupActions() {
-        textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-        clearButton.addTarget(self, action: #selector(clearText), for: .touchUpInside)
-    }
-    
-    // MARK: - State Handlers
-    @objc private func textFieldDidChange() {
-        // 입력 내용에 따라 Clear 버튼 표시
-        clearButton.isHidden = textField.text?.isEmpty ?? true
-    }
-    
-    
-    
-    @objc private func clearText() {
-        // 텍스트 삭제 및 Clear 버튼 숨김
-        textField.text = ""
-        clearButton.isHidden = true
-    }
-    
-    // MARK: - Public Methods
-    func setPlaceholder(_ placeholder: String) {
-        textField.placeholder = placeholder
-    }
-    
-    func getText() -> String {
-        return textField.text ?? ""
-    }
-}
-
 class LoginInputViewController: UIViewController {
+    
+    // MARK: - Properties
+    private let viewModel = LoginViewModel()
     
     // MARK: - UI Components
     private let idTitleLabel = UILabel().then {
@@ -124,14 +45,13 @@ class LoginInputViewController: UIViewController {
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 12
         $0.layer.masksToBounds = true
-        
     }
     
     private let passwordErrorLabel = UILabel().then {
         $0.text = "비밀번호가 옳지 않습니다."
         $0.font = UIFont.systemFont(ofSize: 14)
         $0.textColor = .red
-        $0.isHidden = true // 기본적으로 숨김
+        $0.isHidden = true
     }
     
     private let confirmButton = UIButton().then {
@@ -150,6 +70,7 @@ class LoginInputViewController: UIViewController {
         
         setupViews()
         setupConstraints()
+        setupActions()
     }
     
     // MARK: - Setup
@@ -201,5 +122,74 @@ class LoginInputViewController: UIViewController {
             make.leading.trailing.equalToSuperview().inset(20)
             make.height.equalTo(56)
         }
+    }
+    
+    private func setupActions() {
+        confirmButton.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
+    }
+    private func navigateToTabBar() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil) // 스토리보드 파일 이름
+        guard let tabBarVC = storyboard.instantiateViewController(withIdentifier: "TabbarViewController") as? TabbarViewController else {
+            print("TabbarViewController를 찾을 수 없습니다.")
+            return
+        }
+        
+        tabBarVC.modalPresentationStyle = .fullScreen
+        present(tabBarVC, animated: true)
+    }
+
+    
+    @objc private func confirmButtonTapped() {
+        guard let userId = idTextField.getText(), !userId.isEmpty else {
+            showError(message: "아이디를 입력하세요.", for: idErrorLabel)
+            return
+        }
+        
+        guard let password = passwordTextField.getText(), !password.isEmpty else {
+            showError(message: "비밀번호를 입력하세요.", for: passwordErrorLabel)
+            return
+        }
+        
+        idErrorLabel.isHidden = true
+        passwordErrorLabel.isHidden = true
+        
+        viewModel.login(
+            userId: userId,
+            password: password,
+            onSuccess: { [weak self] response in
+                DispatchQueue.main.async {
+                    AppKey.token = response.jwtToken
+                    self?.navigateToTabBar()
+                }
+            },
+            onFailure: { [weak self] errorMessage in
+                DispatchQueue.main.async {
+                    self?.handleLoginError(message: errorMessage)
+                }
+            }
+        )
+    }
+    
+    private func showError(message: String, for label: UILabel) {
+        label.text = message
+        label.isHidden = false
+    }
+    
+    private func handleLoginError(message: String) {
+        if message.contains("아이디") {
+            showError(message: message, for: idErrorLabel)
+        } else if message.contains("비밀번호") {
+            showError(message: message, for: passwordErrorLabel)
+        } else {
+            let alert = UIAlertController(title: "오류", message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "확인", style: .default))
+            present(alert, animated: true)
+        }
+    }
+    
+    private func showSuccess(message: String) {
+        let alert = UIAlertController(title: "성공", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인", style: .default))
+        present(alert, animated: true)
     }
 }
