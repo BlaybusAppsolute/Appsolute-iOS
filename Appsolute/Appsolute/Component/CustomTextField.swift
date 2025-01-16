@@ -82,7 +82,10 @@ class CustomTextField: UIView {
     
     // MARK: - Public Methods
     func setPlaceholder(_ placeholder: String) {
-        textField.placeholder = placeholder
+        textField.attributedPlaceholder = NSAttributedString(
+            string: placeholder,
+            attributes: [.foregroundColor: UIColor(hex: "adb5bd")] // 플레이스홀더 색상 설정
+        )
     }
     
     func getText() -> String? {

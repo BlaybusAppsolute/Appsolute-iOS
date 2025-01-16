@@ -103,19 +103,31 @@ class ProfileViewController: UIViewController {
     }
 
     @objc private func logoutConfirmed() {
+        // SwiftEntryKit 팝업 닫기
+        SwiftEntryKit.dismiss()
+
         // 유저 정보 삭제
         UserDefaults.standard.removeObject(forKey: "currentUser")
         UserDefaults.standard.synchronize()
 
-        // 로그인 화면으로 전환
+        // 스토리보드에서 네비게이션 컨트롤러 가져오기
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController else { return }
+        guard let loginNavController = storyboard.instantiateViewController(identifier: "login") as? UINavigationController else {
+            print("네비게이션 컨트롤러를 찾을 수 없습니다.")
+            return
+        }
 
-        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
-            sceneDelegate.window?.rootViewController = UINavigationController(rootViewController: loginVC)
+        // SceneDelegate를 통해 RootViewController 설정
+        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let sceneDelegate = scene.delegate as? SceneDelegate {
+            sceneDelegate.window?.rootViewController = loginNavController
             sceneDelegate.window?.makeKeyAndVisible()
+        } else {
+            print("SceneDelegate 설정에 실패했습니다.")
         }
     }
+
+
 
     
     private func setupView() {

@@ -55,6 +55,9 @@ class HomeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         self.tabBarController?.tabBar.isHidden = false
+        setupCollectionView()
+        setupConstraints()
+        fetchUsersData()
     }
     
     private func setupCollectionView() {
@@ -283,10 +286,10 @@ extension HomeViewController: CellExpansionDelegate {
             if let previousCell = collectionView.cellForItem(at: expandedIndexPath) {
                 if let yearlyCell = previousCell as? YearlyXPSummaryCell {
                     yearlyCell.isExpanded = false
-                    yearlyCell.toggleExpansion(animated: true)
+                    //yearlyCell.toggleExpansion(animated: true)
                 } else if let detailCell = previousCell as? DetailXPSummaryCell {
                     detailCell.isExpanded = false
-                    detailCell.toggleExpansion(animated: true)
+                    //detailCell.toggleExpansion(animated: true)
                 }
             }
         }
@@ -302,10 +305,10 @@ extension HomeViewController: CellExpansionDelegate {
         if let currentCell = collectionView.cellForItem(at: indexPath) {
             if let yearlyCell = currentCell as? YearlyXPSummaryCell {
                 yearlyCell.isExpanded = true
-                yearlyCell.toggleExpansion(animated: true)
+                //yearlyCell.toggleExpansion(animated: true)
             } else if let detailCell = currentCell as? DetailXPSummaryCell {
                 detailCell.isExpanded = true
-                detailCell.toggleExpansion(animated: true)
+                //detailCell.toggleExpansion(animated: true)
             }
         }
         

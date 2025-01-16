@@ -12,4 +12,7 @@ struct AppKey {
     
     @UserDefault(key: "profileImage", defaultValue: "프로필 사진-1")
     static var profileImage: String
+    
+    @UserDefault(key: "levelImage", defaultValue: "1")
+    static var levelImage: String
 }

@@ -30,7 +30,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window?.rootViewController = tabBarController
         } else {
             // LoginViewController로 이동
-            let loginViewController = storyboard.instantiateViewController(identifier: "LoginViewController")
+            let loginViewController = storyboard.instantiateViewController(identifier: "login")
             window?.rootViewController = loginViewController
         }
 

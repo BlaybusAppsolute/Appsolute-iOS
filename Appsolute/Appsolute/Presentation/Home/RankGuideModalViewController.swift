@@ -59,7 +59,7 @@ class RankGuideModalViewController: UIViewController {
     
     // MARK: - Setup UI
     private func setupUI() {
-        view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        view.backgroundColor = .clear//UIColor.black.withAlphaComponent(0.5)
         
         // 컨테이너 뷰
         containerView.backgroundColor = .white

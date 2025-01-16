@@ -22,8 +22,7 @@ class HomeViewModel {
             }
         }
     }
-    
-    /// 응답 처리
+  
     private func handleResponse(
         _ response: Response,
         onSuccess: @escaping (User) -> Void,

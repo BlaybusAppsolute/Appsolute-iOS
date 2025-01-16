@@ -53,10 +53,12 @@ class XPProgressView: UIView {
         $0.textAlignment = .center
     }
     
-    private let maxValueImageView = UIImageView().then {
-        $0.image = UIImage(named: "levelUpIcon") // 오른쪽 아이콘
+    let maxValueImageView = UIImageView().then {
+        $0.image = UIImage(named: "4") // 오른쪽 아이콘
         $0.backgroundColor = UIColor(hex: "1073F4")
-        $0.contentMode = .scaleAspectFit
+        $0.layer.cornerRadius = 22
+        $0.clipsToBounds = true
+        //$0.contentMode = .scaleAspectFit
     }
     
     // MARK: - Constraint Reference
@@ -65,6 +67,7 @@ class XPProgressView: UIView {
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
+        maxValueImageView.image = UIImage(named: AppKey.levelImage)
         setupUI()
     }
     
@@ -119,7 +122,7 @@ class XPProgressView: UIView {
         maxValueImageView.snp.makeConstraints { make in
             make.centerY.equalTo(progressBarContainer) // 아이콘 세로 정렬
             make.trailing.equalTo(progressBarContainer.snp.trailing)
-            make.width.height.equalTo(self.frame.width / 2)
+            make.width.height.equalTo(44)
         }
     }
     

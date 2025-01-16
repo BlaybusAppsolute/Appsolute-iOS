@@ -115,7 +115,7 @@ class ProjectCell: UICollectionViewCell {
         titleLabel.text = project.projectName
         descriptionLabel.text = project.note
         dateLabel.text = "2025.\(project.month).\(project.day)"
-        xpBadge.text = "\(project.grantedPoint)XP 획득"
+        xpBadge.text = "\(project.grantedPoint ?? 0)XP 획득"
     }
 }
 

@@ -94,7 +94,8 @@ class LevelManager {
             print("📡 [DEBUG] Available levels: \(groupLevels.keys)")
             return nil
         }
-
+        
+        //AppKey.levelImage = String(describing: levelInfo.levelNumber)
         print("✅ [DEBUG] levelInfo: \(levelInfo)")
         return levelInfo
     }
@@ -129,7 +130,7 @@ class LevelManager {
                 return level
             }
         }
-
+        //AppKey.levelImage = String(describing: sortedLevels.last?.levelNumber)
         // 6. XP가 모든 범위를 초과하면 마지막 레벨 반환
         return sortedLevels.last
     }

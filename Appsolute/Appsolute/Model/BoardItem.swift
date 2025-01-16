@@ -8,7 +8,7 @@ import Foundation
 
 struct BoardItem: Decodable {
     let boardId: Int
-    let title: String
-    let content: String
-    let createdAt: String
+    let title: String?
+    let content: String?
+    let createdAt: String?
 }

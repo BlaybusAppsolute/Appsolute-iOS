@@ -128,19 +128,5 @@ class CustomHeaderView: UICollectionReusableView {
     @objc private func guideButtonTapped() {
             delegate?.didTapGuideButton() // Delegate 호출
     }
-    private func imageName(forLevel level: String) -> String {
-           switch level {
-           case "F1-Ⅰ":
-               return "레벨01" // F1-Ⅰ 레벨 이미지 이름
-           case "F1-Ⅱ":
-               return "level_f1_2" // F1-Ⅱ 레벨 이미지 이름
-           case "B2":
-               return "level_b2"   // B2 레벨 이미지 이름
-           case "A1":
-               return "level_a1"   // A1 레벨 이미지 이름
-           default:
-               return "defaultProfile" // 기본 이미지
-           }
-       }
     
 }

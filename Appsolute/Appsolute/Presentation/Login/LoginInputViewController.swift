@@ -46,6 +46,7 @@ class LoginInputViewController: UIViewController {
     
     private let passwordTextField = CustomTextField().then {
         $0.setPlaceholder("비밀번호를 입력하세요.")
+        $0.setSecureTextEntry(true)
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 12
         $0.layer.masksToBounds = true

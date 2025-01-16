@@ -25,12 +25,12 @@ class DetailXPSummaryCell: UICollectionViewCell {
         $0.textColor = UIColor(hex: "0b52ad")
     }
     
-    private let toggleButton = UIButton().then {
-            $0.setTitle("펼치기", for: .normal)
-            $0.setTitleColor(.systemBlue, for: .normal)
-            $0.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-    }
-    
+//    private let toggleButton = UIButton().then {
+//            $0.setTitle("펼치기", for: .normal)
+//            $0.setTitleColor(.systemBlue, for: .normal)
+//            $0.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+//    }
+//    
     
     
     private let expView = UIImageView().then {
@@ -64,7 +64,7 @@ class DetailXPSummaryCell: UICollectionViewCell {
     private func setupViews() {
         // 기본 UI 요소 추가
         contentView.addSubview(titleLabel)
-        contentView.addSubview(toggleButton)
+        //contentView.addSubview(toggleButton)
         contentView.addSubview(expView)
         contentView.addSubview(progressContainer)
         progressContainer.addSubview(progressBar)
@@ -74,12 +74,12 @@ class DetailXPSummaryCell: UICollectionViewCell {
         titleLabel.snp.makeConstraints { make in
             make.top.leading.equalToSuperview().offset(20)
         }
-        toggleButton.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().inset(16)
-            make.top.equalToSuperview().offset(16)
-            make.width.equalTo(80)
-            make.height.equalTo(30)
-        }
+//        toggleButton.snp.makeConstraints { make in
+//            make.trailing.equalToSuperview().inset(16)
+//            make.top.equalToSuperview().offset(16)
+//            make.width.equalTo(80)
+//            make.height.equalTo(30)
+//        }
         
         
         expView.snp.makeConstraints { make in
@@ -113,9 +113,9 @@ class DetailXPSummaryCell: UICollectionViewCell {
         subtitleLabel.text = subtitle
         progressBar.updateProgress(to: CGFloat(percentage))
     }
-    private func setupActions() {
-        toggleButton.addTarget(self, action: #selector(toggleButtonTapped), for: .touchUpInside)
-    }
+//    private func setupActions() {
+//        toggleButton.addTarget(self, action: #selector(toggleButtonTapped), for: .touchUpInside)
+//    }
     
     @objc private func toggleButtonTapped() {
         delegate?.didTapExpandButton(in: self)
@@ -123,10 +123,10 @@ class DetailXPSummaryCell: UICollectionViewCell {
     
     func toggleExpansion(animated: Bool) {
         if isExpanded {
-            toggleButton.setTitle("접기", for: .normal)
+            //toggleButton.setTitle("접기", for: .normal)
             // 펼쳐진 상태 UI
         } else {
-            toggleButton.setTitle("펼치기", for: .normal)
+            //toggleButton.setTitle("펼치기", for: .normal)
             // 접힌 상태 UI
         }
         

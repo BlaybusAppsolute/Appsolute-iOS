@@ -26,11 +26,11 @@ class YearlyXPSummaryCell: UICollectionViewCell {
         $0.font = UIFont.boldSystemFont(ofSize: 20)
         $0.textColor = UIColor(hex: "0b52ad")
     }
-    private let toggleButton = UIButton().then {
-        $0.setTitle("펼치기", for: .normal)
-        $0.setTitleColor(.systemBlue, for: .normal)
-        $0.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-    }
+//    private let toggleButton = UIButton().then {
+//        $0.setTitle("펼치기", for: .normal)
+//        $0.setTitleColor(.systemBlue, for: .normal)
+//        $0.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+//    }
     
     // 컨테이너뷰
     private let containerView = UIView().then {
@@ -73,7 +73,7 @@ class YearlyXPSummaryCell: UICollectionViewCell {
     private func setupViews() {
         contentView.addSubview(headerView)
         headerView.addSubview(titleLabel)
-        headerView.addSubview(toggleButton)
+        //headerView.addSubview(toggleButton)
         
         contentView.addSubview(containerView)
         containerView.addSubview(totalXPTitleLabel)
@@ -85,12 +85,12 @@ class YearlyXPSummaryCell: UICollectionViewCell {
             make.top.leading.trailing.equalToSuperview()
             make.height.equalTo(50) // 헤더 높이
         }
-        toggleButton.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().inset(16)
-            make.top.equalToSuperview().offset(16)
-            make.width.equalTo(80)
-            make.height.equalTo(30)
-        }
+//        toggleButton.snp.makeConstraints { make in
+//            make.trailing.equalToSuperview().inset(16)
+//            make.top.equalToSuperview().offset(16)
+//            make.width.equalTo(80)
+//            make.height.equalTo(30)
+//        }
         
         titleLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
@@ -188,27 +188,27 @@ class YearlyXPSummaryCell: UICollectionViewCell {
             make.centerY.equalTo(totalXPTitleLabel)
         }
     }
-    private func setupActions() {
-            toggleButton.addTarget(self, action: #selector(toggleButtonTapped), for: .touchUpInside)
-        }
-        
-        @objc private func toggleButtonTapped() {
-            delegate?.didTapExpandButton(in: self) // ViewController로 이벤트 전달
-        }
-        
-        func toggleExpansion(animated: Bool) {
-            if isExpanded {
-                toggleButton.setTitle("접기", for: .normal)
-                // 펼쳐진 상태 UI
-            } else {
-                toggleButton.setTitle("펼치기", for: .normal)
-                // 접힌 상태 UI
-            }
-            
-            if animated {
-                UIView.animate(withDuration: 0.3) {
-                    self.layoutIfNeeded()
-                }
-            }
-        }
+//    private func setupActions() {
+//            toggleButton.addTarget(self, action: #selector(toggleButtonTapped), for: .touchUpInside)
+//        }
+//        
+//        @objc private func toggleButtonTapped() {
+//            delegate?.didTapExpandButton(in: self) // ViewController로 이벤트 전달
+//        }
+//        
+//        func toggleExpansion(animated: Bool) {
+//            if isExpanded {
+//                toggleButton.setTitle("접기", for: .normal)
+//                // 펼쳐진 상태 UI
+//            } else {
+//                toggleButton.setTitle("펼치기", for: .normal)
+//                // 접힌 상태 UI
+//            }
+//            
+//            if animated {
+//                UIView.animate(withDuration: 0.3) {
+//                    self.layoutIfNeeded()
+//                }
+//            }
+//        }
 }

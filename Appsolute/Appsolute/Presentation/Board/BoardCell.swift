@@ -101,7 +101,7 @@ class BoardCollectionViewCell: UICollectionViewCell {
     func configure(with item: BoardItem) {
         titleLabel.text = item.title
         descriptionLabel.text = item.content
-        let isoDateString = item.createdAt // "2025-01-05T07:23:01.000+00:00"
+        let isoDateString = item.createdAt ?? "" // "2025-01-05T07:23:01.000+00:00"
         
         let isoFormatter = ISO8601DateFormatter()
         isoFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]

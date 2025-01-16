@@ -27,7 +27,7 @@ class TotalXPCollectionViewCell: UICollectionViewCell {
     
     private func setupConstraints() {
         totalXPView.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(8) // 셀 내부 패딩
+            make.edges.equalToSuperview() // 셀 내부 패딩
         }
     }
     

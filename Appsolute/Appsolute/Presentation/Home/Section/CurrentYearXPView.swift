@@ -13,12 +13,12 @@ class CurrentYearXPView: UIView {
     // MARK: - UI 요소 선언
     private let titleLabel = UILabel().then {
         $0.text = "금년도 획득 경험치:"
-        $0.font = UIFont.boldSystemFont(ofSize: 20)
+        $0.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         $0.textColor = UIColor.black
     }
     
     private let xpLabel = UILabel().then {
-        $0.font = UIFont.boldSystemFont(ofSize: 20)
+        $0.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         $0.textColor = .black
     }
     private let expView = UIImageView().then {

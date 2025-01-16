@@ -10,7 +10,7 @@ import SnapKit
 
 class ProjectViewController: UIViewController {
 
-    private let viewModel = ProjectViewModel() // ViewModel 연결
+    private let viewModel = ProjectViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,8 +19,8 @@ class ProjectViewController: UIViewController {
         setupCollectionView()
         setupConstraints()
         setupBackgroundGradient()
-        setupBindings() // ViewModel과 View 연결
-        fetchData() // 데이터 가져오기
+        setupBindings()
+        fetchData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -74,7 +74,7 @@ class ProjectViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         
-        // 셀 및 헤더 등록
+        
         collectionView.register(ProjectCell.self, forCellWithReuseIdentifier: ProjectCell.identifier)
         collectionView.register(BoardHeaderReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BoardHeaderReusableView.identifier)
         
