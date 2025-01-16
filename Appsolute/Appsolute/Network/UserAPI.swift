@@ -63,7 +63,6 @@ extension UserAPI: TargetType {
         case .login:
             return ["Content-Type": "application/json"]
         case .users(let token), .password(let token, _):
-           
             return [
                 "Content-Type": "application/json",
                 "Authorization": "Bearer \(token)"

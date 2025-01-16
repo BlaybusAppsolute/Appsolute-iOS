@@ -57,21 +57,21 @@ class TotalXPView: UIView {
     private let progressBar = XPProgressView()
     
     // MARK: - Initializer
-    init(xp: Int, subtitle: String) {
-        super.init(frame: .zero)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setupViews()
-        configure(xp: xp, subtitle: subtitle)
     }
+        
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: - Configuration
-    func configure(xp: Int, subtitle: String) {
-        expLabel.text = "\(xp)XP"
-        
-        subtitleLabel.text = subtitle
+    func configure(user: User, levelInfo: LevelInfo) {
+        expLabel.text = "\(user.totalXP)XP"
+        subtitleLabel.text = "Lv.\(levelInfo.levelNumber+1)까지 \(user.nextLevelRemainXP) 남았어요!"
+        progressBar.updateProgress(currentXP: user.totalXP, minXP: 0, midXP: (user.totalXP + user.nextLevelRemainXP) / 2, maxXP: user.totalXP + user.nextLevelRemainXP)
     }
     
     // MARK: - Setup Views

@@ -19,10 +19,12 @@ class ProfileViewController: UIViewController {
         setupLayout()
         editButton.addTarget(self, action: #selector(moveToEdit), for: .touchUpInside)
         passwordEditButton.addTarget(self, action: #selector(moveToPwd), for: .touchUpInside)
+        setupUI()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = true
+        profileImageView.image = UIImage(named: AppKey.profileImage)
     }
     
     private func setupNavigation() {
@@ -34,6 +36,19 @@ class ProfileViewController: UIViewController {
         navButton.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(20)
             $0.leading.equalToSuperview().inset(20)
+        }
+    }
+    
+    func setupUI() {
+        let user = UserManager.shared.getUser()
+        DispatchQueue.main.async {
+            self.profileImageView.image = UIImage(named: AppKey.profileImage)
+            self.nameLabel.text = user?.userName
+            self.numberLabel.text = "사번: \(String(describing: user?.employeeNumber ?? ""))"
+            self.departmentValueLabel.text = user?.departmentName
+            self.teamValueLabel.text = (user?.departmentGroupName ?? "") + "팀"
+            self.idValueLabel.text = user?.userId
+            self.levelValueLabel.text = LevelManager.shared.getLevelInfo(for: user?.levelName ?? "")?.displayName
         }
     }
     
@@ -196,10 +211,12 @@ class ProfileViewController: UIViewController {
     let nameLabel = UILabel().then {
         $0.text = "심유나"
         $0.font = .systemFont(ofSize: 24, weight: .bold)
+        $0.textColor = .black
     }
     let numberLabel = UILabel().then {
         $0.text = "사번: 20293494"
         $0.font = .systemFont(ofSize: 18, weight: .semibold)
+        $0.textColor = .black
     }
     
     
@@ -226,51 +243,61 @@ class ProfileViewController: UIViewController {
     let departmentLabel = UILabel().then {
         $0.text = "소속"
         $0.font = .systemFont(ofSize: 16, weight: .semibold)
+        $0.textColor = .black
     }
 
     let departmentValueLabel = UILabel().then {
         $0.text = "음성 2센터"
         $0.font = .systemFont(ofSize: 16)
+        $0.textColor = .black
     }
 
     let teamLabel = UILabel().then {
         $0.text = "직무그룹"
         $0.font = .systemFont(ofSize: 16, weight: .semibold)
+        $0.textColor = .black
     }
 
     let teamValueLabel = UILabel().then {
         $0.text = "1팀"
         $0.font = .systemFont(ofSize: 16)
+        $0.textColor = .black
     }
 
     let levelLabel = UILabel().then {
         $0.text = "레벨"
         $0.font = .systemFont(ofSize: 16, weight: .semibold)
+        $0.textColor = .black
     }
 
     let levelValueLabel = UILabel().then {
         $0.text = "Lv. 3 쏙쏙 일사구"
         $0.font = .systemFont(ofSize: 16)
+        $0.textColor = .black
     }
 
     let idLabel = UILabel().then {
         $0.text = "아이디"
         $0.font = .systemFont(ofSize: 16, weight: .semibold)
+        $0.textColor = .black
     }
 
     let idValueLabel = UILabel().then {
         $0.text = "sim_yuna123"
         $0.font = .systemFont(ofSize: 16)
+        $0.textColor = .black
     }
 
     let passwordLabel = UILabel().then {
         $0.text = "비밀번호"
         $0.font = .systemFont(ofSize: 16, weight: .semibold)
+        $0.textColor = .black
     }
 
     let passwordValueLabel = UILabel().then {
-        $0.text = "11••••"
+        $0.text = "11••"
         $0.font = .systemFont(ofSize: 16)
+        $0.textColor = .black
     }
 
     let passwordEditButton = UIButton().then {

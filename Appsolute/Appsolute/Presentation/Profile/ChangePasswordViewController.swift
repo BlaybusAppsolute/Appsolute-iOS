@@ -7,6 +7,7 @@
 import UIKit
 import SnapKit
 import Then
+import Moya
 
 class ChangePasswordViewController: UIViewController {
     
@@ -16,10 +17,11 @@ class ChangePasswordViewController: UIViewController {
     }
     
     private let currentPasswordErrorLabel = UILabel().then {
-        $0.text = "비밀번호가 틀렸습니다."
+        $0.text = "현재 비밀번호가 틀렸습니다."
         $0.textColor = .red
         $0.font = UIFont.systemFont(ofSize: 12)
-        $0.isHidden = true // 기본적으로 숨김 처리
+        $0.numberOfLines = 0
+        $0.alpha = 0 // 기본적으로 숨김 처리
     }
     
     private let newPasswordTextField = CustomTextField().then {
@@ -32,6 +34,14 @@ class ChangePasswordViewController: UIViewController {
         $0.font = UIFont.systemFont(ofSize: 12)
     }
     
+    private let newPasswordErrorLabel = UILabel().then {
+        $0.text = "비밀번호는 영문, 숫자, 특수문자를 포함한 8자 이상이어야 합니다."
+        $0.textColor = .red
+        $0.font = UIFont.systemFont(ofSize: 12)
+        $0.numberOfLines = 0
+        $0.alpha = 0 // 기본적으로 숨김 처리
+    }
+    
     private let confirmPasswordTextField = CustomTextField().then {
         $0.setPlaceholder("새 비밀번호 확인")
     }
@@ -40,7 +50,8 @@ class ChangePasswordViewController: UIViewController {
         $0.text = "비밀번호가 일치하지 않습니다."
         $0.textColor = .red
         $0.font = UIFont.systemFont(ofSize: 12)
-        $0.isHidden = true // 기본적으로 숨김 처리
+        $0.numberOfLines = 0
+        $0.alpha = 0 // 기본적으로 숨김 처리
     }
     
     private let cancelButton = UIButton().then {
@@ -57,6 +68,8 @@ class ChangePasswordViewController: UIViewController {
         $0.layer.cornerRadius = 10
     }
     
+    private let provider = MoyaProvider<UserAPI>() // Moya provider
+
     // MARK: - Lifecycle
     override func viewDidLoad() {
         title = "비밀번호 변경"
@@ -74,6 +87,7 @@ class ChangePasswordViewController: UIViewController {
         view.addSubview(currentPasswordErrorLabel)
         view.addSubview(newPasswordTextField)
         view.addSubview(newPasswordHintLabel)
+        view.addSubview(newPasswordErrorLabel)
         view.addSubview(confirmPasswordTextField)
         view.addSubview(confirmPasswordErrorLabel)
         view.addSubview(cancelButton)
@@ -89,29 +103,34 @@ class ChangePasswordViewController: UIViewController {
         
         currentPasswordErrorLabel.snp.makeConstraints { make in
             make.top.equalTo(currentPasswordTextField.snp.bottom).offset(4)
-            make.leading.equalTo(currentPasswordTextField)
+            make.leading.trailing.equalTo(currentPasswordTextField)
         }
         
         newPasswordTextField.snp.makeConstraints { make in
-            make.top.equalTo(currentPasswordErrorLabel.snp.bottom).offset(32)
+            make.top.equalTo(currentPasswordErrorLabel.snp.bottom).offset(12)
             make.leading.trailing.equalToSuperview().inset(20)
             make.height.equalTo(48)
         }
         
         newPasswordHintLabel.snp.makeConstraints { make in
             make.top.equalTo(newPasswordTextField.snp.bottom).offset(4)
-            make.leading.equalTo(newPasswordTextField)
+            make.leading.trailing.equalTo(newPasswordTextField)
+        }
+        
+        newPasswordErrorLabel.snp.makeConstraints { make in
+            make.top.equalTo(newPasswordHintLabel.snp.bottom).offset(4)
+            make.leading.trailing.equalTo(newPasswordTextField)
         }
         
         confirmPasswordTextField.snp.makeConstraints { make in
-            make.top.equalTo(newPasswordHintLabel.snp.bottom).offset(32)
+            make.top.equalTo(newPasswordErrorLabel.snp.bottom).offset(12)
             make.leading.trailing.equalToSuperview().inset(20)
             make.height.equalTo(48)
         }
         
         confirmPasswordErrorLabel.snp.makeConstraints { make in
             make.top.equalTo(confirmPasswordTextField.snp.bottom).offset(4)
-            make.leading.equalTo(confirmPasswordTextField)
+            make.leading.trailing.equalTo(confirmPasswordTextField)
         }
         
         cancelButton.snp.makeConstraints { make in
@@ -132,6 +151,11 @@ class ChangePasswordViewController: UIViewController {
     private func setupActions() {
         cancelButton.addTarget(self, action: #selector(cancelTapped), for: .touchUpInside)
         confirmButton.addTarget(self, action: #selector(confirmTapped), for: .touchUpInside)
+        
+        // Add text editing observers
+        currentPasswordTextField.textField.addTarget(self, action: #selector(validateFields), for: .editingChanged)
+        newPasswordTextField.textField.addTarget(self, action: #selector(validateFields), for: .editingChanged)
+        confirmPasswordTextField.textField.addTarget(self, action: #selector(validateFields), for: .editingChanged)
     }
     
     // MARK: - Actions
@@ -140,17 +164,113 @@ class ChangePasswordViewController: UIViewController {
     }
     
     @objc private func confirmTapped() {
-        // 비밀번호 검증 로직 추가
-        if currentPasswordTextField.getText()?.isEmpty == true {
-            currentPasswordErrorLabel.isHidden = false
+        guard let currentPassword = currentPasswordTextField.getText(),
+              let newPassword = newPasswordTextField.getText(),
+              let confirmPassword = confirmPasswordTextField.getText() else { return }
+        
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self = self else { return }
+            
+            // Validate inputs on a background thread
+            let isValid = self.validateInputs(currentPassword: currentPassword, newPassword: newPassword, confirmPassword: confirmPassword)
+            
+            DispatchQueue.main.async {
+                if isValid {
+                    // Call API on the main thread after validation
+                    self.changePassword(newPassword: newPassword)
+                }
+            }
+        }
+    }
+    
+    @objc private func validateFields() {
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self = self else { return }
+            
+            guard let newPassword = self.newPasswordTextField.getText(),
+                  let confirmPassword = self.confirmPasswordTextField.getText() else { return }
+            
+            let isNewPasswordValid = self.isValidPassword(newPassword)
+            let isPasswordMatching = newPassword == confirmPassword
+            
+            DispatchQueue.main.async {
+                // Update UI on the main thread
+                self.newPasswordErrorLabel.alpha = isNewPasswordValid ? 0 : 1
+                self.confirmPasswordErrorLabel.alpha = isPasswordMatching ? 0 : 1
+            }
+        }
+    }
+    
+    private func validateInputs(currentPassword: String, newPassword: String, confirmPassword: String) -> Bool {
+        var isValid = true
+        
+        if !isValidPassword(newPassword) {
+            DispatchQueue.main.async {
+                self.showError(self.newPasswordErrorLabel)
+            }
+            isValid = false
         } else {
-            currentPasswordErrorLabel.isHidden = true
+            DispatchQueue.main.async {
+                self.hideError(self.newPasswordErrorLabel)
+            }
         }
         
-        if newPasswordTextField.getText() != confirmPasswordTextField.getText() {
-            confirmPasswordErrorLabel.isHidden = false
+        if newPassword != confirmPassword {
+            DispatchQueue.main.async {
+                self.showError(self.confirmPasswordErrorLabel)
+            }
+            isValid = false
         } else {
-            confirmPasswordErrorLabel.isHidden = true
+            DispatchQueue.main.async {
+                self.hideError(self.confirmPasswordErrorLabel)
+            }
         }
+        
+        return isValid
+    }
+    
+    private func isValidPassword(_ password: String) -> Bool {
+        let passwordRegex = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*?&#])[A-Za-z\\d$@$!%*?&#]{8,}$"
+        let passwordTest = NSPredicate(format: "SELF MATCHES %@", passwordRegex)
+        return passwordTest.evaluate(with: password)
+    }
+    
+    private func changePassword(newPassword: String) {
+        provider.request(.password(token: AppKey.token ?? "", password: newPassword)) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let response):
+                    if (200...299).contains(response.statusCode) {
+                        self.showAlert(message: "비밀번호가 변경되었습니다.") {
+                            self.navigationController?.popViewController(animated: true)
+                        }
+                    } else {
+                        self.showAlert(message: "비밀번호 변경 실패. 상태 코드: \(response.statusCode)")
+                    }
+                case .failure(let error):
+                    self.showAlert(message: "비밀번호 변경 실패: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+    
+    private func showError(_ label: UILabel) {
+        UIView.animate(withDuration: 0.25) {
+            label.alpha = 1
+        }
+    }
+    
+    private func hideError(_ label: UILabel) {
+        UIView.animate(withDuration: 0.25) {
+            label.alpha = 0
+        }
+    }
+    
+    private func showAlert(message: String, completion: (() -> Void)? = nil) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인", style: .default) { _ in
+            completion?()
+        })
+        present(alert, animated: true)
     }
 }

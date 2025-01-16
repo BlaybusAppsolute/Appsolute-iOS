@@ -12,7 +12,7 @@ class HomeViewModel {
 
     private let provider = MoyaProvider<UserAPI>()
     
-    func fetchUsers(token: String, onSuccess: @escaping ([User]) -> Void, onFailure: @escaping (String) -> Void) {
+    func fetchUsers(token: String, onSuccess: @escaping (User) -> Void, onFailure: @escaping (String) -> Void) {
         provider.request(.users(token: token)) { result in
             switch result {
             case .success(let response):
@@ -26,7 +26,7 @@ class HomeViewModel {
     /// 응답 처리
     private func handleResponse(
         _ response: Response,
-        onSuccess: @escaping ([User]) -> Void,
+        onSuccess: @escaping (User) -> Void,
         onFailure: @escaping (String) -> Void
     ) {
         let decoder = JSONDecoder()
@@ -34,7 +34,7 @@ class HomeViewModel {
         
         if (200..<300).contains(response.statusCode) {
             do {
-                let users = try decoder.decode([User].self, from: response.data)
+                let users = try decoder.decode(User.self, from: response.data)
                 onSuccess(users)
             } catch {
                 onFailure("데이터 파싱 실패: \(error.localizedDescription)")

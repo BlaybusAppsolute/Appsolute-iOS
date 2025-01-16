@@ -9,8 +9,7 @@ import UIKit
 class TotalXPCollectionViewCell: UICollectionViewCell {
     static let identifier = "TotalXPCollectionViewCell"
     
-    private let totalXPView = TotalXPView(xp: 1500, subtitle: "Lv.4까지 7500XP 남았어요!") // TotalXPView 인스턴스
-    
+    private let totalXPView = TotalXPView()
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -32,7 +31,7 @@ class TotalXPCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func configure(xp: Int, subtitle: String) {
-        totalXPView.configure(xp: xp, subtitle: subtitle) // TotalXPView 업데이트
+    func configure(user: User, levelInfo: LevelInfo) {
+        totalXPView.configure(user: user, levelInfo: levelInfo)
     }
 }

@@ -8,79 +8,133 @@ import UIKit
 import SnapKit
 import Then
 
+protocol CellExpansionDelegate: AnyObject {
+    func didTapExpandButton(in cell: UICollectionViewCell)
+}
+
 class DetailXPSummaryCell: UICollectionViewCell {
     static let identifier = "DetailXPSummaryCell"
-
+    var isExpanded = false
+    weak var delegate: CellExpansionDelegate?
+    
+    
+    // MARK: - UI 요소 선언
     private let titleLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 18, weight: .bold)
-        $0.textColor = .black
+        $0.text = "전년도 획득 경험치"
+        $0.font = UIFont.boldSystemFont(ofSize: 20)
+        $0.textColor = UIColor(hex: "0b52ad")
     }
-
-    private let arrowButton = UIButton(type: .system).then {
-        $0.setImage(UIImage(systemName: "chevron.down"), for: .normal)
-        $0.tintColor = .black
+    
+    private let toggleButton = UIButton().then {
+            $0.setTitle("펼치기", for: .normal)
+            $0.setTitleColor(.systemBlue, for: .normal)
+            $0.titleLabel?.font = UIFont.systemFont(ofSize: 14)
     }
-
-    private let stackView = UIStackView().then {
-        $0.axis = .vertical
-        $0.spacing = 8
-        $0.isHidden = true
+    
+    
+    
+    private let expView = UIImageView().then {
+        $0.image = UIImage(named: "")
     }
-
-    var toggleHandler: (() -> Void)? // 확장/축소 콜백 핸들러
-
+    
+    private let progressContainer = UIView().then {
+        $0.backgroundColor = .white
+        $0.layer.cornerRadius = 21
+        $0.layer.masksToBounds = true
+    }
+    
+    private let progressBar = CustomProgressView()
+    
+    private let subtitleLabel = SubtitleLabel().then {
+        $0.text = "⬆️ 올헤 획득한 경험치 / 올해 획득 가능한 경험치 값이에요"
+    }
+    
+    // MARK: - 초기화
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupUI()
+        self.backgroundColor = UIColor(hex: "dcebff")
+        setupViews()
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    private func setupUI() {
+    
+    // MARK: - UI 설정
+    private func setupViews() {
+        // 기본 UI 요소 추가
         contentView.addSubview(titleLabel)
-        contentView.addSubview(arrowButton)
-        contentView.addSubview(stackView)
-
+        contentView.addSubview(toggleButton)
+        contentView.addSubview(expView)
+        contentView.addSubview(progressContainer)
+        progressContainer.addSubview(progressBar)
+        progressContainer.addSubview(subtitleLabel)
+        
+        // 레이아웃 설정
         titleLabel.snp.makeConstraints { make in
-            make.leading.top.equalToSuperview().offset(16)
+            make.top.leading.equalToSuperview().offset(20)
         }
-
-        arrowButton.snp.makeConstraints { make in
+        toggleButton.snp.makeConstraints { make in
             make.trailing.equalToSuperview().inset(16)
+            make.top.equalToSuperview().offset(16)
+            make.width.equalTo(80)
+            make.height.equalTo(30)
+        }
+        
+        
+        expView.snp.makeConstraints { make in
+            make.size.equalTo(22)
+            make.trailing.equalToSuperview().inset(20)
             make.centerY.equalTo(titleLabel)
         }
-
-        stackView.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(16)
-            make.leading.trailing.bottom.equalToSuperview().inset(16)
+        
+        progressContainer.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(20)
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.height.equalTo(137)
         }
-
-        // 버튼에 토글 기능 추가
-        arrowButton.addTarget(self, action: #selector(toggleExpand), for: .touchUpInside)
-    }
-
-    func configure(title: String, data: [(String, Int)], isExpanded: Bool) {
-        titleLabel.text = title
-        stackView.isHidden = !isExpanded // 확장 상태에 따라 보이기/숨기기
-
-        // 기존 StackView 콘텐츠 초기화
-        stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
-
-        // 데이터를 StackView에 추가
-        for (detail, xp) in data {
-            let row = UILabel()
-            row.text = "\(detail): \(xp)XP"
-            stackView.addArrangedSubview(row)
+        
+        progressBar.snp.makeConstraints { make in
+            make.top.equalTo(progressContainer.snp.top).inset(20)
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.height.equalTo(56)
         }
-
-        // 화살표 방향 설정
-        let rotationAngle: CGFloat = isExpanded ? .pi : 0
-        arrowButton.transform = CGAffineTransform(rotationAngle: rotationAngle)
+        
+        subtitleLabel.snp.makeConstraints { make in
+            make.top.equalTo(progressBar.snp.bottom).offset(13)
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.height.equalTo(28)
+        }
     }
-
-    @objc private func toggleExpand() {
-        toggleHandler?()
+    
+    // MARK: - Configure
+    func configure(xp: Int, percentage: Int, subtitle: String) {
+        // 데이터 업데이트
+        subtitleLabel.text = subtitle
+        progressBar.updateProgress(to: CGFloat(percentage))
     }
+    private func setupActions() {
+        toggleButton.addTarget(self, action: #selector(toggleButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc private func toggleButtonTapped() {
+        delegate?.didTapExpandButton(in: self)
+    }
+    
+    func toggleExpansion(animated: Bool) {
+        if isExpanded {
+            toggleButton.setTitle("접기", for: .normal)
+            // 펼쳐진 상태 UI
+        } else {
+            toggleButton.setTitle("펼치기", for: .normal)
+            // 접힌 상태 UI
+        }
+        
+        if animated {
+            UIView.animate(withDuration: 0.3) {
+                self.layoutIfNeeded()
+            }
+        }
+    }
+    
 }

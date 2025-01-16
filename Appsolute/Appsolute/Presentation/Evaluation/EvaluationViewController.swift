@@ -74,6 +74,7 @@ class EvaluationViewController: UIViewController {
         setupBackgroundGradient()
         setupViews()
         setupConstraints()
+        setupUI()
         configureTableView()
     }
     
@@ -148,6 +149,31 @@ class EvaluationViewController: UIViewController {
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(58)
         }
     }
+    func setupUI() {
+        let user = UserManager.shared.getUser()
+        switch user?.thisEvaluationXP ?? 0 {
+        case 0..<1500:
+            self.gradeImageView.image = UIImage(named: "유저 인사평가 등급-브론즈")
+            self.gradeLabel.text = "나의 인사평가 등급: 브론즈"
+            self.xpLabel.text = "획득경험치: \(user?.thisEvaluationXP ?? 0)"
+        case 1500..<3000:
+            self.gradeImageView.image = UIImage(named: "유저 인사평가 등급-실버")
+            self.gradeLabel.text = "나의 인사평가 등급: 실버"
+            self.xpLabel.text = "획득경험치: \(user?.thisEvaluationXP ?? 0)"
+        case 3000..<4500:
+            self.gradeImageView.image = UIImage(named: "유저 인사평가 등급-골드")
+            self.gradeLabel.text = "나의 인사평가 등급: 골드"
+            self.xpLabel.text = "획득경험치: \(user?.thisEvaluationXP ?? 0)"
+        case 4500..<6500:
+            self.gradeImageView.image = UIImage(named: "유저 인사평가 등급-다이아")
+            self.gradeLabel.text = "나의 인사평가 등급: 다이아"
+            self.xpLabel.text = "획득경험치: \(user?.thisEvaluationXP ?? 0)"
+        default:
+            self.gradeImageView.image = UIImage(named: "유저 인사평가 등급-플래티넘")
+            self.gradeLabel.text = "나의 인사평가 등급: 플래티넘"
+            self.xpLabel.text = "획득경험치: \(user?.thisEvaluationXP ?? 0)"
+        }
+    }
     
     // MARK: - Configure TableView
     private func configureTableView() {
@@ -165,11 +191,11 @@ class EvaluationViewController: UIViewController {
             make.edges.equalToSuperview().inset(20)
         }
 
-        headerView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 80)
+        headerView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 60)
         tableView.tableHeaderView = headerView
 
         tableView.dataSource = self
-        tableView.rowHeight = 50
+        tableView.rowHeight = 55
         tableView.register(GradeCell.self, forCellReuseIdentifier: GradeCell.identifier)
     }
     
@@ -206,14 +232,17 @@ class GradeCell: UITableViewCell {
     private let iconImageView = UIImageView()
     private let titleLabel = UILabel().then {
         $0.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        $0.textColor = .black
     }
     private let xpLabel = UILabel().then {
         $0.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         $0.textAlignment = .right
+        $0.textColor = .black
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.backgroundColor = .white
         setupViews()
         setupConstraints()
     }

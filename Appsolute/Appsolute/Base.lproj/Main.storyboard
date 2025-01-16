@@ -84,8 +84,8 @@
                         <segue destination="Wo8-Fw-Y4Z" kind="relationship" relationship="viewControllers" id="k9c-xR-4e0"/>
                         <segue destination="FfU-s9-m9d" kind="relationship" relationship="viewControllers" id="PX2-11-KSO"/>
                         <segue destination="ZxF-26-72G" kind="relationship" relationship="viewControllers" id="Rzi-OL-tEN"/>
-                        <segue destination="uov-rg-Nd3" kind="relationship" relationship="viewControllers" id="Pk8-5x-uiG"/>
-                        <segue destination="Pil-OG-RAF" kind="relationship" relationship="viewControllers" id="JBM-gG-PdK"/>
+                        <segue destination="fOI-HH-KlP" kind="relationship" relationship="viewControllers" id="Vvs-BS-9As"/>
+                        <segue destination="Neu-rd-5bi" kind="relationship" relationship="viewControllers" id="6TH-W3-JNi"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E1L-NE-dnq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -148,7 +148,7 @@
             </objects>
             <point key="canvasLocation" x="1926" y="1460"/>
         </scene>
-        <!--Project View Controller-->
+        <!--프로젝트-->
         <scene sceneID="YLK-ib-M3D">
             <objects>
                 <viewController id="fOI-HH-KlP" customClass="ProjectViewController" customModule="Appsolute" customModuleProvider="target" sceneMemberID="viewController">
@@ -158,6 +158,7 @@
                         <viewLayoutGuide key="safeArea" id="c0r-Io-3gh"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <tabBarItem key="tabBarItem" title="프로젝트" image="프로젝트 디셀렉트" id="TqY-p7-NRJ"/>
                     <navigationItem key="navigationItem" id="4os-br-3i3"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GJr-YX-i2r" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -180,9 +181,9 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nNx-FZ-cvr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2657.2519083969464" y="395.77464788732397"/>
+            <point key="canvasLocation" x="-2668" y="396"/>
         </scene>
-        <!--Board View Controller-->
+        <!--게시판-->
         <scene sceneID="dco-sq-6E9">
             <objects>
                 <viewController id="Neu-rd-5bi" customClass="BoardViewController" customModule="Appsolute" customModuleProvider="target" sceneMemberID="viewController">
@@ -192,59 +193,22 @@
                         <viewLayoutGuide key="safeArea" id="1Lh-fE-rrN"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <tabBarItem key="tabBarItem" title="게시판" image="게시판 디셀렉트" id="LYw-g6-awV"/>
                     <navigationItem key="navigationItem" id="cXV-Fk-voU"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HXp-0R-aI7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2801" y="2955"/>
         </scene>
-        <!--프로젝트-->
-        <scene sceneID="gbk-Ji-C5E">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="uov-rg-Nd3" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="프로젝트" image="프로젝트 디셀렉트" id="qnz-hb-vnl"/>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="wgz-ZX-Qqv">
-                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="fOI-HH-KlP" kind="relationship" relationship="rootViewController" id="61T-Do-3CQ"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="2VH-yZ-L5Z" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1926" y="2146"/>
-        </scene>
-        <!--게시판-->
-        <scene sceneID="Erv-QL-DXP">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Pil-OG-RAF" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="게시판" image="게시판 디셀렉트" id="i3X-TG-Vas"/>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="nB7-92-Rgk">
-                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="Neu-rd-5bi" kind="relationship" relationship="rootViewController" id="pFS-Og-yVF"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Qs6-xC-4aG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1926" y="2913"/>
-        </scene>
     </scenes>
     <resources>
         <image name="Union" width="24" height="21.666666030883789"/>
         <image name="headerbackground" width="393" height="395"/>
-        <image name="게시판 디셀렉트" width="72.333335876464844" height="43"/>
+        <image name="게시판 디셀렉트" width="72.333335876464844" height="43"/>
         <image name="사진" width="72" height="43"/>
         <image name="스플래시 로고" width="193" height="66"/>
         <image name="퀘스트 디셀렉트" width="72.333335876464844" height="43"/>
-        <image name="프로젝트 디셀렉트" width="72.333335876464844" height="43"/>
+        <image name="프로젝트 디셀렉트" width="72.333335876464844" height="43"/>
         <image name="􀉴" width="27.333333969116211" height="23"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

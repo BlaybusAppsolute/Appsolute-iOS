@@ -15,21 +15,23 @@ struct LoginErrorResponse: Decodable {
     let timestamp: String
 }
 
-struct User: Decodable {
+struct User: Codable {
     let employeeNumber: String
     let userName: String
     let joiningDate: String
     let userId: String
     let departmentName: String
     let departmentGroupName: String
-    let characterName: String
-    let characterImage: String
+    let characterName: String?
+    let characterImage: String?
     let levelName: String
     let lastYearTotalXP: Int
     let thisYearTotalXP: Int
     let nextLevelRemainXP: Int
     let thisEvaluationXP: Int
     let thisDepartmentGroupXP: Int
+    let thisProjectXP: Int
+    let thisLeQuestXP: Int
     let isLastLevel: Bool
     let totalXP: Int
 }

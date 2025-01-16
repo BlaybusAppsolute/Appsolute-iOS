@@ -6,6 +6,7 @@
 //
 import UIKit
 import SnapKit
+import Then
 
 class HeaderView: UICollectionReusableView {
     static let identifier = "HeaderView"
@@ -13,7 +14,10 @@ class HeaderView: UICollectionReusableView {
     private let dateLabel = UILabel()
     private let leftButton = UIButton()
     private let rightButton = UIButton()
-    private let weekSegmentedControl = WeekSegmentedControl()
+    private let weekSegmentedControl = WeekSegmentedControl().then {
+        $0.layer.cornerRadius = 16
+        $0.layer.masksToBounds = true
+    }
 
     var onLeftButtonTap: (() -> Void)?
     var onRightButtonTap: (() -> Void)?
@@ -21,17 +25,8 @@ class HeaderView: UICollectionReusableView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-
         setupViews()
         setupConstraints()
-        let path = UIBezierPath(
-            roundedRect: self.bounds,
-            byRoundingCorners: [.bottomLeft, .bottomRight],
-            cornerRadii: CGSize(width: 16, height: 16)
-        )
-        let mask = CAShapeLayer()
-        mask.path = path.cgPath
-        self.layer.mask = mask
     }
 
     required init?(coder: NSCoder) {
@@ -39,7 +34,7 @@ class HeaderView: UICollectionReusableView {
     }
 
     private func setupViews() {
-        backgroundColor = UIColor.headerColor
+        backgroundColor = UIColor(hex: "1073f4")
 
         dateLabel.font = UIFont.boldSystemFont(ofSize: 30)
         dateLabel.textColor = .white
@@ -53,16 +48,10 @@ class HeaderView: UICollectionReusableView {
         rightButton.tintColor = .white
         rightButton.addTarget(self, action: #selector(handleRightButtonTap), for: .touchUpInside)
 
-        weekSegmentedControl.onWeekSelected = { [weak self] selectedWeek in
-            self?.onWeekChanged?(selectedWeek)
-        }
-        weekSegmentedControl.layer.cornerRadius = 16
-        weekSegmentedControl.clipsToBounds = true
-
         addSubview(dateLabel)
-        addSubview(weekSegmentedControl)
         addSubview(leftButton)
         addSubview(rightButton)
+        addSubview(weekSegmentedControl)
     }
 
     private func setupConstraints() {
@@ -73,13 +62,13 @@ class HeaderView: UICollectionReusableView {
 
         leftButton.snp.makeConstraints {
             $0.centerY.equalTo(dateLabel)
-            $0.leading.equalToSuperview().offset(20)
+            $0.leading.equalToSuperview().offset(16)
             $0.width.height.equalTo(30)
         }
 
         rightButton.snp.makeConstraints {
             $0.centerY.equalTo(dateLabel)
-            $0.trailing.equalToSuperview().inset(20)
+            $0.trailing.equalToSuperview().inset(16)
             $0.width.height.equalTo(30)
         }
 
@@ -98,16 +87,11 @@ class HeaderView: UICollectionReusableView {
         onRightButtonTap?()
     }
 
-    func configure(
-        date: String,
-        weeks: [(String, String)],
-        selectedWeek: Int,
-        onLeftButtonTap: @escaping () -> Void,
-        onRightButtonTap: @escaping () -> Void,
-        onWeekChanged: @escaping (Int) -> Void
-    ) {
+    func configure(date: String, weeks: [(String, String)], selectedWeek: Int, onLeftButtonTap: @escaping () -> Void, onRightButtonTap: @escaping () -> Void, onWeekChanged: @escaping (Int) -> Void) {
         dateLabel.text = date
-        weekSegmentedControl.configure(weeks: weeks, selectedIndex: selectedWeek - 1, onWeekSelected: onWeekChanged)
+        weekSegmentedControl.configure(weeks: weeks, selectedIndex: selectedWeek - 1) { selectedWeek in
+            onWeekChanged(selectedWeek)
+        }
         self.onLeftButtonTap = onLeftButtonTap
         self.onRightButtonTap = onRightButtonTap
     }

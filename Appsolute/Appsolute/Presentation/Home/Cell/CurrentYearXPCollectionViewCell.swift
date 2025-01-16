@@ -9,6 +9,9 @@ import UIKit
 class CurrentYearXPCollectionViewCell: UICollectionViewCell {
     static let identifier = "CurrentYearXPCollectionViewCell"
     
+    
+
+    
     private let currentYearXPView = CurrentYearXPView(
         xp: 0, percentage: 0, subtitle: "", details: []
     )

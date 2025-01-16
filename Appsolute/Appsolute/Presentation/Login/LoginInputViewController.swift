@@ -34,6 +34,10 @@ class LoginInputViewController: UIViewController {
         $0.isHidden = true
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
     private let passwordTitleLabel = UILabel().then {
         $0.text = "비밀번호"
         $0.font = UIFont.systemFont(ofSize: 20, weight: .bold)
