@@ -10,7 +10,6 @@ import UIKit
 import SnapKit
 
 class WeekSegmentedControl: UIView {
-
     private var weeks: [(title: String, subtitle: String)] = [] {
         didSet {
             setupButtons()
@@ -36,30 +35,44 @@ class WeekSegmentedControl: UIView {
     }
 
     private func setupButtons() {
+        // 기존 버튼 제거
         buttons.forEach { $0.removeFromSuperview() }
         buttons.removeAll()
 
         for (index, week) in weeks.enumerated() {
+            // 버튼 생성
             let button = UIButton(type: .system)
-            button.setTitle(week.title, for: .normal)
-            button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
             button.tag = index
             button.addTarget(self, action: #selector(handleButtonTap(_:)), for: .touchUpInside)
+
+            // 버튼의 텍스트와 스타일 설정
+            let titleLabel = UILabel()
+            titleLabel.text = week.title
+            titleLabel.font = UIFont.boldSystemFont(ofSize: 14)
+            titleLabel.textAlignment = .center
+            titleLabel.textColor = index == selectedIndex ? .white : .darkGray
 
             let subtitleLabel = UILabel()
             subtitleLabel.text = week.subtitle
             subtitleLabel.font = UIFont.systemFont(ofSize: 10)
-            subtitleLabel.textColor = .gray
             subtitleLabel.textAlignment = .center
+            subtitleLabel.textColor = index == selectedIndex ? .white : .gray
+
+            // 버튼에 서브뷰 추가
+            button.addSubview(titleLabel)
             button.addSubview(subtitleLabel)
 
+            titleLabel.snp.makeConstraints {
+                $0.top.equalToSuperview().offset(8)
+                $0.centerX.equalToSuperview()
+            }
+
             subtitleLabel.snp.makeConstraints {
-                $0.top.equalTo(button.titleLabel!.snp.bottom).offset(2)
+                $0.top.equalTo(titleLabel.snp.bottom).offset(4)
                 $0.centerX.equalToSuperview()
             }
 
             buttons.append(button)
-            
             addSubview(button)
         }
 
@@ -70,7 +83,7 @@ class WeekSegmentedControl: UIView {
     private func setupConstraints() {
         for (index, button) in buttons.enumerated() {
             button.snp.makeConstraints {
-                $0.top.bottom.equalToSuperview().inset(1)
+                $0.top.bottom.equalToSuperview().inset(4)
                 $0.width.equalToSuperview().dividedBy(buttons.count)
                 if index == 0 {
                     $0.leading.equalToSuperview()
@@ -83,18 +96,15 @@ class WeekSegmentedControl: UIView {
 
     private func updateButtonStyles() {
         for (index, button) in buttons.enumerated() {
-            if index == selectedIndex {
-                button.backgroundColor = UIColor(hex: "073066")
-                button.setTitleColor(.white, for: .normal)
-                button.subtitleLabel?.isHidden = false
-                button.layer.cornerRadius = 16
-                button.layer.masksToBounds = true
-            } else {
-                button.backgroundColor = .white
-                button.setTitleColor(.darkGray, for: .normal)
-                button.subtitleLabel?.isHidden = true
-                button.layer.cornerRadius = 0
-                button.layer.masksToBounds = true
+            button.backgroundColor = index == selectedIndex ? UIColor(hex: "073066") : .clear
+            button.layer.cornerRadius = index == selectedIndex ? 16 : 0
+            button.layer.masksToBounds = true
+
+            // 각 버튼의 텍스트 색상 변경
+            if let titleLabel = button.subviews.first(where: { $0 is UILabel }) as? UILabel,
+               let subtitleLabel = button.subviews.last(where: { $0 is UILabel }) as? UILabel {
+                titleLabel.textColor = index == selectedIndex ? .white : .darkGray
+                subtitleLabel.textColor = index == selectedIndex ? .white : .gray
             }
         }
     }

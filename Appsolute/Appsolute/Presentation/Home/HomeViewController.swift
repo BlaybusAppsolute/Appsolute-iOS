@@ -34,7 +34,7 @@ class HomeViewController: UIViewController {
     private let detailXPData: (Int, String) = (80, "작업 평가: 100XP\n팀워크: 200XP\n리더십: 150XP")
     
     private let totalXPData = (xp: 1500, subtitle: "Lv.4까지 7500XP 남았어요!") // TotalXP 데이터
-    private let currentYearXPData = (xp: 500, percentage: 50, subtitle: "⬆️ 올헤 획득한 경험치 / 올해 획득 가능한 경험치 값이에요", details: [("상반기 인사평가", 150), ("직무별 퀘스트", 200)]) // CurrentYearXP 데이터
+    private let currentYearXPData = (xp: 500, percentage: 50, subtitle: "올헤 획득한 경험치 / 올해 획득 가능한 경험치 값이에요", details: [("상반기 인사평가", 150), ("직무별 퀘스트", 200)]) // CurrentYearXP 데이터
     
     // MARK: - UI 요소
     private let collectionView: UICollectionView = {
@@ -57,7 +57,7 @@ class HomeViewController: UIViewController {
         self.tabBarController?.tabBar.isHidden = false
         setupCollectionView()
         setupConstraints()
-        fetchUsersData()
+        //fetchUsersData()
     }
     
     private func setupCollectionView() {

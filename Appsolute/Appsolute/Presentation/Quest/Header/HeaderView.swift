@@ -88,11 +88,15 @@ class HeaderView: UICollectionReusableView {
     }
 
     func configure(date: String, weeks: [(String, String)], selectedWeek: Int, onLeftButtonTap: @escaping () -> Void, onRightButtonTap: @escaping () -> Void, onWeekChanged: @escaping (Int) -> Void) {
+        print("📅 [DEBUG] Date: \(date), Weeks: \(weeks), Selected Week: \(selectedWeek)") // 디버깅 코드
+
         dateLabel.text = date
         weekSegmentedControl.configure(weeks: weeks, selectedIndex: selectedWeek - 1) { selectedWeek in
+            print("📅 [DEBUG] Selected Week Changed: \(selectedWeek)") // 디버깅 코드
             onWeekChanged(selectedWeek)
         }
         self.onLeftButtonTap = onLeftButtonTap
         self.onRightButtonTap = onRightButtonTap
     }
+
 }

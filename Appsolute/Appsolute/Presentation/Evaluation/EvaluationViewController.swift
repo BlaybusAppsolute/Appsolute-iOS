@@ -29,6 +29,7 @@ class DropdownMenuView: UIView, UITableViewDataSource, UITableViewDelegate {
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+        tableView.backgroundColor = .white
         tableView.layer.cornerRadius = 8
         tableView.layer.masksToBounds = true
         tableView.delegate = self
@@ -151,15 +152,22 @@ class EvaluationViewController: UIViewController {
         // ViewModel에서 데이터 처리
         viewModel.onSuccess = { [weak self] evaluates in
             guard let self = self else { return }
-           
-                DispatchQueue.main.async {
-                    self.updateGradeCard(with: evaluates.xp)
+            
+            DispatchQueue.main.async {
+                self.updateGradeCard(with: evaluates.xp)
             }
         }
         
         viewModel.onError = { error in
+            self.showAlert(title: "알림", message: "해당 기간의 인사평가가 없습니다.")
             print("❌ 데이터 로드 실패: \(error)")
         }
+    }
+    private func showAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+        alertController.addAction(confirmAction)
+        present(alertController, animated: true, completion: nil)
     }
     
     private func setupYearButtonAction() {

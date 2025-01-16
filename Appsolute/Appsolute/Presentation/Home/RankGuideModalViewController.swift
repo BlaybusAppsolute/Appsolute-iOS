@@ -5,10 +5,10 @@
 //  Created by 권민재 on 1/14/25.
 //
 
-
 import UIKit
 import SnapKit
 import Then
+
 class RankGuideModalViewController: UIViewController {
     
     // MARK: - UI Components
@@ -32,6 +32,19 @@ class RankGuideModalViewController: UIViewController {
         ("5", "Lv.5 우뚝 나무-2", "144,000XP"),
         ("6", "Lv.6 만개 꽃나무", "162,000XP")
     ]
+    
+    private let rankData2: [(imageName: String, title: String, xp: String)] = [
+        ("1", "Lv.1 꿈틀이 씨앗", "0XP"),
+        ("2", "Lv.3 자라나는 새싹", "27,000XP"),
+        ("3", "Lv.3 쑥쑥 잎사귀", "51,000XP"),
+        ("4", "Lv.4 푸릇푸릇 초목", "93,000XP"),
+        ("5", "Lv.5 우뚝 나무", "144,000XP"),
+        ("6", "Lv.6 만개 꽃나무", "162,000XP")
+    ]
+    
+    // 현재 바인딩할 데이터
+    private var currentRankData: [(imageName: String, title: String, xp: String)] = []
+    
     // MARK: - Init
     init() {
         let layout = UICollectionViewFlowLayout()
@@ -41,6 +54,15 @@ class RankGuideModalViewController: UIViewController {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
         super.init(nibName: nil, bundle: nil)
+        
+        // UserManager에서 levelName 가져와 데이터 설정
+        let userLevel = UserManager.shared.getUser()!.levelName
+        if userLevel.hasPrefix("F") {
+            currentRankData = rankData
+        } else {
+            currentRankData = rankData2
+        }
+        
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(RankCell.self, forCellWithReuseIdentifier: RankCell.identifier)
@@ -59,7 +81,7 @@ class RankGuideModalViewController: UIViewController {
     
     // MARK: - Setup UI
     private func setupUI() {
-        view.backgroundColor = .clear//UIColor.black.withAlphaComponent(0.5)
+        view.backgroundColor = .clear
         
         // 컨테이너 뷰
         containerView.backgroundColor = .white
@@ -77,7 +99,7 @@ class RankGuideModalViewController: UIViewController {
         // 컬렉션 뷰
         collectionView.backgroundColor = .clear
         collectionView.showsVerticalScrollIndicator = true
-        //collectionView.backgroundColor = .blue
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0) // 여백 추가
         containerView.addSubview(collectionView)
         
         // 닫기 버튼
@@ -107,7 +129,7 @@ class RankGuideModalViewController: UIViewController {
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(20)
             make.leading.trailing.equalToSuperview()
-            make.bottom.equalTo(closeButton.snp.top).offset(40)
+            make.bottom.equalTo(closeButton.snp.top).offset(-20) // 버튼과의 간격 유지
         }
         
         closeButton.snp.makeConstraints { make in
@@ -126,18 +148,19 @@ class RankGuideModalViewController: UIViewController {
 // MARK: - UICollectionView DataSource & Delegate
 extension RankGuideModalViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return rankData.count
+        return currentRankData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RankCell.identifier, for: indexPath) as? RankCell else {
             return UICollectionViewCell()
         }
-        let rank = rankData[indexPath.item]
+        let rank = currentRankData[indexPath.item]
         cell.configure(imageName: rank.imageName, title: rank.title, xp: rank.xp)
         return cell
     }
 }
+
 
 class RankCell: UICollectionViewCell {
     static let identifier = "RankCell"

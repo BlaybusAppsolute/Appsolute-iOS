@@ -6,11 +6,15 @@
 //
 
 
-struct LeaderBoardResponse: Codable {
+struct LeaderBoardResponse: Decodable {
     let employeeName: String
     let month: Int
     let questStatus: String
     let grantedPoint: Int
-    let note: String?
+    let note: String
     let year: Int
+    let maxThreshold: String
+    let mediumThreshold: String
+    let questName: String
 }
+

@@ -14,18 +14,24 @@ class StatusView: UIView {
     let expTitleLabel = UILabel().then {
         $0.text = "| 획득한 경험치"
         $0.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        $0.textColor = .black
     }
 
-    private let expLabel = UILabel()
+    let expLabel = UILabel().then {
+        $0.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        $0.textColor = .black
+    }
 
     let productTitleLabel = UILabel().then {
         $0.text = "| 생산성"
         $0.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        $0.textColor = .black
     }
 
     let productLabel = UILabel().then {
         $0.text = "4.762P"
         $0.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        $0.textColor = .black
     }
 
     let dividerView1 = UIImageView().then {
@@ -58,18 +64,18 @@ class StatusView: UIView {
 
     private func setupConstraints() {
         expTitleLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().inset(16)
-            $0.top.equalToSuperview().offset(16)
+            $0.leading.equalToSuperview().inset(20)
+            $0.top.equalToSuperview().offset(20)
         }
 
         expLabel.snp.makeConstraints {
             $0.top.equalTo(expTitleLabel)
-            $0.trailing.equalToSuperview().inset(16)
+            $0.trailing.equalToSuperview().inset(20)
         }
 
         dividerView1.snp.makeConstraints {
             $0.top.equalTo(expLabel.snp.bottom).offset(20)
-            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(1)
         }
 
@@ -79,13 +85,13 @@ class StatusView: UIView {
         }
 
         productLabel.snp.makeConstraints {
-            $0.trailing.equalToSuperview().inset(16)
+            $0.trailing.equalToSuperview().inset(20)
             $0.top.equalTo(productTitleLabel)
         }
 
         dividerView2.snp.makeConstraints {
             $0.top.equalTo(productLabel.snp.bottom).offset(20)
-            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(1)
         }
     }

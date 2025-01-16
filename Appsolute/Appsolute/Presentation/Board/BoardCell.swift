@@ -74,18 +74,19 @@ class BoardCollectionViewCell: UICollectionViewCell {
 
     private func setupConstraints() {
         titleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(24)
+            $0.top.equalToSuperview().offset(20)
             $0.leading.equalToSuperview().offset(24)
         }
 
         descriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(8)
+            $0.top.equalTo(titleLabel.snp.bottom)
             $0.leading.equalTo(titleLabel)
             $0.trailing.equalToSuperview().inset(24)
+            //$0.bottom.equalTo(dateLabel.snp.top).offset(5)
         }
 
         dateLabel.snp.makeConstraints {
-            $0.top.equalTo(descriptionLabel.snp.bottom).offset(32)
+            $0.top.equalTo(descriptionLabel.snp.bottom).offset(10)
             $0.leading.equalTo(titleLabel)
             $0.bottom.equalToSuperview().inset(24)
         }

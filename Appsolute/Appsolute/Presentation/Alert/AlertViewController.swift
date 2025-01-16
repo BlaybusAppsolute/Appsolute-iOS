@@ -15,13 +15,10 @@ class AlertViewController: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 16
-        layout.sectionInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
-        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
-        layout.itemSize = UICollectionViewFlowLayout.automaticSize
-        layout.scrollDirection = .vertical
+        layout.sectionInset = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = UIColor(hex: "DCEBFF") // 배경색
+        collectionView.backgroundColor = UIColor(hex: "E7F1FE") // 배경색
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(AlertCell.self, forCellWithReuseIdentifier: AlertCell.identifier)
@@ -39,38 +36,46 @@ class AlertViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(hex: "DCEBFF")
-        setupNavigationBar()
+        view.backgroundColor = UIColor(hex: "E7F1FE")
+        tabBarController?.tabBar.isHidden = true
+        setupCustomBackButton()
         setupCollectionView()
     }
     
-    // MARK: - Setup
-    private func setupNavigationBar() {
-        title = "알림함"
-        navigationController?.navigationBar.prefersLargeTitles = false
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: "chevron.left"),
-            style: .plain,
-            target: self,
-            action: #selector(backTapped)
-        )
+    // MARK: - Custom Back Button
+    private func setupCustomBackButton() {
+        let backButton = UIButton(type: .system).then {
+            $0.setImage(UIImage(systemName: "chevron.left"), for: .normal) // 뒤로가기 화살표 아이콘
+//            $0.setTitle(" 뒤로", for: .normal) // 텍스트 추가
+            $0.setTitleColor(.black, for: .normal)
+            $0.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+            $0.addTarget(self, action: #selector(moveToHome), for: .touchUpInside)
+        }
+        
+        view.addSubview(backButton)
+        backButton.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10) // 상단 여백
+            make.leading.equalToSuperview().offset(20) // 왼쪽 여백
+            make.height.equalTo(40) // 버튼 높이
+        }
     }
     
     private func setupCollectionView() {
         view.addSubview(collectionView)
         collectionView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(60) // Back 버튼 아래
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalToSuperview()
         }
     }
     
-    // MARK: - Actions
-    @objc private func backTapped() {
+    @objc private func moveToHome() {
         navigationController?.popViewController(animated: true)
     }
 }
 
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
-extension AlertViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension AlertViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return alerts.count
     }
@@ -81,6 +86,12 @@ extension AlertViewController: UICollectionViewDelegate, UICollectionViewDataSou
         }
         cell.configure(with: alerts[indexPath.item])
         return cell
+    }
+    
+    // 셀 크기 설정
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = collectionView.bounds.width
+        return CGSize(width: width, height: 170) // 높이는 100으로 고정
     }
 }
 
@@ -131,7 +142,7 @@ class AlertCell: UICollectionViewCell {
     
     private func setupConstraints() {
         containerView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.edges.equalToSuperview().inset(10) // 셀 안쪽 여백
         }
         
         titleLabel.snp.makeConstraints { make in
@@ -165,5 +176,3 @@ struct Alert {
     let description: String
     let date: String
 }
-
-

@@ -11,7 +11,7 @@ import SnapKit
 
 class SheetHeaderView: UIView {
     
-    private let badgeLabel: UILabel = {
+    let badgeLabel: UILabel = {
         let label = UILabel()
         label.text = "직무별"
         label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
@@ -23,7 +23,7 @@ class SheetHeaderView: UIView {
         return label
     }()
     
-    private let titleLabel: UILabel = {
+    let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "직무별 퀘스트명 어쩌구"
         label.font = UIFont.boldSystemFont(ofSize: 23)

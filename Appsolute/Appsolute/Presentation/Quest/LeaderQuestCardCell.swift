@@ -8,8 +8,8 @@ import UIKit
 import SnapKit
 import Then
 
-class QuestCardCell: UICollectionViewCell {
-    static let identifier = "QuestCardCell"
+class LeaderQuestCardCell: UICollectionViewCell {
+    static let identifier = "LeaderQuestCardCell"
     
     
 
@@ -131,16 +131,21 @@ class QuestCardCell: UICollectionViewCell {
         point: Int,
         buttonAction: @escaping () -> Void
     ) {
+        
         // 기본 초기화
-            badgeLabel.text = nil
-            badgeLabel.backgroundColor = .clear
-            badgeLabel.textColor = .black
-            statusLabel.text = nil
-            statusLabel.textColor = .gray
-            statusButton.setTitle(nil, for: .normal)
-            statusButton.backgroundColor = .clear
-            titleLabel.text = nil
-            expImageView.image = nil
+        badgeLabel.text = nil
+        badgeLabel.backgroundColor = .clear
+        badgeLabel.textColor = .black
+        statusLabel.text = nil
+        statusLabel.textColor = .gray
+        statusButton.setTitle(nil, for: .normal)
+        statusButton.backgroundColor = .clear
+        titleLabel.text = nil
+        expImageView.image = nil
+        
+        
+        
+        
         titleLabel.text = title
         expImageView.image = UIImage(named: expImage)
         moreButton.removeTarget(nil, action: nil, for: .allEvents)
@@ -224,6 +229,7 @@ class QuestCardCell: UICollectionViewCell {
                 statusLabel.font = .systemFont(ofSize: 16, weight: .semibold)
             }
         }
+       
 
         
     }
