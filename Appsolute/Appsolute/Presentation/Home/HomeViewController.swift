@@ -231,7 +231,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
                 return header
             }
 
-            // Section 1, Section 2, Section 3: 빈 헤더 처리
+        
             let header = collectionView.dequeueReusableSupplementaryView(
                 ofKind: kind,
                 withReuseIdentifier: "EmptyHeader",

@@ -13,12 +13,29 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
-    }
+        guard let windowScene = (scene as? UIWindowScene) else { return }
 
+        // 새로운 UIWindow 생성 및 연결
+        window = UIWindow(windowScene: windowScene)
+
+        // UserDefaults에서 currentUser 키 확인
+        let isUserLoggedIn = UserDefaults.standard.value(forKey: "currentUser") != nil
+
+        // 스토리보드 인스턴스 가져오기
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+
+        if isUserLoggedIn {
+            // TabbarViewController로 이동
+            let tabBarController = storyboard.instantiateViewController(identifier: "TabbarViewController")
+            window?.rootViewController = tabBarController
+        } else {
+            // LoginViewController로 이동
+            let loginViewController = storyboard.instantiateViewController(identifier: "LoginViewController")
+            window?.rootViewController = loginViewController
+        }
+
+        window?.makeKeyAndVisible()
+    }
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.

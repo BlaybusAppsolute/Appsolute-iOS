@@ -19,21 +19,21 @@ class LevelManager {
             "F1-Ⅱ": LevelInfo(displayName: "Lv.2 꿈틀이 씨앗-2", xp: 13500, imageName: "레벨02", levelNumber: 2),
 
             // Lv.2 자라나는 새싹
-            "F2-Ⅰ": LevelInfo(displayName: "Lv.3 자라나는 새싹-1", xp: 27000, imageName: "레벨02", levelNumber: 3),
-            "F2-Ⅱ": LevelInfo(displayName: "Lv.3 자라나는 새싹-2", xp: 39000, imageName: "레벨02", levelNumber: 4),
-            "F2-Ⅲ": LevelInfo(displayName: "Lv.3 쑥쑥 잎사귀-1", xp: 51000, imageName: "레벨03", levelNumber: 5),
+            "F2-Ⅰ": LevelInfo(displayName: "Lv.3 자라나는 새싹-1", xp: 27000, imageName: "레벨02", levelNumber: 2),
+            "F2-Ⅱ": LevelInfo(displayName: "Lv.3 자라나는 새싹-2", xp: 39000, imageName: "레벨02", levelNumber: 2),
+            "F2-Ⅲ": LevelInfo(displayName: "Lv.3 쑥쑥 잎사귀-1", xp: 51000, imageName: "레벨03", levelNumber: 3),
 
             // Lv.3 쑥쑥 잎사귀
-            "F3-Ⅰ": LevelInfo(displayName: "Lv.3 쑥쑥 잎사귀-2", xp: 63000, imageName: "레벨03", levelNumber: 6),
-            "F3-Ⅱ": LevelInfo(displayName: "Lv.3 쑥쑥 잎사귀-3", xp: 78000, imageName: "레벨03", levelNumber: 7),
-            "F3-Ⅲ": LevelInfo(displayName: "Lv.4 푸릇푸릇 초목-1", xp: 93000, imageName: "레벨04", levelNumber: 8),
+            "F3-Ⅰ": LevelInfo(displayName: "Lv.3 쑥쑥 잎사귀-2", xp: 63000, imageName: "레벨03", levelNumber: 3),
+            "F3-Ⅱ": LevelInfo(displayName: "Lv.3 쑥쑥 잎사귀-3", xp: 78000, imageName: "레벨03", levelNumber: 3),
+            "F3-Ⅲ": LevelInfo(displayName: "Lv.4 푸릇푸릇 초목-1", xp: 93000, imageName: "레벨04", levelNumber: 4),
 
             // Lv.4 푸릇푸릇 초목
-            "F4-Ⅰ": LevelInfo(displayName: "Lv.4 푸릇푸릇 초목-2", xp: 108000, imageName: "레벨04", levelNumber: 9),
-            "F4-Ⅱ": LevelInfo(displayName: "Lv.5 우뚝 나무-1", xp: 126000, imageName: "레벨05", levelNumber: 10),
+            "F4-Ⅰ": LevelInfo(displayName: "Lv.4 푸릇푸릇 초목-2", xp: 108000, imageName: "레벨04", levelNumber: 4),
+            "F4-Ⅱ": LevelInfo(displayName: "Lv.5 우뚝 나무-1", xp: 126000, imageName: "레벨05", levelNumber: 5),
 
             // Lv.5 우뚝 나무
-            "F5": LevelInfo(displayName: "Lv.5 우뚝 나무-2", xp: 144000, imageName: "레벨05", levelNumber: 11),
+            "F5": LevelInfo(displayName: "Lv.5 우뚝 나무-2", xp: 144000, imageName: "레벨05", levelNumber: 6),
 
             // Lv.6 만개 꽃나무
             "F6-Ⅰ": LevelInfo(displayName: "Lv.6 만개 꽃나무", xp: 162000, imageName: "레벨06", levelNumber: 12)

@@ -8,7 +8,64 @@ import UIKit
 import SnapKit
 import Then
 
+
+class DropdownMenuView: UIView, UITableViewDataSource, UITableViewDelegate {
+    private let tableView = UITableView()
+    private let items: [String]
+    var onSelect: ((String) -> Void)? // 선택된 항목을 전달하는 클로저
+
+    init(items: [String]) {
+        self.items = items
+        super.init(frame: .zero)
+        setupTableView()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func setupTableView() {
+        addSubview(tableView)
+        tableView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        tableView.layer.cornerRadius = 8
+        tableView.layer.masksToBounds = true
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.isScrollEnabled = true
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "DropdownCell")
+    }
+
+    // UITableViewDataSource
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return items.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DropdownCell", for: indexPath)
+        cell.textLabel?.text = items[indexPath.row]
+        cell.textLabel?.font = UIFont.systemFont(ofSize: 16)
+        cell.textLabel?.textAlignment = .center
+        return cell
+    }
+
+    // UITableViewDelegate
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedItem = items[indexPath.row]
+        onSelect?(selectedItem) // 선택된 항목 전달
+        self.removeFromSuperview() // 드롭다운 메뉴 숨김
+    }
+}
+
+
 class EvaluationViewController: UIViewController {
+    
+    private var dropdownMenu: DropdownMenuView?
+    private let viewModel = EvaluateViewModel()
+    
+    private var selectedYear: Int = 2025
+    private var selectedPeriod: String = "FIRST_HALF"
     
     // MARK: - UI Components
     private let yearButton = UIButton().then {
@@ -76,6 +133,37 @@ class EvaluationViewController: UIViewController {
         setupConstraints()
         setupUI()
         configureTableView()
+        setupYearButtonAction()
+        fetchEvaluationData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        setupUI()
+        setupUI()
+        configureTableView()
+        setupYearButtonAction()
+        fetchEvaluationData()
+    }
+    private func fetchEvaluationData() {
+        viewModel.fetchEvaluation(year: selectedYear, periodType: selectedPeriod)
+        
+        // ViewModel에서 데이터 처리
+        viewModel.onSuccess = { [weak self] evaluates in
+            guard let self = self else { return }
+           
+                DispatchQueue.main.async {
+                    self.updateGradeCard(with: evaluates.xp)
+            }
+        }
+        
+        viewModel.onError = { error in
+            print("❌ 데이터 로드 실패: \(error)")
+        }
+    }
+    
+    private func setupYearButtonAction() {
+        yearButton.addTarget(self, action: #selector(didTapYearButton), for: .touchUpInside)
     }
     
     // MARK: - Setup Gradient Background
@@ -175,6 +263,31 @@ class EvaluationViewController: UIViewController {
         }
     }
     
+    private func updateGradeCard(with xp: Int) {
+        switch xp {
+        case 0..<1500:
+            self.gradeImageView.image = UIImage(named: "유저 인사평가 등급-브론즈")
+            self.gradeLabel.text = "나의 인사평가 등급: 브론즈"
+            self.xpLabel.text = "획득 경험치: \(xp)"
+        case 1500..<3000:
+            self.gradeImageView.image = UIImage(named: "유저 인사평가 등급-실버")
+            self.gradeLabel.text = "나의 인사평가 등급: 실버"
+            self.xpLabel.text = "획득 경험치: \(xp)"
+        case 3000..<4500:
+            self.gradeImageView.image = UIImage(named: "유저 인사평가 등급-골드")
+            self.gradeLabel.text = "나의 인사평가 등급: 골드"
+            self.xpLabel.text = "획득 경험치: \(xp)"
+        case 4500..<6500:
+            self.gradeImageView.image = UIImage(named: "유저 인사평가 등급-다이아")
+            self.gradeLabel.text = "나의 인사평가 등급: 다이아"
+            self.xpLabel.text = "획득 경험치: \(xp)"
+        default:
+            self.gradeImageView.image = UIImage(named: "유저 인사평가 등급-플래티넘")
+            self.gradeLabel.text = "나의 인사평가 등급: 플래티넘"
+            self.xpLabel.text = "획득 경험치: \(xp)"
+        }
+    }
+    
     // MARK: - Configure TableView
     private func configureTableView() {
         let headerView = UIView()
@@ -201,12 +314,9 @@ class EvaluationViewController: UIViewController {
     
     // MARK: - Toggle Half Year
     @objc private func toggleHalfYear(sender: UISegmentedControl) {
-        if sender.selectedSegmentIndex == 0 {
-            print("상반기 선택됨")
-        } else {
-            print("하반기 선택됨")
-        }
-    }
+           selectedPeriod = sender.selectedSegmentIndex == 0 ? "FIRST_HALF" : "SECOND_HALF"
+           fetchEvaluationData()
+       }
 }
 
 // MARK: - UITableViewDataSource
@@ -281,3 +391,35 @@ class GradeCell: UITableViewCell {
         xpLabel.text = xp
     }
 }
+extension EvaluationViewController {
+    @objc private func didTapYearButton() {
+           if let dropdown = dropdownMenu {
+               UIView.animate(withDuration: 0.3, animations: {
+                   dropdown.alpha = 0
+               }) { _ in
+                   dropdown.removeFromSuperview()
+                   self.dropdownMenu = nil
+               }
+               return
+           }
+           
+           let dropdown = DropdownMenuView(items: ["2025년", "2024년"])
+           dropdown.onSelect = { [weak self] selectedYear in
+               guard let self = self else { return }
+               self.selectedYear = Int(selectedYear.dropLast(1)) ?? 2025
+               self.yearButton.setTitle("\(selectedYear) ▼", for: .normal)
+               self.fetchEvaluationData() // 데이터 갱신
+           }
+           
+           view.addSubview(dropdown)
+           dropdown.snp.makeConstraints { make in
+               make.top.equalTo(yearButton.snp.bottom).offset(8)
+               make.leading.equalTo(yearButton.snp.leading)
+               make.width.equalTo(yearButton.snp.width)
+               make.height.equalTo(100)
+           }
+           
+           dropdownMenu = dropdown
+       }
+}
+

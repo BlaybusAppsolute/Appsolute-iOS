@@ -25,6 +25,8 @@ class DailyFinanceView: UIView {
         $0.layer.cornerRadius = 12
     }
     
+    let barChartView = BarChartView()
+    
 
     private let detailsTitleLabel = UILabel().then {
         $0.text = "< 지출 상세내역 >"
@@ -75,6 +77,7 @@ class DailyFinanceView: UIView {
         super.init(frame: frame)
         setupViews()
         setupConstraints()
+        barChartView.configure(income: 10, expense: 8, maxValue: 20)
     }
 
     required init?(coder: NSCoder) {
@@ -88,7 +91,7 @@ class DailyFinanceView: UIView {
 
         outcomeView.addSubview(detailsTitleLabel)
         outcomeView.addSubview(detailsContainerView)
-
+        outcomeView.addSubview(barChartView)
         detailsContainerView.addSubview(detailsHeaderView)
         headerLabels.forEach { detailsHeaderView.addSubview($0) }
 
@@ -102,30 +105,36 @@ class DailyFinanceView: UIView {
 
     private func setupConstraints() {
         titleLabel.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview().inset(16)
+            $0.top.leading.trailing.equalToSuperview().inset(20)
         }
 
         dateSelectorView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.leading.trailing.equalToSuperview().inset(20)
             $0.top.equalTo(titleLabel.snp.bottom).offset(10)
             $0.height.equalTo(60)
         }
 
         outcomeView.snp.makeConstraints {
             $0.top.equalTo(dateSelectorView.snp.bottom).offset(10)
-            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(450)
         }
 
 
         detailsTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(outcomeView.snp.bottom).offset(16)
-            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.top.equalTo(outcomeView.snp.top).offset(117)
+            $0.leading.trailing.equalToSuperview().inset(20)
         }
 
         detailsContainerView.snp.makeConstraints {
-            $0.top.equalTo(detailsTitleLabel.snp.bottom).offset(16)
-            $0.leading.trailing.bottom.equalToSuperview().inset(16)
+            $0.top.equalTo(detailsTitleLabel.snp.bottom).offset(20)
+            $0.leading.trailing.bottom.equalToSuperview().inset(20)
+            $0.bottom.equalTo(detailsContainerView.snp.bottom).inset(20)
+        }
+        barChartView.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(10)
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(detailsHeaderView.snp.bottom).inset(20)
         }
 
         detailsHeaderView.snp.makeConstraints {

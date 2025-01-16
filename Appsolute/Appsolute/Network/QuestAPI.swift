@@ -8,8 +8,12 @@
 import Foundation
 import Moya
 
+
 enum QuestAPI {
     case fetchDepartmentQuest(date: String)
+    case fetchDepartmentQuestDetail(departmentQuestId: Int)
+    case fetchLeaderQuest
+    case fetchLeaderBoard(userId: String, month: Int)
 }
 
 extension QuestAPI: TargetType {
@@ -21,12 +25,18 @@ extension QuestAPI: TargetType {
         switch self {
         case .fetchDepartmentQuest:
             return "/department-quest"
+        case .fetchDepartmentQuestDetail(let departmentQuestId):
+            return "/department-quest/\(departmentQuestId)"
+        case .fetchLeaderQuest:
+            return "/leader-quest"
+        case .fetchLeaderBoard:
+            return "/le-Leader-board"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .fetchDepartmentQuest:
+        case .fetchDepartmentQuest, .fetchDepartmentQuestDetail, .fetchLeaderQuest, .fetchLeaderBoard:
             return .get
         }
     }
@@ -35,16 +45,25 @@ extension QuestAPI: TargetType {
         switch self {
         case .fetchDepartmentQuest(let date):
             return .requestParameters(parameters: ["date": date], encoding: URLEncoding.queryString)
+        case .fetchDepartmentQuestDetail:
+            return .requestPlain
+        case .fetchLeaderQuest:
+            return .requestPlain
+        case .fetchLeaderBoard(let userId, let month):
+            return .requestParameters(parameters: ["userId": userId, "month": month], encoding: URLEncoding.queryString)
         }
     }
     
     var headers: [String: String]? {
-        let token = AppKey.token ?? ""
-        return [
-            "Authorization": "Bearer \(token)",
-            "Content-Type": "application/json"
-        ]
+        switch self {
+        case .fetchLeaderQuest:
+            return nil // `/leader-quest`는 헤더 필요 없음
+        default:
+            let token = AppKey.token ?? ""
+            return [
+                "Authorization": "Bearer \(token)",
+                "Content-Type": "application/json"
+            ]
+        }
     }
-    
-    
 }

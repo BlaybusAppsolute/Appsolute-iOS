@@ -53,9 +53,9 @@ class QuestViewController: UIViewController {
         }
         
         // QuestViewModel의 성공 및 실패 콜백 설정
-        questViewModel.onSuccess = { response in
-            print("✅ 성공적으로 데이터 가져옴: \(response)")
-        }
+//        questViewModel.onSuccess = { response in
+//            print("✅ 성공적으로 데이터 가져옴: \(response)")
+//        }
         questViewModel.onError = { errorMessage in
             print("❌ 데이터 가져오기 실패: \(errorMessage)")
         }
@@ -72,7 +72,7 @@ class QuestViewController: UIViewController {
         print("=======\(AppKey.token)")
         print("📅 [DEBUG] 요청할 날짜: \(currentDateString)")
 
-        questViewModel.fetchDepartmentQuest(date: currentDateString)
+        questViewModel.fetchWeeklyQuests(startDate: currentDateString)
     }
     
     
@@ -97,7 +97,7 @@ extension QuestViewController: UICollectionViewDataSource, UICollectionViewDeleg
         case 0:
             return 0
         case 1:
-            return 1
+            return questViewModel.weeklyQuests.count
         default:
             return 5
         }
@@ -139,6 +139,12 @@ extension QuestViewController: UICollectionViewDataSource, UICollectionViewDeleg
             return CGSize(width: collectionView.frame.width, height: 40)
         }
     }
+
+
+        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+            return 20 // 섹션 사이의 간격 설정
+        }
+
 
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionView.elementKindSectionHeader {

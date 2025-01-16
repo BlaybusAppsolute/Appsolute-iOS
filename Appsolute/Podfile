@@ -6,8 +6,8 @@ target 'Appsolute' do
   use_frameworks!
   pod 'SnapKit' 
   pod 'Moya'
-  pod 'SideMenu'
-  pod 'Then' 
+  pod 'Then'
+  pod 'SwiftEntryKit' 
   # Pods for Appsolute
 
   target 'AppsoluteTests' do

@@ -68,7 +68,14 @@ class BoardViewController: UIViewController {
         setupCustomBackButton()
         setupCollectionView()
         setupConstraints()
-        fetchBoards() 
+        fetchBoards()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        setupCollectionView()
+        setupConstraints()
+        fetchBoards()
     }
     
     private func setupBackgroundGradient() {

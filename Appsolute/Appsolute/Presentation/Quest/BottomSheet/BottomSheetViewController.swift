@@ -94,7 +94,7 @@ class BottomSheetViewController: UIViewController {
         stackView.addArrangedSubview(financeView)
         
         financeView.snp.makeConstraints {
-            $0.height.equalTo(600)
+            $0.height.equalTo(450)
         }
         
       
